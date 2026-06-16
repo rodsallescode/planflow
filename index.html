@@ -734,7 +734,11 @@ async function doLogin(){
   document.getElementById('login-err').style.display='none';
   if(!email||!pass){showErr('login-err','Preencha e-mail e senha.');return;}
   const cfg=getConfig();
-  if(!cfg.url||!cfg.key){document.getElementById('cfg-alert').style.display='flex';return;}
+  if(!cfg.url||!cfg.key){
+    if(!SUPABASE_URL) document.getElementById('cfg-alert').style.display='flex';
+    else showErr('login-err','Erro de configuração. Recarregue a página.');
+    return;
+  }
   if(!initSB(cfg.url,cfg.key)){showErr('login-err','Erro ao conectar ao Supabase.');return;}
   const btn=document.getElementById('li-btn');btn.disabled=true;btn.innerHTML='<div class="spin"></div> Entrando...';
   const{data,error}=await sb.auth.signInWithPassword({email,password:pass});
@@ -1620,12 +1624,19 @@ async function deleteSupplier(id){
 // ── Boot ──
 (async function boot(){
   const cfg=getConfig();
-  if(cfg.url&&cfg.key&&initSB(cfg.url,cfg.key)){
-    const{data:{session}}=await sb.auth.getSession();
-    if(session?.user){await onLogin(session.user);return;}
+  // se tem credenciais (via constante ou localStorage), inicializa direto
+  if(cfg.url&&cfg.key){
+    initSB(cfg.url,cfg.key);
+    try{
+      const{data:{session}}=await sb.auth.getSession();
+      if(session?.user){await onLogin(session.user);return;}
+    }catch(e){console.warn('session error:',e);}
   }
   document.getElementById('login-screen').style.display='flex';
-  if(!cfg.url||!cfg.key) document.getElementById('cfg-alert').style.display='flex';
+  // só mostra aviso se realmente não há credenciais em lugar nenhum
+  if(!SUPABASE_URL&&!SUPABASE_KEY&&!localStorage.getItem('pf_url')){
+    document.getElementById('cfg-alert').style.display='flex';
+  }
 })();
 </script>
 </body>
