@@ -740,6 +740,8 @@ function renderProjects(){
   });
   const list=document.getElementById('proj-list');
   if(!filtered.length){list.innerHTML=`<div class="empty"><i class="ti ti-folder-search"></i><p>Nenhum projeto encontrado.</p><button class="btn" onclick="clearFilters()"><i class="ti ti-filter-off"></i> Limpar filtros</button></div>`;return;}
+  // se há filtro de responsável, abre todos os cards automaticamente
+  if(fOw) filtered.forEach(p=>{ openCards[p.id]=true; });
   list.innerHTML=filtered.map((p,pi)=>{
     const pct=projPct(p),tots=projTots(p);
     const running=Math.max(0,days(p.start_date,today()));
