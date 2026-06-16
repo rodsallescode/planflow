@@ -712,9 +712,8 @@ function renderProjects(){
     <div class="mcard"><div class="mcard-icon" style="background:#fff8e6;color:#c47f00"><i class="ti ti-chart-line"></i></div><div class="mcard-label">Progresso médio</div><div class="mcard-value">${total?Math.round(projects.reduce((s,p)=>s+projPct(p),0)/total):0}%</div><div class="mcard-sub">${projects.reduce((s,p)=>s+allTasks(p).filter(t=>t.status==='Completed').length,0)} fases concluídas</div></div>
   `;
   document.getElementById('nb').textContent=total;
-  const owners=[...new Set(projects.map(p=>p.owner_id))];
   const sel=document.getElementById('f-ow');const cur=sel.value;
-  sel.innerHTML='<option value="">Todos os responsáveis</option>'+owners.map(o=>`<option value="${o}" ${o===cur?'selected':''}>${memberName(o)}</option>`).join('');
+  sel.innerHTML='<option value="">Todos os responsáveis</option>'+members.map(m=>`<option value="${m.id}" ${m.id===cur?'selected':''}>${m.name}</option>`).join('');
   const ro=document.getElementById('ro-notice');
   ro.innerHTML=currentUser.role==='member'?`<div class="readonly-notice"><i class="ti ti-eye"></i> Modo visualização — sem permissão para editar.</div>`:'';
   const search=document.getElementById('gsearch').value.toLowerCase();
@@ -725,7 +724,7 @@ function renderProjects(){
     const ms=p.name.toLowerCase().includes(search)||memberName(p.owner_id).toLowerCase().includes(search);
     const mst=!fSt||allTasks(p).some(t=>t.status===fSt);
     const mct=!fCt||p.phases.some(ph=>ph.category===CATS.find(c=>c.label===fCt)?.key);
-    const mow=!fOw||p.owner_id===fOw;
+    const mow=!fOw||p.owner_id===fOw||p.phases.some(ph=>ph.responsible===fOw);
     return ms&&mst&&mct&&mow;
   });
   const list=document.getElementById('proj-list');
