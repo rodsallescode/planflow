@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlanFlow — Project Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f4f5f7;--surface:#ffffff;--surface2:#f8f9fb;--surface3:#eef0f4;
+  --border:#e2e5ec;--border2:#c8cdd8;
+  --text:#1a1d23;--text2:#5a6072;--text3:#9099b0;
+  --accent:#5b5ef4;--accent2:#7b7ef6;--accent-bg:#5b5ef408;--accent-light:#ededff;
+  --teal:#0da47a;--teal-bg:#e6f7f2;
+  --amber:#c47f00;--amber-bg:#fff8e6;
+  --red:#d03060;--red-bg:#fdf0f4;
+  --blue:#1a7fc1;--blue-bg:#e8f3fb;
+  --green:#1a7a4a;--green-bg:#e8f5ee;
+  --radius:8px;--radius-lg:12px;--sidebar:228px;
+  --font:'Inter',sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.5}
+
+/* LOGIN */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:var(--bg)}
+.login-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px 32px;width:100%;max-width:400px;box-shadow:0 2px 16px rgba(0,0,0,.06)}
+.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.login-logo-icon{width:40px;height:40px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;flex-shrink:0}
+.login-logo-text{font-size:19px;font-weight:600;letter-spacing:-.3px}
+.login-logo-sub{font-size:11px;color:var(--text3)}
+.login-title{font-size:17px;font-weight:600;margin-bottom:4px}
+.login-sub{font-size:13px;color:var(--text3);margin-bottom:22px}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:13px}
+.fg label{font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+.fg input{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:9px 12px;font-size:14px;color:var(--text);font-family:var(--font);outline:none;transition:border-color .15s;width:100%}
+.fg input:focus{border-color:var(--accent);background:#fff}
+.login-err{background:var(--red-bg);border:1px solid #f0b0c0;border-radius:var(--radius);padding:9px 12px;font-size:13px;color:var(--red);margin-bottom:12px;display:none;align-items:center;gap:7px}
+.login-switch{text-align:center;margin-top:16px;font-size:13px;color:var(--text3)}
+.login-switch a{color:var(--accent);cursor:pointer;text-decoration:underline}
+.cfg-notice{background:var(--amber-bg);border:1px solid #e8d070;border-radius:var(--radius);padding:10px 13px;font-size:12px;color:var(--amber);margin-bottom:14px;display:flex;align-items:flex-start;gap:7px;line-height:1.5}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:var(--radius);font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);transition:all .15s;white-space:nowrap;font-family:var(--font)}
+.btn:hover:not(:disabled){background:var(--surface2);border-color:var(--border2)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;width:100%;padding:10px;font-size:14px}
+.btn.primary:hover:not(:disabled){background:var(--accent2);border-color:var(--accent2)}
+.btn.danger{background:var(--red-bg);border-color:#f0b0c0;color:var(--red)}
+.btn.danger:hover:not(:disabled){background:var(--red);border-color:var(--red);color:#fff}
+.btn.sm{font-size:12px;padding:5px 11px}
+.btn i{font-size:15px}
+
+/* APP */
+#app{display:none;min-height:100vh}
+.shell{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;box-shadow:2px 0 8px rgba(0,0,0,.04)}
+.logo{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-icon{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0}
+.logo-text{font-size:15px;font-weight:600;letter-spacing:-.3px}
+.logo-sub{font-size:10px;color:var(--text3)}
+.sidebar-nav{padding:8px 0;flex:1;overflow-y:auto}
+.nav-group{font-size:10px;color:var(--text3);padding:12px 16px 4px;text-transform:uppercase;letter-spacing:.1em;font-weight:500}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 16px;color:var(--text2);cursor:pointer;font-size:13px;transition:all .15s;border-left:2px solid transparent;border-radius:0 6px 6px 0;margin:1px 8px 1px 0;user-select:none}
+.nav-item i{font-size:17px;flex-shrink:0;width:20px;text-align:center}
+.nav-item:hover{color:var(--text);background:var(--surface2)}
+.nav-item.active{color:var(--accent);background:var(--accent-light);border-left-color:var(--accent);font-weight:500}
+.nav-badge{margin-left:auto;font-size:10px;background:var(--accent-light);color:var(--accent);padding:1px 7px;border-radius:20px;font-weight:600;min-width:20px;text-align:center}
+.sidebar-footer{padding:12px 16px;border-top:1px solid var(--border);flex-shrink:0}
+.user-card{display:flex;align-items:center;gap:9px}
+.user-av{width:32px;height:32px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--accent);flex-shrink:0;border:1px solid #c8c8ff}
+.user-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-role-badge{font-size:10px;color:var(--text3);background:var(--surface2);border:1px solid var(--border);padding:1px 7px;border-radius:20px}
+.logout-btn{margin-left:auto;background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:17px;display:flex;padding:4px;border-radius:6px;flex-shrink:0}
+.logout-btn:hover{color:var(--red);background:var(--red-bg)}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 26px;height:56px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50;flex-shrink:0}
+.page-title{font-size:16px;font-weight:600;flex:1}
+.search-wrap{display:flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:6px 11px;width:210px}
+.search-wrap i{font-size:15px;color:var(--text3);flex-shrink:0}
+.search-wrap input{background:transparent;border:none;outline:none;color:var(--text);font-size:13px;width:100%;font-family:var(--font)}
+.search-wrap input::placeholder{color:var(--text3)}
+.content{padding:22px 26px;flex:1}
+.view{display:none}.view.active{display:block}
+
+/* METRICS */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.mcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.mcard-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;margin-bottom:10px}
+.mcard-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.mcard-value{font-size:22px;font-weight:600;letter-spacing:-.5px;line-height:1}
+.mcard-sub{font-size:12px;color:var(--text3);margin-top:4px}
+
+/* FILTERS */
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.filter-sel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;font-size:13px;color:var(--text);font-family:var(--font);outline:none;cursor:pointer}
+.filter-sel:hover{border-color:var(--border2)}
+.filter-lbl{font-size:12px;color:var(--text3);white-space:nowrap}
+
+/* PROJECT CARDS */
+.proj-list{display:flex;flex-direction:column;gap:10px}
+.pcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:border-color .15s;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.pcard:hover{border-color:var(--border2)}
+.pcard-head{display:flex;align-items:center;gap:14px;padding:14px 18px;cursor:pointer;user-select:none}
+.pcard-head:hover{background:var(--surface2)}
+.pav{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0}
+.pinfo{flex:1;min-width:0}
+.pname{font-size:14px;font-weight:600;letter-spacing:-.2px;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pmeta{display:flex;gap:14px;font-size:12px;color:var(--text3);flex-wrap:wrap;align-items:center}
+.pmeta span{display:flex;align-items:center;gap:3px}
+.pmeta i{font-size:13px}
+.pright{display:flex;align-items:center;gap:14px;flex-shrink:0}
+.ring{position:relative;width:46px;height:46px;flex-shrink:0}
+.ring svg{transform:rotate(-90deg)}
+.ring-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+.pstat{text-align:right}
+.pstat-val{font-size:13px;font-weight:500}
+.pstat-lbl{font-size:11px;color:var(--text3)}
+.chev{font-size:17px;color:var(--text3);transition:transform .2s;flex-shrink:0}
+.chev.open{transform:rotate(180deg)}
+
+/* DATE STRIP */
+.date-strip{display:flex;align-items:center;gap:6px;padding:7px 18px;background:var(--surface2);border-top:1px solid var(--border);font-size:12px;color:var(--text3);flex-wrap:wrap}
+.date-strip i{font-size:13px}
+.date-strip strong{color:var(--text2);font-weight:500}
+.date-sep{color:var(--border2);padding:0 2px}
+
+/* CATEGORIES */
+.cats{border-top:1px solid var(--border)}
+.cat{border-bottom:1px solid var(--border)}.cat:last-child{border-bottom:none}
+.cat-head{display:flex;align-items:center;gap:10px;padding:10px 18px;cursor:pointer;background:var(--surface2);user-select:none}
+.cat-head:hover{background:var(--surface3)}
+.cat-bar{width:3px;height:20px;border-radius:2px;flex-shrink:0}
+.cat-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text2);flex:1}
+.cat-pill{font-size:11px;color:var(--text3);background:var(--surface);border:1px solid var(--border);padding:2px 8px;border-radius:20px}
+.cat-pct{font-size:11px;color:var(--text3);min-width:30px;text-align:right;font-weight:500}
+.cchev{font-size:14px;color:var(--text3);transition:transform .2s;flex-shrink:0}
+.cchev.open{transform:rotate(180deg)}
+
+/* TABLE */
+.ptable{width:100%;border-collapse:collapse;table-layout:fixed}
+.ptable th{font-size:11px;color:var(--text3);padding:8px 14px;text-align:left;font-weight:500;text-transform:uppercase;letter-spacing:.05em;background:var(--surface2);border-bottom:1px solid var(--border)}
+.ptable td{padding:10px 14px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle}
+.ptable tr:last-child td{border-bottom:none}
+.ptable tr:hover td{background:#f9fafc}
+.ph-name{font-weight:500;color:var(--text);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ssel{font-size:11px;padding:3px 8px;border-radius:20px;font-weight:500;border:1px solid;cursor:pointer;font-family:var(--font);background:transparent}
+.sns{background:#e8f3fb;color:var(--blue);border-color:#b0d4f0}
+.sip{background:var(--teal-bg);color:var(--teal);border-color:#90d0b8}
+.soh{background:var(--amber-bg);color:var(--amber);border-color:#e8c860}
+.sdone{background:var(--green-bg);color:var(--green);border-color:#80c8a0}
+.scancel{background:var(--red-bg);color:var(--red);border-color:#e8a0b8}
+.inplace{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:12px;color:var(--text);font-family:var(--font);outline:none;width:100%}
+.inplace:focus{border-color:var(--accent);background:#fff}
+.inplace[readonly]{background:transparent;border-color:transparent;color:var(--text2);cursor:default}
+.cost-bar-bg{height:3px;border-radius:2px;background:var(--surface3);margin-top:5px;overflow:hidden}
+.cost-bar-fill{height:3px;border-radius:2px}
+.comment-ta{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:12px;color:var(--text);font-family:var(--font);resize:none;width:100%;min-height:34px;line-height:1.4;outline:none}
+.comment-ta:focus{border-color:var(--accent);background:#fff}
+.comment-ta[readonly]{background:transparent;border-color:transparent;color:var(--text2)}
+.icon-action{background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:5px;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.icon-action:hover{color:var(--red);background:var(--red-bg)}
+.add-phase-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--text3);background:transparent;border:1px dashed var(--border2);border-radius:6px;padding:5px 12px;cursor:pointer;font-family:var(--font);transition:all .15s;margin:8px 18px}
+.add-phase-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-light)}
+
+/* DASHBOARD */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.dcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.dcard.full{grid-column:span 2}
+.dcard-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.dcard-title i{font-size:14px}
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.prog-lbl{width:145px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0}
+.prog-bg{flex:1;background:var(--surface3);border-radius:20px;height:6px;overflow:hidden}
+.prog-fill{height:6px;border-radius:20px}
+.prog-pct{width:34px;font-size:12px;color:var(--text3);text-align:right;flex-shrink:0;font-weight:500}
+.gantt-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.gantt-lbl{width:145px;font-size:12px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0}
+.gantt-track{flex:1;position:relative;height:20px;background:var(--surface3);border-radius:4px;overflow:hidden}
+.gantt-bar{position:absolute;height:100%;border-radius:4px;display:flex;align-items:center;padding:0 7px;font-size:10px;font-weight:500;color:#fff;overflow:hidden;white-space:nowrap}
+.today-ln{position:absolute;top:0;bottom:0;width:2px;background:var(--red);z-index:2;opacity:.7}
+.seg-bar{display:flex;gap:3px;height:8px;border-radius:20px;overflow:hidden;margin-bottom:8px}
+.seg{height:100%}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(30,35,50,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(2px)}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);width:680px;max-width:100%;max-height:92vh;overflow-y:auto;padding:26px;box-shadow:0 8px 40px rgba(0,0,0,.12)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.modal-head h2{font-size:16px;font-weight:600;letter-spacing:-.2px}
+.close-btn{background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:19px;display:flex;padding:4px;border-radius:6px}
+.close-btn:hover{color:var(--text);background:var(--surface2)}
+.form-row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.form-group{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.form-group label{font-size:11px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:.05em}
+.form-group input,.form-group select{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:8px 11px;font-size:13px;color:var(--text);font-family:var(--font);outline:none;transition:border-color .15s}
+.form-group input:focus,.form-group select:focus{border-color:var(--accent);background:#fff}
+.cat-block-form{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:9px}
+.cat-block-head{display:flex;align-items:center;gap:8px;padding:8px 13px;background:var(--surface2)}
+.cat-block-dot{width:8px;height:8px;border-radius:3px;flex-shrink:0}
+.cat-block-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);flex:1}
+.cat-block-body{padding:10px 13px}
+.trf{display:grid;grid-template-columns:1fr 110px 80px 80px 80px 80px 24px;gap:7px;margin-bottom:7px;align-items:center}
+.trf-hdr{display:grid;grid-template-columns:1fr 110px 80px 80px 80px 80px 24px;gap:7px;margin-bottom:5px}
+.trf-hdr span{font-size:10px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.trf input,.trf select{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:12px;color:var(--text);font-family:var(--font);outline:none;width:100%}
+.trf input:focus,.trf select:focus{border-color:var(--accent);background:#fff}
+.rm-btn{background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;border-radius:4px;width:24px;height:24px;flex-shrink:0}
+.rm-btn:hover{color:var(--red);background:var(--red-bg)}
+.add-row-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--text3);background:transparent;border:1px dashed var(--border2);border-radius:6px;padding:4px 10px;cursor:pointer;font-family:var(--font);margin-top:3px;transition:all .15s}
+.add-row-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-light)}
+.modal-footer{display:flex;justify-content:flex-end;gap:9px;margin-top:18px;padding-top:16px;border-top:1px solid var(--border)}
+.divider{height:1px;background:var(--border);margin:14px 0}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:11px 16px;font-size:13px;display:flex;align-items:center;gap:9px;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.12);animation:tin .2s ease;max-width:300px}
+.toast i{font-size:17px;flex-shrink:0}
+.toast.ok{border-color:#90d0b8;color:var(--teal)}
+.toast.err{border-color:#e8a0b8;color:var(--red)}
+.toast.warn{border-color:#e8c860;color:var(--amber)}
+@keyframes tin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.spin{width:15px;height:15px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:sp .6s linear infinite;flex-shrink:0}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loader-bar{position:fixed;top:0;left:0;right:0;height:2px;background:var(--accent);z-index:9999;animation:lb 1.2s ease-in-out infinite}
+@keyframes lb{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.empty{text-align:center;padding:48px 20px;color:var(--text3)}
+.empty i{font-size:40px;margin-bottom:12px;display:block;opacity:.4}
+.empty p{font-size:14px;margin-bottom:16px}
+.readonly-notice{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--amber);background:var(--amber-bg);border:1px solid #e8c860;border-radius:var(--radius);padding:7px 12px;margin-bottom:16px}
+.team-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.settings-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;margin-bottom:14px}
+.settings-section h3{font-size:14px;font-weight:600;margin-bottom:4px}
+.settings-section p{font-size:13px;color:var(--text3);margin-bottom:18px}
+.config-status{font-size:12px;margin-top:12px;padding:9px 13px;border-radius:var(--radius);border:1px solid}
+.config-status.ok{background:var(--teal-bg);border-color:#90d0b8;color:var(--teal)}
+.config-status.err{background:var(--red-bg);border-color:#e8a0b8;color:var(--red)}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-icon"><i class="ti ti-layout-dashboard"></i></div>
+      <div><div class="login-logo-text">PlanFlow</div><div class="login-logo-sub">Project Management</div></div>
+    </div>
+
+    <!-- Login -->
+    <div id="form-login">
+      <div class="login-title">Entrar na plataforma</div>
+      <div class="login-sub">Use suas credenciais de acesso.</div>
+      <div id="cfg-alert" class="cfg-notice" style="display:none">
+        <i class="ti ti-alert-triangle" style="font-size:15px;flex-shrink:0;margin-top:1px"></i>
+        <div>Supabase não configurado. <a onclick="gotoSettings()" style="color:var(--accent);cursor:pointer;text-decoration:underline">Configurar agora</a></div>
+      </div>
+      <div class="login-err" id="login-err"><i class="ti ti-alert-circle"></i><span></span></div>
+      <div class="fg"><label>E-mail</label><input id="li-email" type="email" placeholder="seu@email.com" autocomplete="email"></div>
+      <div class="fg"><label>Senha</label><input id="li-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+      <button class="btn primary" id="li-btn" onclick="doLogin()">Entrar</button>
+      <div class="login-switch">Não tem conta? <a onclick="switchForm('register')">Criar conta</a></div>
+    </div>
+
+    <!-- Register -->
+    <div id="form-register" style="display:none">
+      <div class="login-title">Criar conta</div>
+      <div class="login-sub">Preencha os dados para se cadastrar.</div>
+      <div class="login-err" id="reg-err"><i class="ti ti-alert-circle"></i><span></span></div>
+      <div class="fg"><label>Nome completo</label><input id="reg-name" placeholder="Seu nome"></div>
+      <div class="fg"><label>E-mail</label><input id="reg-email" type="email" placeholder="seu@email.com" autocomplete="email"></div>
+      <div class="fg"><label>Senha</label><input id="reg-pass" type="password" placeholder="Mínimo 6 caracteres" autocomplete="new-password"></div>
+      <button class="btn primary" id="reg-btn" onclick="doRegister()">Criar conta</button>
+      <div class="login-switch">Já tem conta? <a onclick="switchForm('login')">Entrar</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app">
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-icon"><i class="ti ti-layout-dashboard"></i></div>
+        <div><div class="logo-text">PlanFlow</div><div class="logo-sub">Project Management</div></div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-group">Workspace</div>
+        <div class="nav-item active" onclick="gotoView('projects',this)"><i class="ti ti-layout-list"></i> Projetos <span class="nav-badge" id="nb">0</span></div>
+        <div class="nav-item" onclick="gotoView('dashboard',this)"><i class="ti ti-chart-bar"></i> Dashboard</div>
+        <div class="nav-group">Gestão</div>
+        <div class="nav-item" id="nav-team" style="display:none" onclick="gotoView('team',this)"><i class="ti ti-users"></i> Equipe</div>
+        <div class="nav-item" onclick="gotoView('settings',this)"><i class="ti ti-settings"></i> Configurações</div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="user-av" id="uav">??</div>
+          <div style="min-width:0;flex:1">
+            <div class="user-name" id="uname">—</div>
+            <div class="user-role-badge" id="urole">—</div>
+          </div>
+          <button class="logout-btn" onclick="doLogout()" title="Sair"><i class="ti ti-logout"></i></button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div class="page-title" id="page-title">Projetos</div>
+        <div style="display:flex;align-items:center;gap:9px">
+          <div class="search-wrap"><i class="ti ti-search"></i><input type="text" id="gsearch" placeholder="Buscar..." oninput="renderProjects()"></div>
+          <button class="btn primary" id="new-btn" style="display:none" onclick="openModal()"><i class="ti ti-plus"></i> Novo projeto</button>
+        </div>
+      </header>
+      <div class="content">
+
+        <!-- PROJECTS -->
+        <div class="view active" id="view-projects">
+          <div id="ro-notice"></div>
+          <div class="metrics" id="metrics"></div>
+          <div class="filters">
+            <span class="filter-lbl">Filtrar:</span>
+            <select class="filter-sel" id="f-st" onchange="renderProjects()">
+              <option value="">Todos os status</option>
+              <option>Not Started</option><option>In Progress</option><option>On Hold</option><option>Completed</option><option>Cancelled</option>
+            </select>
+            <select class="filter-sel" id="f-cat" onchange="renderProjects()">
+              <option value="">Todas as categorias</option>
+              <option>Preparation</option><option>Definition &amp; Planning</option>
+              <option>Launch &amp; Execution</option><option>Performance &amp; Monitoring</option><option>Closure &amp; Handoff</option>
+            </select>
+            <select class="filter-sel" id="f-ow" onchange="renderProjects()"><option value="">Todos os responsáveis</option></select>
+            <button class="btn sm" onclick="clearFilters()"><i class="ti ti-filter-off"></i> Limpar</button>
+          </div>
+          <div class="proj-list" id="proj-list"></div>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div class="view" id="view-dashboard">
+          <div class="metrics" id="dash-metrics"></div>
+          <div class="dash-grid">
+            <div class="dcard full"><div class="dcard-title"><i class="ti ti-chart-bar"></i> Progresso por projeto</div><div id="d-prog"></div></div>
+            <div class="dcard full">
+              <div class="dcard-title"><i class="ti ti-timeline"></i> Timeline — Gantt</div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:9px" id="gantt-dates"></div>
+              <div id="d-gantt"></div>
+            </div>
+            <div class="dcard"><div class="dcard-title"><i class="ti ti-circle-half-2"></i> Status das fases</div><div id="d-status"></div></div>
+            <div class="dcard"><div class="dcard-title"><i class="ti ti-cash"></i> Custo por projeto</div><div id="d-cost"></div></div>
+          </div>
+        </div>
+
+        <!-- TEAM -->
+        <div class="view" id="view-team">
+          <div style="max-width:600px">
+            <div style="font-size:15px;font-weight:600;margin-bottom:3px">Equipe</div>
+            <div style="font-size:13px;color:var(--text3);margin-bottom:20px">Gerencie membros e permissões de acesso.</div>
+            <div id="team-list"></div>
+            <div id="access-section"></div>
+            <div id="invite-section"></div>
+          </div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div class="view" id="view-settings">
+          <div style="max-width:560px">
+            <div class="settings-section">
+              <h3>Conexão Supabase</h3>
+              <p>Cole as credenciais do seu projeto. Salvas localmente neste navegador.</p>
+              <div class="form-group" style="margin-bottom:10px"><label>Supabase URL</label><input id="cfg-url" type="text" placeholder="https://xxxx.supabase.co"></div>
+              <div class="form-group" style="margin-bottom:14px"><label>Anon Key</label><input id="cfg-key" type="text" placeholder="eyJhbGci..."></div>
+              <div style="display:flex;gap:9px">
+                <button class="btn primary" style="width:auto;padding:8px 18px" onclick="saveConfig()"><i class="ti ti-device-floppy"></i> Salvar</button>
+                <button class="btn" onclick="testConn()"><i class="ti ti-plug"></i> Testar conexão</button>
+              </div>
+              <div id="cfg-status" style="display:none" class="config-status"></div>
+            </div>
+            <div class="settings-section">
+              <h3>Conta</h3>
+              <p>Sessão: <span id="s-email" style="color:var(--accent)"></span></p>
+              <button class="btn danger" onclick="doLogout()"><i class="ti ti-logout"></i> Sair</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="modal-overlay" style="display:none" onclick="overlayClick(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head"><h2>Novo projeto</h2><button class="close-btn" onclick="closeModal()"><i class="ti ti-x"></i></button></div>
+    <div class="form-row2">
+      <div class="form-group" style="margin-bottom:0"><label>Nome do projeto *</label><input id="m-name" placeholder="Ex: Portal do Cliente"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Responsável *</label><select id="m-owner"></select></div>
+    </div>
+    <div class="divider"></div>
+    <div class="form-row2">
+      <div class="form-group" style="margin-bottom:0"><label>Data de início *</label><input id="m-start" type="date"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Prazo final *</label><input id="m-end" type="date"></div>
+    </div>
+    <div class="divider"></div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:12px">Adicione fases por categoria. Linhas com nome em branco são ignoradas.</div>
+    <div id="cat-forms"></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal()">Cancelar</button>
+      <button class="btn primary" id="modal-save" onclick="saveProject()"><i class="ti ti-device-floppy"></i> Salvar projeto</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+// COLE SUAS CREDENCIAIS AQUI (opcional)
+// ou use a tela de Configurações dentro do app
+const SUPABASE_URL = '';
+const SUPABASE_KEY = '';
+// ══════════════════════════════════════════════
+
+const CATS=[
+  {key:'prep',   label:'Preparation',              color:'#5b5ef4'},
+  {key:'def',    label:'Definition & Planning',    color:'#0da47a'},
+  {key:'launch', label:'Launch & Execution',       color:'#1a7fc1'},
+  {key:'perf',   label:'Performance & Monitoring', color:'#c47f00'},
+  {key:'close',  label:'Closure & Handoff',        color:'#d03060'}
+];
+const STATUSES=['Not Started','In Progress','On Hold','Completed','Cancelled'];
+const SCLS={'Not Started':'sns','In Progress':'sip','On Hold':'soh','Completed':'sdone','Cancelled':'scancel'};
+const PCOLS=['#5b5ef4','#0da47a','#1a7fc1','#c47f00','#d03060','#7b5ea7'];
+const ROLES={admin:'Administrador',manager:'Gerente de Projetos',member:'Membro'};
+
+let sb=null, currentUser=null, projects=[], members=[], projectAccess={};
+let openCards={}, openCats={};
+
+// ── Config ──
+function getConfig(){return{url:localStorage.getItem('pf_url')||SUPABASE_URL,key:localStorage.getItem('pf_key')||SUPABASE_KEY};}
+function initSB(url,key){if(!url||!key) return false;try{sb=window.supabase.createClient(url,key);return true;}catch(e){return false;}}
+
+function saveConfig(){
+  const url=document.getElementById('cfg-url').value.trim();
+  const key=document.getElementById('cfg-key').value.trim();
+  localStorage.setItem('pf_url',url);localStorage.setItem('pf_key',key);
+  initSB(url,key);toast('Configurações salvas!','ok');
+}
+async function testConn(){
+  const url=document.getElementById('cfg-url').value.trim();
+  const key=document.getElementById('cfg-key').value.trim();
+  const el=document.getElementById('cfg-status');el.style.display='none';
+  if(!url||!key){showCfgSt('Preencha URL e Anon Key.',false);return;}
+  try{
+    const c=window.supabase.createClient(url,key);
+    const{error}=await c.from('projects').select('id').limit(1);
+    if(error&&error.code!=='PGRST116') throw error;
+    showCfgSt('Conexão bem-sucedida!',true);initSB(url,key);
+  }catch(e){showCfgSt('Erro: '+e.message,false);}
+}
+function showCfgSt(msg,ok){const el=document.getElementById('cfg-status');el.className='config-status '+(ok?'ok':'err');el.textContent=(ok?'✓ ':'✗ ')+msg;el.style.display='block';}
+function gotoSettings(){document.getElementById('login-screen').style.display='none';document.getElementById('app').style.display='block';gotoView('settings',document.querySelector('.nav-item:last-child'));}
+
+// ── Helpers ──
+function uid(){return'x'+Math.random().toString(36).slice(2,9);}
+function delay(ms){return new Promise(r=>setTimeout(r,ms));}
+function allTasks(p){return CATS.flatMap(c=>p.phases.filter(ph=>ph.category===c.key));}
+function projPct(p){const a=allTasks(p);return a.length?Math.round(a.filter(t=>t.status==='Completed').length/a.length*100):0;}
+function projTots(p){const a=allTasks(p);return{est:a.reduce((s,t)=>s+(t.cost_estimated||0),0),real:a.reduce((s,t)=>s+(t.cost_realized||0),0)};}
+function days(a,b){return Math.round((new Date(b)-new Date(a))/86400000);}
+function today(){return new Date().toISOString().slice(0,10);}
+function fmtDate(d){if(!d) return'—';const[y,m,dd]=d.split('-');return`${dd}/${m}/${y}`;}
+function fmt(n){return'R$\u00a0'+Math.round(n||0).toLocaleString('pt-BR');}
+function inits(n){return(n||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();}
+function sc(s){return SCLS[s]||'sns';}
+function pcol(i){return PCOLS[i%PCOLS.length];}
+function memberName(id){return members.find(m=>m.id===id)?.name||id||'—';}
+function isAdmin(){return currentUser?.role==='admin';}
+function isManager(){return currentUser?.role==='manager';}
+function canEdit(projId){
+  if(!currentUser) return false;
+  if(isAdmin()) return true;
+  return(projectAccess[projId]||{})[currentUser.id]==='edit';
+}
+
+function toast(msg,type='ok',dur=3000){
+  const t=document.createElement('div');t.className=`toast ${type}`;
+  t.innerHTML=`<i class="ti ti-${({ok:'circle-check',err:'circle-x',warn:'alert-triangle'})[type]||'info-circle'}"></i>${msg}`;
+  document.body.appendChild(t);setTimeout(()=>t.remove(),dur);
+}
+function loader(on){let lb=document.getElementById('lb');if(on&&!lb){lb=document.createElement('div');lb.id='lb';lb.className='loader-bar';document.body.appendChild(lb);}else if(!on&&lb) lb.remove();}
+
+// ── Auth ──
+function switchForm(f){
+  document.getElementById('form-login').style.display=f==='login'?'':'none';
+  document.getElementById('form-register').style.display=f==='register'?'':'none';
+  ['login-err','reg-err'].forEach(id=>document.getElementById(id).style.display='none');
+}
+function showErr(id,msg){const el=document.getElementById(id);el.style.display='flex';const sp=el.querySelector('span');if(sp) sp.textContent=msg;}
+
+async function doLogin(){
+  const email=document.getElementById('li-email').value.trim().toLowerCase();
+  const pass=document.getElementById('li-pass').value;
+  document.getElementById('login-err').style.display='none';
+  if(!email||!pass){showErr('login-err','Preencha e-mail e senha.');return;}
+  const cfg=getConfig();
+  if(!cfg.url||!cfg.key){document.getElementById('cfg-alert').style.display='flex';return;}
+  if(!initSB(cfg.url,cfg.key)){showErr('login-err','Erro ao conectar ao Supabase.');return;}
+  const btn=document.getElementById('li-btn');btn.disabled=true;btn.innerHTML='<div class="spin"></div> Entrando...';
+  const{data,error}=await sb.auth.signInWithPassword({email,password:pass});
+  if(error){showErr('login-err',error.message);btn.disabled=false;btn.innerHTML='Entrar';return;}
+  await onLogin(data.user);btn.disabled=false;btn.innerHTML='Entrar';
+}
+
+async function doRegister(){
+  const name=document.getElementById('reg-name').value.trim();
+  const email=document.getElementById('reg-email').value.trim().toLowerCase();
+  const pass=document.getElementById('reg-pass').value;
+  document.getElementById('reg-err').style.display='none';
+  if(!name||!email||!pass){showErr('reg-err','Preencha todos os campos.');return;}
+  if(pass.length<6){showErr('reg-err','Senha mínimo 6 caracteres.');return;}
+  const cfg=getConfig();
+  if(!cfg.url||!cfg.key){showErr('reg-err','Configure o Supabase primeiro.');return;}
+  if(!initSB(cfg.url,cfg.key)){showErr('reg-err','Erro ao conectar ao Supabase.');return;}
+  const btn=document.getElementById('reg-btn');btn.disabled=true;btn.innerHTML='<div class="spin"></div> Criando...';
+  const{data,error}=await sb.auth.signUp({email,password:pass,options:{data:{full_name:name}}});
+  if(error){showErr('reg-err',error.message);btn.disabled=false;btn.innerHTML='Criar conta';return;}
+  if(data.user&&!data.session){
+    const el=document.getElementById('reg-err');
+    el.style.cssText='display:flex;background:var(--teal-bg);border-color:#90d0b8;color:var(--teal)';
+    el.querySelector('span').textContent='Conta criada! Confirme seu e-mail e faça login.';
+    btn.disabled=false;btn.innerHTML='Criar conta';return;
+  }
+  if(data.user) await onLogin(data.user);
+  btn.disabled=false;btn.innerHTML='Criar conta';
+}
+
+async function onLogin(user){
+  currentUser={id:user.id,email:user.email,name:user.user_metadata?.full_name||user.email.split('@')[0],role:'member'};
+  await loadProfile();
+  document.getElementById('uav').textContent=inits(currentUser.name);
+  document.getElementById('uname').textContent=currentUser.name;
+  document.getElementById('urole').textContent=ROLES[currentUser.role]||currentUser.role;
+  document.getElementById('s-email').textContent=user.email;
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('new-btn').style.display=(isAdmin()||isManager())?'':'none';
+  document.getElementById('nav-team').style.display=isAdmin()?'':'none';
+  toast('Bem-vindo, '+currentUser.name.split(' ')[0]+'!','ok');
+  await loadAll();
+}
+
+async function doLogout(){
+  if(sb) await sb.auth.signOut();
+  currentUser=null;projects=[];members=[];projectAccess={};openCards={};openCats={};
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  switchForm('login');
+}
+
+// ── Load profile ──
+async function loadProfile(){
+  if(!sb) return;
+  const{data}=await sb.from('profiles').select('*').eq('id',currentUser.id).single();
+  if(data) currentUser.role=data.role||'member';
+}
+
+// ── Load data ──
+async function loadAll(){
+  loader(true);
+  try{
+    const[{data:projs,error:e1},{data:phases,error:e2},{data:mems,error:e3},{data:acc,error:e4}]=await Promise.all([
+      sb.from('projects').select('*').order('created_at',{ascending:false}),
+      sb.from('phases').select('*').order('sort_order'),
+      sb.from('profiles').select('*'),
+      sb.from('project_access').select('*')
+    ]);
+    if(e1) throw e1;if(e2) throw e2;
+    members=mems||[];
+    // build access map
+    projectAccess={};
+    (acc||[]).forEach(a=>{if(!projectAccess[a.project_id]) projectAccess[a.project_id]={};projectAccess[a.project_id][a.user_id]=a.access_level;});
+    projects=(projs||[]).map(p=>({...p,phases:(phases||[]).filter(ph=>ph.project_id===p.id)}));
+    renderProjects();
+  }catch(e){toast('Erro ao carregar: '+e.message,'err');}
+  loader(false);
+}
+
+// ── CRUD ──
+async function saveProject(){
+  const name=document.getElementById('m-name').value.trim();
+  const owner=document.getElementById('m-owner').value;
+  const start=document.getElementById('m-start').value;
+  const end=document.getElementById('m-end').value;
+  if(!name||!owner||!start||!end){toast('Preencha todos os campos obrigatórios.','err');return;}
+  if(start>end){toast('Data de início deve ser anterior ao prazo final.','err');return;}
+  const phaseRows=[];
+  CATS.forEach(cat=>{
+    document.querySelectorAll(`.cf-n[data-cat="${cat.key}"]`).forEach((inp,i)=>{
+      const n=inp.value.trim();if(!n) return;
+      phaseRows.push({category:cat.key,name:n,
+        status:document.querySelectorAll(`.cf-s[data-cat="${cat.key}"]`)[i]?.value||'Not Started',
+        cost_estimated:parseFloat(document.querySelectorAll(`.cf-e[data-cat="${cat.key}"]`)[i]?.value)||0,
+        cost_realized:parseFloat(document.querySelectorAll(`.cf-r[data-cat="${cat.key}"]`)[i]?.value)||0,
+        start_date:document.querySelectorAll(`.cf-sd[data-cat="${cat.key}"]`)[i]?.value||start,
+        end_date:document.querySelectorAll(`.cf-ed[data-cat="${cat.key}"]`)[i]?.value||end,
+        responsible:owner,comment:'',sort_order:i});
+    });
+  });
+  const btn=document.getElementById('modal-save');btn.disabled=true;btn.innerHTML='<div class="spin"></div> Salvando...';
+  try{
+    const{data:proj,error:e1}=await sb.from('projects').insert({name,owner_id:owner,start_date:start,end_date:end,created_by:currentUser.id}).select().single();
+    if(e1) throw e1;
+    if(phaseRows.length){
+      const{error:e2}=await sb.from('phases').insert(phaseRows.map(ph=>({...ph,project_id:proj.id})));
+      if(e2) throw e2;
+    }
+    // default access: all managers/admins edit, members view
+    const accessRows=members.map(m=>({project_id:proj.id,user_id:m.id,access_level:['admin','manager'].includes(m.role)?'edit':'view'}));
+    if(accessRows.length) await sb.from('project_access').insert(accessRows);
+    toast('"'+name+'" criado!','ok');closeModal();await loadAll();
+  }catch(e){toast('Erro: '+e.message,'err');}
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Salvar projeto';
+}
+
+async function upPhase(id,projId,field,val){
+  if(!canEdit(projId)){toast('Sem permissão para editar.','err');return;}
+  const upd={};upd[field]=['cost_estimated','cost_realized'].includes(field)?parseFloat(val)||0:val;
+  const{error}=await sb.from('phases').update(upd).eq('id',id);
+  if(error){toast('Erro: '+error.message,'err');return;}
+  projects.forEach(p=>p.phases.forEach(ph=>{if(ph.id===id) ph[field]=upd[field];}));
+  if(['status','cost_estimated','cost_realized'].includes(field)) renderProjects();
+}
+
+async function delPhase(id,projId){
+  if(!canEdit(projId)){toast('Sem permissão.','err');return;}
+  if(!confirm('Remover esta fase?')) return;
+  const{error}=await sb.from('phases').delete().eq('id',id);
+  if(error){toast('Erro: '+error.message,'err');return;}
+  const p=projects.find(x=>x.id===projId);if(p) p.phases=p.phases.filter(ph=>ph.id!==id);
+  toast('Fase removida.','ok');renderProjects();
+}
+
+async function delProject(projId){
+  if(!canEdit(projId)){toast('Sem permissão.','err');return;}
+  if(!confirm('Remover este projeto e todas as suas fases?')) return;
+  const{error}=await sb.from('projects').delete().eq('id',projId);
+  if(error){toast('Erro: '+error.message,'err');return;}
+  projects=projects.filter(p=>p.id!==projId);delete projectAccess[projId];
+  toast('Projeto removido.','ok');renderProjects();
+}
+
+async function addPhaseInline(projId,catKey){
+  if(!canEdit(projId)){toast('Sem permissão.','err');return;}
+  const name=prompt('Nome da nova fase:');if(!name||!name.trim()) return;
+  const p=projects.find(x=>x.id===projId);
+  const ph={category:catKey,name:name.trim(),status:'Not Started',cost_estimated:0,cost_realized:0,responsible:currentUser.id,start_date:today(),end_date:p.end_date,comment:'',sort_order:p.phases.filter(x=>x.category===catKey).length};
+  const{data,error}=await sb.from('phases').insert({...ph,project_id:projId}).select().single();
+  if(error){toast('Erro: '+error.message,'err');return;}
+  p.phases.push(data);toast('Fase adicionada!','ok');renderProjects();
+}
+
+async function setAccess(projId,userId,level){
+  if(!isAdmin()){toast('Sem permissão.','err');return;}
+  const{error}=await sb.from('project_access').upsert({project_id:projId,user_id:userId,access_level:level},{onConflict:'project_id,user_id'});
+  if(error){toast('Erro: '+error.message,'err');return;}
+  if(!projectAccess[projId]) projectAccess[projId]={};
+  projectAccess[projId][userId]=level;
+  toast('Permissão atualizada.','ok');
+}
+
+async function changeRole(userId,role){
+  if(!isAdmin()){toast('Sem permissão.','err');return;}
+  const{error}=await sb.from('profiles').update({role}).eq('id',userId);
+  if(error){toast('Erro: '+error.message,'err');return;}
+  const m=members.find(x=>x.id===userId);if(m) m.role=role;
+  toast('Perfil atualizado.','ok');renderTeam();
+}
+
+// ── Views ──
+function gotoView(v,el){
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  if(el) el.classList.add('active');
+  document.getElementById('page-title').textContent={projects:'Projetos',dashboard:'Dashboard',team:'Equipe',settings:'Configurações'}[v]||v;
+  document.getElementById('new-btn').style.display=v==='projects'&&(isAdmin()||isManager())?'':'none';
+  if(v==='dashboard') renderDashboard();
+  if(v==='team') renderTeam();
+  if(v==='settings'){const cfg=getConfig();document.getElementById('cfg-url').value=cfg.url;document.getElementById('cfg-key').value=cfg.key;}
+}
+function clearFilters(){['f-st','f-cat','f-ow','gsearch'].forEach(id=>document.getElementById(id).value='');renderProjects();}
+
+// ── Render projects ──
+function renderProjects(){
+  if(!currentUser) return;
+  const total=projects.length;
+  const active=projects.filter(p=>allTasks(p).some(t=>t.status==='In Progress')).length;
+  const done=projects.filter(p=>{const a=allTasks(p);return a.length&&a.every(t=>['Completed','Cancelled'].includes(t.status));}).length;
+  const totEst=projects.reduce((s,p)=>s+projTots(p).est,0);
+  const totReal=projects.reduce((s,p)=>s+projTots(p).real,0);
+  document.getElementById('metrics').innerHTML=`
+    <div class="mcard"><div class="mcard-icon" style="background:#ededff;color:#4040cc"><i class="ti ti-folders"></i></div><div class="mcard-label">Total de projetos</div><div class="mcard-value">${total}</div><div class="mcard-sub">${done} concluídos</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#e8f5ee;color:#1a7a4a"><i class="ti ti-player-play"></i></div><div class="mcard-label">Em execução</div><div class="mcard-value">${active}</div><div class="mcard-sub">${total-active-done} aguardando</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#e8f3fb;color:#1a7fc1"><i class="ti ti-cash"></i></div><div class="mcard-label">Custo estimado</div><div class="mcard-value" style="font-size:18px">${fmt(totEst)}</div><div class="mcard-sub" style="color:${totReal>totEst?'var(--red)':'var(--text3)'}">${fmt(totReal)} realizado</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#fff8e6;color:#c47f00"><i class="ti ti-chart-line"></i></div><div class="mcard-label">Progresso médio</div><div class="mcard-value">${total?Math.round(projects.reduce((s,p)=>s+projPct(p),0)/total):0}%</div><div class="mcard-sub">${projects.reduce((s,p)=>s+allTasks(p).filter(t=>t.status==='Completed').length,0)} fases concluídas</div></div>
+  `;
+  document.getElementById('nb').textContent=total;
+  const owners=[...new Set(projects.map(p=>p.owner_id))];
+  const sel=document.getElementById('f-ow');const cur=sel.value;
+  sel.innerHTML='<option value="">Todos os responsáveis</option>'+owners.map(o=>`<option value="${o}" ${o===cur?'selected':''}>${memberName(o)}</option>`).join('');
+  const ro=document.getElementById('ro-notice');
+  ro.innerHTML=currentUser.role==='member'?`<div class="readonly-notice"><i class="ti ti-eye"></i> Modo visualização — sem permissão para editar.</div>`:'';
+  const search=document.getElementById('gsearch').value.toLowerCase();
+  const fSt=document.getElementById('f-st').value;
+  const fCt=document.getElementById('f-cat').value;
+  const fOw=document.getElementById('f-ow').value;
+  const filtered=projects.filter(p=>{
+    const ms=p.name.toLowerCase().includes(search)||memberName(p.owner_id).toLowerCase().includes(search);
+    const mst=!fSt||allTasks(p).some(t=>t.status===fSt);
+    const mct=!fCt||p.phases.some(ph=>ph.category===CATS.find(c=>c.label===fCt)?.key);
+    const mow=!fOw||p.owner_id===fOw;
+    return ms&&mst&&mct&&mow;
+  });
+  const list=document.getElementById('proj-list');
+  if(!filtered.length){list.innerHTML=`<div class="empty"><i class="ti ti-folder-search"></i><p>Nenhum projeto encontrado.</p><button class="btn" onclick="clearFilters()"><i class="ti ti-filter-off"></i> Limpar filtros</button></div>`;return;}
+  list.innerHTML=filtered.map((p,pi)=>{
+    const pct=projPct(p),tots=projTots(p);
+    const running=Math.max(0,days(p.start_date,today()));
+    const left=days(today(),p.end_date);
+    const col=pcol(projects.indexOf(p));
+    const r=19,circ=2*Math.PI*r,dash=circ*(pct/100);
+    const td=allTasks(p).filter(t=>t.status==='Completed').length;
+    const ta=allTasks(p).length;
+    const isOpen=openCards[p.id];
+    const editable=canEdit(p.id);
+    return `<div class="pcard">
+      <div class="pcard-head" onclick="toggleCard('${p.id}')">
+        <div class="pav" style="background:${col}18;color:${col}">${inits(memberName(p.owner_id))}</div>
+        <div class="pinfo">
+          <div class="pname">${p.name}${!editable?'<span style="font-size:10px;background:#fff8e6;color:#c47f00;border:1px solid #e8c860;padding:1px 7px;border-radius:20px;font-weight:500;margin-left:6px">Somente leitura</span>':''}</div>
+          <div class="pmeta">
+            <span><i class="ti ti-user"></i>${memberName(p.owner_id)}</span>
+            <span><i class="ti ti-clock"></i>${running}d em andamento</span>
+            <span style="color:${left<0?'var(--red)':''}"><i class="ti ti-calendar-due"></i>${left>=0?left+'d restantes':Math.abs(left)+'d em atraso'}</span>
+            <span style="color:${tots.real>tots.est&&tots.est>0?'var(--red)':''}"><i class="ti ti-cash"></i>${fmt(tots.real)} / ${fmt(tots.est)}</span>
+          </div>
+        </div>
+        <div class="pright">
+          <div class="pstat"><div class="pstat-val">${td}/${ta}</div><div class="pstat-lbl">fases</div></div>
+          <div class="ring">
+            <svg width="46" height="46" viewBox="0 0 44 44">
+              <circle cx="22" cy="22" r="${r}" fill="none" stroke="var(--surface3)" stroke-width="3.5"/>
+              <circle cx="22" cy="22" r="${r}" fill="none" stroke="${col}" stroke-width="3.5" stroke-dasharray="${dash.toFixed(1)} ${(circ-dash).toFixed(1)}" stroke-linecap="round"/>
+            </svg>
+            <div class="ring-txt" style="color:${col}">${pct}%</div>
+          </div>
+          ${editable?`<button onclick="event.stopPropagation();delProject('${p.id}')" class="icon-action" title="Excluir"><i class="ti ti-trash"></i></button>`:''}
+          <i class="ti ti-chevron-down chev ${isOpen?'open':''}"></i>
+        </div>
+      </div>
+      <div class="date-strip">
+        <i class="ti ti-calendar-event"></i><span>Início: <strong>${fmtDate(p.start_date)}</strong></span>
+        <span class="date-sep">|</span><i class="ti ti-calendar-due"></i><span>Prazo: <strong>${fmtDate(p.end_date)}</strong></span>
+        <span class="date-sep">|</span><i class="ti ti-clock"></i><span><strong>${running}</strong> dias em andamento</span>
+        <span class="date-sep">|</span><span style="color:${left<0?'var(--red)':'var(--text3)'}"><strong>${left>=0?left+'d restantes':Math.abs(left)+'d em atraso'}</strong></span>
+      </div>
+      ${isOpen?renderCatsHTML(p):''}
+    </div>`;
+  }).join('');
+}
+
+function renderCatsHTML(p){
+  const editable=canEdit(p.id);
+  return `<div class="cats">${CATS.map(cat=>{
+    const tasks=p.phases.filter(ph=>ph.category===cat.key);
+    const done=tasks.filter(t=>t.status==='Completed').length;
+    const pct=tasks.length?Math.round(done/tasks.length*100):0;
+    const open=openCats[p.id+'_'+cat.key]!==false;
+    return `<div class="cat">
+      <div class="cat-head" onclick="toggleCat('${p.id}','${cat.key}')">
+        <div class="cat-bar" style="background:${cat.color}"></div>
+        <div class="cat-title">${cat.label}</div>
+        <div class="cat-pill">${done}/${tasks.length} concluídas</div>
+        <div class="cat-pct">${pct}%</div>
+        <i class="ti ti-chevron-down cchev ${open?'open':''}"></i>
+      </div>
+      ${open?`<div>
+        <table class="ptable">
+          <colgroup><col style="width:18%"><col style="width:12%"><col style="width:11%"><col style="width:10%"><col style="width:10%"><col style="width:13%"><col style="width:20%"><col style="width:6%"></colgroup>
+          <thead><tr><th>Fase</th><th>Status</th><th>Responsável</th><th>Início</th><th>Término</th><th>Est. / Realizado</th><th>Comentário</th><th></th></tr></thead>
+          <tbody>
+          ${tasks.length?tasks.map(t=>{
+            const ro=!editable;const over=t.cost_realized>t.cost_estimated&&t.cost_estimated>0;
+            const phasePct=t.cost_estimated?Math.min(120,Math.round(t.cost_realized/t.cost_estimated*100)):0;
+            return `<tr>
+              <td><span class="ph-name">${t.name}</span></td>
+              <td>${ro?`<span class="ssel ${sc(t.status)}" style="cursor:default">${t.status}</span>`
+                :`<select class="ssel ${sc(t.status)}" onchange="upPhase('${t.id}','${p.id}','status',this.value)">
+                  ${STATUSES.map(s=>`<option ${s===t.status?'selected':''}>${s}</option>`).join('')}</select>`}</td>
+              <td><input class="inplace" value="${memberName(t.responsible)||''}" ${ro?'readonly':''} onchange="upPhase('${t.id}','${p.id}','responsible',this.value)"></td>
+              <td><input type="date" class="inplace" value="${t.start_date||''}" ${ro?'readonly':''} style="font-size:11px;padding:3px 6px" onchange="upPhase('${t.id}','${p.id}','start_date',this.value)"></td>
+              <td><input type="date" class="inplace" value="${t.end_date||''}" ${ro?'readonly':''} style="font-size:11px;padding:3px 6px" onchange="upPhase('${t.id}','${p.id}','end_date',this.value)"></td>
+              <td>
+                <div style="font-size:11px;color:var(--text3)">Est: <input type="number" class="inplace" style="width:70px" value="${t.cost_estimated}" min="0" ${ro?'readonly':''} onchange="upPhase('${t.id}','${p.id}','cost_estimated',this.value)"></div>
+                <div style="font-size:11px;color:${over?'var(--red)':'var(--text3)'}">Real: <input type="number" class="inplace" style="width:70px" value="${t.cost_realized}" min="0" ${ro?'readonly':''} onchange="upPhase('${t.id}','${p.id}','cost_realized',this.value)"></div>
+                <div class="cost-bar-bg"><div class="cost-bar-fill" style="width:${phasePct}%;background:${over?'var(--red)':'var(--teal)'}"></div></div>
+              </td>
+              <td><textarea class="comment-ta" ${ro?'readonly':''} onchange="upPhase('${t.id}','${p.id}','comment',this.value)" placeholder="${ro?'—':'Comentário...'}">${t.comment||''}</textarea></td>
+              <td>${ro?'':`<button class="icon-action" onclick="delPhase('${t.id}','${p.id}')"><i class="ti ti-trash"></i></button>`}</td>
+            </tr>`;
+          }).join(''):`<tr><td colspan="8" style="padding:11px 14px;font-size:12px;color:var(--text3)">Nenhuma fase nesta categoria.</td></tr>`}
+          </tbody>
+        </table>
+        ${editable?`<button class="add-phase-btn" onclick="addPhaseInline('${p.id}','${cat.key}')"><i class="ti ti-plus"></i> Adicionar fase em ${cat.label}</button>`:''}
+      </div>`:''}
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function toggleCard(id){openCards[id]=!openCards[id];renderProjects();}
+function toggleCat(pid,cat){const k=pid+'_'+cat;openCats[k]=openCats[k]===false;renderProjects();}
+
+// ── Dashboard ──
+function renderDashboard(){
+  const total=projects.length;
+  const est=projects.reduce((s,p)=>s+projTots(p).est,0);
+  const real=projects.reduce((s,p)=>s+projTots(p).real,0);
+  const avg=total?Math.round(projects.reduce((s,p)=>s+projPct(p),0)/total):0;
+  document.getElementById('dash-metrics').innerHTML=`
+    <div class="mcard"><div class="mcard-icon" style="background:#ededff;color:#4040cc"><i class="ti ti-folders"></i></div><div class="mcard-label">Projetos</div><div class="mcard-value">${total}</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#e8f5ee;color:#1a7a4a"><i class="ti ti-percent"></i></div><div class="mcard-label">Progresso médio</div><div class="mcard-value">${avg}%</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#e8f3fb;color:#1a7fc1"><i class="ti ti-cash"></i></div><div class="mcard-label">Total estimado</div><div class="mcard-value" style="font-size:18px">${fmt(est)}</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:${real>est?'#fdf0f4':'#e8f5ee'};color:${real>est?'#d03060':'#1a7a4a'}"><i class="ti ti-receipt"></i></div><div class="mcard-label">Total realizado</div><div class="mcard-value" style="font-size:18px;color:${real>est?'var(--red)':'var(--green)'}">${fmt(real)}</div></div>
+  `;
+  document.getElementById('d-prog').innerHTML=projects.map((p,i)=>{const pct=projPct(p);const col=pcol(i);return`<div class="prog-row"><div class="prog-lbl">${p.name}</div><div class="prog-bg"><div class="prog-fill" style="width:${pct}%;background:${col}"></div></div><div class="prog-pct">${pct}%</div></div>`;}).join('');
+  if(!projects.length){['d-prog','d-gantt','d-status','d-cost'].forEach(id=>document.getElementById(id).innerHTML='<p style="font-size:13px;color:var(--text3)">Nenhum dado ainda.</p>');return;}
+  const allD=projects.flatMap(p=>[new Date(p.start_date),new Date(p.end_date)]);
+  const minD=new Date(Math.min(...allD)),maxD=new Date(Math.max(...allD));
+  const span=Math.max(1,days(minD.toISOString().slice(0,10),maxD.toISOString().slice(0,10)));
+  const tPct=Math.max(0,Math.min(100,days(minD.toISOString().slice(0,10),today())/span*100));
+  document.getElementById('gantt-dates').innerHTML=`<span>${minD.toLocaleDateString('pt-BR',{month:'short',year:'numeric'})}</span><span style="color:var(--red);font-weight:600">hoje</span><span>${maxD.toLocaleDateString('pt-BR',{month:'short',year:'numeric'})}</span>`;
+  document.getElementById('d-gantt').innerHTML=projects.map((p,i)=>{const s=Math.max(0,days(minD.toISOString().slice(0,10),p.start_date)/span*100);const w=Math.min(100-s,days(p.start_date,p.end_date)/span*100);const col=pcol(i);return`<div class="gantt-row"><div class="gantt-lbl">${p.name}</div><div class="gantt-track"><div class="today-ln" style="left:${tPct.toFixed(1)}%"></div><div class="gantt-bar" style="left:${s.toFixed(1)}%;width:${Math.max(1.5,w).toFixed(1)}%;background:${col}">${p.name}</div></div></div>`;}).join('');
+  const sclr={'Not Started':'#1a7fc1','In Progress':'#0da47a','On Hold':'#c47f00','Completed':'#5b5ef4','Cancelled':'#d03060'};
+  const sc2={};STATUSES.forEach(s=>sc2[s]=0);projects.forEach(p=>allTasks(p).forEach(t=>sc2[t.status]=(sc2[t.status]||0)+1));
+  const tt=Object.values(sc2).reduce((a,b)=>a+b,0)||1;
+  document.getElementById('d-status').innerHTML=`<div class="seg-bar">${STATUSES.map(s=>`<div class="seg" style="width:${Math.round(sc2[s]/tt*100)}%;background:${sclr[s]}"></div>`).join('')}</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">${STATUSES.map(s=>`<div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2)"><div style="width:8px;height:8px;border-radius:2px;background:${sclr[s]}"></div>${s} <strong style="color:var(--text);margin-left:2px">${sc2[s]}</strong></div>`).join('')}</div>`;
+  document.getElementById('d-cost').innerHTML=projects.map((p,i)=>{const tots=projTots(p);const over=tots.real>tots.est&&tots.est>0;const pct=tots.est?Math.min(120,Math.round(tots.real/tots.est*100)):0;return`<div style="margin-bottom:13px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><div style="font-size:13px;font-weight:500">${p.name}</div><div style="font-size:12px;color:${over?'var(--red)':'var(--text3)'}">${fmt(tots.real)} / ${fmt(tots.est)}</div></div><div class="cost-bar-bg" style="height:6px;width:100%"><div class="cost-bar-fill" style="width:${pct}%;background:${over?'var(--red)':'var(--teal)'};height:6px"></div></div><div style="font-size:11px;color:var(--text3);margin-top:3px">${pct}% do estimado${over?' — acima do orçamento':''}</div></div>`;}).join('');
+}
+
+// ── Team ──
+function renderTeam(){
+  if(!isAdmin()) return;
+  document.getElementById('team-list').innerHTML=`<div style="font-size:12px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Membros (${members.length})</div>`+
+    members.map((m,i)=>`<div class="team-card">
+      <div style="width:36px;height:36px;border-radius:50%;background:${pcol(i)}18;color:${pcol(i)};border:1px solid ${pcol(i)}40;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0">${inits(m.name)}</div>
+      <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500">${m.name}</div><div style="font-size:12px;color:var(--text3)">${m.email||''}</div></div>
+      <select class="filter-sel" style="font-size:12px;padding:4px 8px" onchange="changeRole('${m.id}',this.value)" ${m.id===currentUser.id?'disabled':''}>
+        ${Object.entries(ROLES).map(([k,v])=>`<option value="${k}" ${m.role===k?'selected':''}>${v}</option>`).join('')}
+      </select>
+    </div>`).join('');
+  document.getElementById('access-section').innerHTML=`<div style="margin:20px 0 12px;font-size:12px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Permissões por projeto</div>`+
+    projects.map(p=>`<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:10px">
+      <div style="font-size:13px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:7px"><i class="ti ti-folder" style="color:var(--accent);font-size:15px"></i>${p.name}</div>
+      ${members.filter(m=>m.role!=='admin').map(m=>`<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border)">
+        <div style="font-size:13px;flex:1;color:var(--text2)">${m.name} <span style="font-size:11px;color:var(--text3)">(${ROLES[m.role]||m.role})</span></div>
+        <select class="filter-sel" style="font-size:12px;padding:3px 8px" onchange="setAccess('${p.id}','${m.id}',this.value)">
+          <option value="view" ${(projectAccess[p.id]||{})[m.id]!=='edit'?'selected':''}>Somente visualizar</option>
+          <option value="edit" ${(projectAccess[p.id]||{})[m.id]==='edit'?'selected':''}>Pode editar</option>
+        </select>
+      </div>`).join('')}
+    </div>`).join('');
+}
+
+// ── Modal ──
+function openModal(){
+  if(!isAdmin()&&!isManager()){toast('Sem permissão.','err');return;}
+  ['m-name','m-start','m-end'].forEach(id=>document.getElementById(id).value='');
+  const ownerSel=document.getElementById('m-owner');
+  ownerSel.innerHTML=members.filter(m=>['admin','manager'].includes(m.role)).map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
+  document.getElementById('cat-forms').innerHTML=CATS.map(cat=>`
+    <div class="cat-block-form">
+      <div class="cat-block-head"><div class="cat-block-dot" style="background:${cat.color}"></div><div class="cat-block-label">${cat.label}</div></div>
+      <div class="cat-block-body">
+        <div class="trf-hdr"><span>Fase</span><span>Status</span><span>Est. R$</span><span>Real R$</span><span>Início</span><span>Término</span><span></span></div>
+        <div id="cf-${cat.key}">
+          <div class="trf">
+            <input placeholder="Nome da fase..." class="cf-n" data-cat="${cat.key}">
+            <select class="cf-s" data-cat="${cat.key}">${STATUSES.map(s=>`<option>${s}</option>`).join('')}</select>
+            <input type="number" placeholder="0" class="cf-e" data-cat="${cat.key}" min="0">
+            <input type="number" placeholder="0" class="cf-r" data-cat="${cat.key}" min="0">
+            <input type="date" class="cf-sd" data-cat="${cat.key}">
+            <input type="date" class="cf-ed" data-cat="${cat.key}">
+            <div></div>
+          </div>
+        </div>
+        <button class="add-row-btn" onclick="addFormRow('${cat.key}')"><i class="ti ti-plus"></i> Mais fase</button>
+      </div>
+    </div>`).join('');
+  document.getElementById('modal-overlay').style.display='flex';
+}
+function addFormRow(k){
+  const w=document.getElementById('cf-'+k);const r=document.createElement('div');r.className='trf';
+  r.innerHTML=`<input placeholder="Nome da fase..." class="cf-n" data-cat="${k}"><select class="cf-s" data-cat="${k}">${STATUSES.map(s=>`<option>${s}</option>`).join('')}</select><input type="number" placeholder="0" class="cf-e" data-cat="${k}" min="0"><input type="number" placeholder="0" class="cf-r" data-cat="${k}" min="0"><input type="date" class="cf-sd" data-cat="${k}"><input type="date" class="cf-ed" data-cat="${k}"><button class="rm-btn" onclick="this.parentElement.remove()"><i class="ti ti-x"></i></button>`;
+  w.appendChild(r);
+}
+function closeModal(){document.getElementById('modal-overlay').style.display='none';}
+function overlayClick(e){if(e.target===document.getElementById('modal-overlay')) closeModal();}
+
+// ── Boot ──
+(async function boot(){
+  const cfg=getConfig();
+  if(cfg.url&&cfg.key&&initSB(cfg.url,cfg.key)){
+    const{data:{session}}=await sb.auth.getSession();
+    if(session?.user){await onLogin(session.user);return;}
+  }
+  document.getElementById('login-screen').style.display='flex';
+  if(!cfg.url||!cfg.key) document.getElementById('cfg-alert').style.display='flex';
+})();
+</script>
+</body>
+</html>
