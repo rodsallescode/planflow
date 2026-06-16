@@ -206,8 +206,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .cat-block-dot{width:8px;height:8px;border-radius:3px;flex-shrink:0}
 .cat-block-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);flex:1}
 .cat-block-body{padding:10px 13px}
-.trf{display:grid;grid-template-columns:1fr 110px 80px 80px 80px 80px 24px;gap:7px;margin-bottom:7px;align-items:center}
-.trf-hdr{display:grid;grid-template-columns:1fr 110px 80px 80px 80px 80px 24px;gap:7px;margin-bottom:5px}
+.trf{display:grid;grid-template-columns:1fr 110px 110px 75px 75px 80px 80px 24px;gap:7px;margin-bottom:7px;align-items:center}
+.trf-hdr{display:grid;grid-template-columns:1fr 110px 110px 75px 75px 80px 80px 24px;gap:7px;margin-bottom:5px}
 .trf-hdr span{font-size:10px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:.04em}
 .trf input,.trf select{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:12px;color:var(--text);font-family:var(--font);outline:none;width:100%}
 .trf input:focus,.trf select:focus{border-color:var(--accent);background:#fff}
@@ -610,7 +610,7 @@ async function saveProject(){
         cost_realized:parseFloat(document.querySelectorAll(`.cf-r[data-cat="${cat.key}"]`)[i]?.value)||0,
         start_date:document.querySelectorAll(`.cf-sd[data-cat="${cat.key}"]`)[i]?.value||start,
         end_date:document.querySelectorAll(`.cf-ed[data-cat="${cat.key}"]`)[i]?.value||end,
-        responsible:owner,comment:'',sort_order:i});
+        responsible:document.querySelectorAll(`.cf-resp[data-cat="${cat.key}"]`)[i]?.value||owner,comment:'',sort_order:i});
     });
   });
   const btn=document.getElementById('modal-save');btn.disabled=true;btn.innerHTML='<div class="spin"></div> Salvando...';
@@ -804,7 +804,13 @@ function renderCatsHTML(p){
               <td>${ro?`<span class="ssel ${sc(t.status)}" style="cursor:default">${t.status}</span>`
                 :`<select class="ssel ${sc(t.status)}" onchange="upPhase('${t.id}','${p.id}','status',this.value)">
                   ${STATUSES.map(s=>`<option ${s===t.status?'selected':''}>${s}</option>`).join('')}</select>`}</td>
-              <td><input class="inplace" value="${memberName(t.responsible)||''}" ${ro?'readonly':''} onchange="upPhase('${t.id}','${p.id}','responsible',this.value)"></td>
+              <td>${ro
+                ? `<span style="font-size:12px;color:var(--text2)">${memberName(t.responsible)||'—'}</span>`
+                : `<select class="inplace" style="font-size:12px;padding:3px 6px" onchange="upPhase('${t.id}','${p.id}','responsible',this.value)">
+                    <option value="">— Selecionar —</option>
+                    ${members.map(m=>`<option value="${m.id}" ${m.id===t.responsible?'selected':''}>${m.name}</option>`).join('')}
+                  </select>`
+              }</td>
               <td><input type="date" class="inplace" value="${t.start_date||''}" ${ro?'readonly':''} style="font-size:11px;padding:3px 6px" onchange="upPhase('${t.id}','${p.id}','start_date',this.value)"></td>
               <td><input type="date" class="inplace" value="${t.end_date||''}" ${ro?'readonly':''} style="font-size:11px;padding:3px 6px" onchange="upPhase('${t.id}','${p.id}','end_date',this.value)"></td>
               <td>
@@ -884,15 +890,17 @@ function openModal(){
   ['m-name','m-start','m-end'].forEach(id=>document.getElementById(id).value='');
   const ownerSel=document.getElementById('m-owner');
   ownerSel.innerHTML=members.filter(m=>['admin','manager'].includes(m.role)).map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
+  const memberOpts=members.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
   document.getElementById('cat-forms').innerHTML=CATS.map(cat=>`
     <div class="cat-block-form">
       <div class="cat-block-head"><div class="cat-block-dot" style="background:${cat.color}"></div><div class="cat-block-label">${cat.label}</div></div>
       <div class="cat-block-body">
-        <div class="trf-hdr"><span>Fase</span><span>Status</span><span>Est. R$</span><span>Real R$</span><span>Início</span><span>Término</span><span></span></div>
+        <div class="trf-hdr"><span>Fase</span><span>Status</span><span>Responsável</span><span>Est. R$</span><span>Real R$</span><span>Início</span><span>Término</span><span></span></div>
         <div id="cf-${cat.key}">
           <div class="trf">
             <input placeholder="Nome da fase..." class="cf-n" data-cat="${cat.key}">
             <select class="cf-s" data-cat="${cat.key}">${STATUSES.map(s=>`<option>${s}</option>`).join('')}</select>
+            <select class="cf-resp" data-cat="${cat.key}"><option value="">— Responsável —</option>${memberOpts}</select>
             <input type="number" placeholder="0" class="cf-e" data-cat="${cat.key}" min="0">
             <input type="number" placeholder="0" class="cf-r" data-cat="${cat.key}" min="0">
             <input type="date" class="cf-sd" data-cat="${cat.key}">
@@ -907,7 +915,8 @@ function openModal(){
 }
 function addFormRow(k){
   const w=document.getElementById('cf-'+k);const r=document.createElement('div');r.className='trf';
-  r.innerHTML=`<input placeholder="Nome da fase..." class="cf-n" data-cat="${k}"><select class="cf-s" data-cat="${k}">${STATUSES.map(s=>`<option>${s}</option>`).join('')}</select><input type="number" placeholder="0" class="cf-e" data-cat="${k}" min="0"><input type="number" placeholder="0" class="cf-r" data-cat="${k}" min="0"><input type="date" class="cf-sd" data-cat="${k}"><input type="date" class="cf-ed" data-cat="${k}"><button class="rm-btn" onclick="this.parentElement.remove()"><i class="ti ti-x"></i></button>`;
+  const memberOpts=members.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
+  r.innerHTML=`<input placeholder="Nome da fase..." class="cf-n" data-cat="${k}"><select class="cf-s" data-cat="${k}">${STATUSES.map(s=>`<option>${s}</option>`).join('')}</select><select class="cf-resp" data-cat="${k}"><option value="">— Responsável —</option>${memberOpts}</select><input type="number" placeholder="0" class="cf-e" data-cat="${k}" min="0"><input type="number" placeholder="0" class="cf-r" data-cat="${k}" min="0"><input type="date" class="cf-sd" data-cat="${k}"><input type="date" class="cf-ed" data-cat="${k}"><button class="rm-btn" onclick="this.parentElement.remove()"><i class="ti ti-x"></i></button>`;
   w.appendChild(r);
 }
 function closeModal(){document.getElementById('modal-overlay').style.display='none';}
