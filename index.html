@@ -444,13 +444,19 @@ let openCards={}, openCats={};
 
 // ── Config ──
 function getConfig(){return{url:localStorage.getItem('pf_url')||SUPABASE_URL,key:localStorage.getItem('pf_key')||SUPABASE_KEY};}
-function initSB(url,key){if(!url||!key) return false;try{sb=window.supabase.createClient(url,key);return true;}catch(e){return false;}}
+function initSB(url,key){
+  if(!url||!key) return false;
+  if(sb) return true; // já inicializado, reutiliza
+  try{sb=window.supabase.createClient(url,key,{auth:{storageKey:'pf_session',autoRefreshToken:true,persistSession:true}});return true;}
+  catch(e){return false;}
+}
 
 function saveConfig(){
   const url=document.getElementById('cfg-url').value.trim();
   const key=document.getElementById('cfg-key').value.trim();
   localStorage.setItem('pf_url',url);localStorage.setItem('pf_key',key);
-  initSB(url,key);toast('Configurações salvas!','ok');
+  sb=null; initSB(url,key);
+  toast('Configurações salvas! Faça logout e login novamente.','ok');
 }
 async function testConn(){
   const url=document.getElementById('cfg-url').value.trim();
@@ -458,10 +464,11 @@ async function testConn(){
   const el=document.getElementById('cfg-status');el.style.display='none';
   if(!url||!key){showCfgSt('Preencha URL e Anon Key.',false);return;}
   try{
-    const c=window.supabase.createClient(url,key);
-    const{error}=await c.from('projects').select('id').limit(1);
+    // cliente temporário só para teste — não substitui o sb principal
+    const c=window.supabase.createClient(url,key,{auth:{storageKey:'pf_test_'+Date.now()}});
+    const{error}=await c.from('profiles').select('id').limit(1);
     if(error&&error.code!=='PGRST116') throw error;
-    showCfgSt('Conexão bem-sucedida!',true);initSB(url,key);
+    showCfgSt('Conexão bem-sucedida!',true);
   }catch(e){showCfgSt('Erro: '+e.message,false);}
 }
 function showCfgSt(msg,ok){const el=document.getElementById('cfg-status');el.className='config-status '+(ok?'ok':'err');el.textContent=(ok?'✓ ':'✗ ')+msg;el.style.display='block';}
@@ -581,14 +588,18 @@ async function loadAll(){
       sb.from('profiles').select('*'),
       sb.from('project_access').select('*')
     ]);
+    console.log('profiles query:', mems, e3);
+    console.log('projects query:', projs, e1);
     if(e1) throw e1;if(e2) throw e2;
+    if(e3) console.warn('profiles error:', e3);
     members=mems||[];
+    console.log('members loaded:', members.length, members);
     // build access map
     projectAccess={};
     (acc||[]).forEach(a=>{if(!projectAccess[a.project_id]) projectAccess[a.project_id]={};projectAccess[a.project_id][a.user_id]=a.access_level;});
     projects=(projs||[]).map(p=>({...p,phases:(phases||[]).filter(ph=>ph.project_id===p.id)}));
     renderProjects();
-  }catch(e){toast('Erro ao carregar: '+e.message,'err');}
+  }catch(e){toast('Erro ao carregar: '+e.message,'err');console.error('loadAll error:',e);}
   loader(false);
 }
 
