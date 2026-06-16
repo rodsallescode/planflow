@@ -781,15 +781,18 @@ function renderProjects(){
         <span class="date-sep">|</span><i class="ti ti-clock"></i><span><strong>${running}</strong> dias em andamento</span>
         <span class="date-sep">|</span><span style="color:${left<0?'var(--red)':'var(--text3)'}"><strong>${left>=0?left+'d restantes':Math.abs(left)+'d em atraso'}</strong></span>
       </div>
-      ${isOpen?renderCatsHTML(p):''}
+      ${isOpen?renderCatsHTML(p, fOw):''}
     </div>`;
   }).join('');
 }
 
-function renderCatsHTML(p){
+function renderCatsHTML(p, filterOwner=''){
   const editable=canEdit(p.id);
   return `<div class="cats">${CATS.map(cat=>{
-    const tasks=p.phases.filter(ph=>ph.category===cat.key);
+    const allCatTasks=p.phases.filter(ph=>ph.category===cat.key);
+    // se há filtro de responsável, mostra só as fases dele; senão mostra todas
+    const tasks=filterOwner ? allCatTasks.filter(t=>t.responsible===filterOwner) : allCatTasks;
+    if(filterOwner && tasks.length===0) return ''; // esconde categoria vazia no filtro
     const done=tasks.filter(t=>t.status==='Completed').length;
     const pct=tasks.length?Math.round(done/tasks.length*100):0;
     const open=openCats[p.id+'_'+cat.key]!==false;
