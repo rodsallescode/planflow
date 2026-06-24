@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en-US">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -283,30 +283,30 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
     <!-- Login -->
     <div id="form-login">
-      <div class="login-title">Entrar na plataforma</div>
-      <div class="login-sub">Use suas credenciais de acesso.</div>
+      <div class="login-title">Sign in to your account</div>
+      <div class="login-sub">Enter your credentials to access the platform.</div>
       <div id="cfg-alert" class="cfg-notice" style="display:none">
         <i class="ti ti-alert-triangle" style="font-size:15px;flex-shrink:0;margin-top:1px"></i>
-        <div>Supabase não configurado. <a onclick="gotoSettings()" style="color:var(--accent);cursor:pointer;text-decoration:underline">Configurar agora</a></div>
+        <div>Supabase not configured. <a onclick="gotoSettings()" style="color:var(--accent);cursor:pointer;text-decoration:underline">Configure now</a></div>
       </div>
       <div class="login-err" id="login-err"><i class="ti ti-alert-circle"></i><span></span></div>
-      <div class="fg"><label>E-mail</label><input id="li-email" type="email" placeholder="seu@email.com" autocomplete="email"></div>
+      <div class="fg"><label>Email</label><input id="li-email" type="email" placeholder="your@email.com" autocomplete="email"></div>
       <div class="fg"><label>Senha</label><input id="li-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
-      <button class="btn primary" id="li-btn" onclick="doLogin()">Entrar</button>
-      <div class="login-switch">Não tem conta? <a onclick="switchForm('register')">Criar conta</a></div>
+      <button class="btn primary" id="li-btn" onclick="doLogin()">Sign in</button>
+      <div class="login-switch">Don't have an account? <a onclick="switchForm('register')">Sign up</a></div>
     </div>
 
     <!-- Register -->
     <div id="form-register" style="display:none">
-      <div class="login-title">Criar conta</div>
-      <div class="login-sub">Preencha os dados para se cadastrar.</div>
+      <div class="login-title">Sign up</div>
+      <div class="login-sub">Fill in your details to create an account.</div>
       <div class="login-err" id="reg-err"><i class="ti ti-alert-circle"></i><span></span></div>
-      <div class="fg"><label>Código de convite *</label><input id="reg-code" placeholder="XXXX-XXXX" style="text-transform:uppercase;letter-spacing:.08em;font-weight:600;font-size:15px"></div>
-      <div class="fg"><label>Nome completo</label><input id="reg-name" placeholder="Seu nome"></div>
-      <div class="fg"><label>E-mail</label><input id="reg-email" type="email" placeholder="seu@email.com" autocomplete="email"></div>
-      <div class="fg"><label>Senha</label><input id="reg-pass" type="password" placeholder="Mínimo 6 caracteres" autocomplete="new-password"></div>
-      <button class="btn primary" id="reg-btn" onclick="doRegister()">Criar conta</button>
-      <div class="login-switch">Já tem conta? <a onclick="switchForm('login')">Entrar</a></div>
+      <div class="fg"><label>Invite code *</label><input id="reg-code" placeholder="XXXX-XXXX" style="text-transform:uppercase;letter-spacing:.08em;font-weight:600;font-size:15px"></div>
+      <div class="fg"><label>Full name</label><input id="reg-name" placeholder="Your name"></div>
+      <div class="fg"><label>Email</label><input id="reg-email" type="email" placeholder="your@email.com" autocomplete="email"></div>
+      <div class="fg"><label>Senha</label><input id="reg-pass" type="password" placeholder="Minimum 6 characters" autocomplete="new-password"></div>
+      <button class="btn primary" id="reg-btn" onclick="doRegister()">Sign up</button>
+      <div class="login-switch">Already have an account? <a onclick="switchForm('login')">Sign in</a></div>
     </div>
   </div>
 </div>
@@ -321,37 +321,37 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
       </div>
       <nav class="sidebar-nav">
         <div class="nav-group">Workspace</div>
-        <div class="nav-item active" onclick="gotoView('projects',this)"><i class="ti ti-layout-list"></i> Projetos <span class="nav-badge" id="nb">0</span></div>
+        <div class="nav-item active" onclick="gotoView('projects',this)"><i class="ti ti-layout-list"></i> Projects <span class="nav-badge" id="nb">0</span></div>
         <div class="nav-item" onclick="gotoView('dashboard',this)"><i class="ti ti-chart-bar"></i> Dashboard</div>
-        <div class="nav-group">Empresas</div>
-        <div class="nav-item" onclick="gotoView('companies',this)"><i class="ti ti-building"></i> Empresas</div>
-        <div class="nav-item" onclick="gotoView('people',this)"><i class="ti ti-users"></i> Pessoas</div>
+        <div class="nav-group">Companies</div>
+        <div class="nav-item" onclick="gotoView('companies',this)"><i class="ti ti-building"></i> Companies</div>
+        <div class="nav-item" onclick="gotoView('people',this)"><i class="ti ti-users"></i> People</div>
         <div class="nav-group">Budget</div>
-        <div class="nav-item" onclick="gotoView('budget',this)"><i class="ti ti-shopping-cart"></i> Produtos</div>
-        <div class="nav-item" onclick="gotoView('suppliers',this)"><i class="ti ti-building-store"></i> Fornecedores</div>
-        <div class="nav-group">Gestão</div>
-        <div class="nav-item" id="nav-team" style="display:none" onclick="gotoView('team',this)"><i class="ti ti-shield"></i> Equipe & Acesso</div>
-        <div class="nav-item" id="nav-invites" style="display:none" onclick="gotoView('invites',this)"><i class="ti ti-ticket"></i> Convites</div>
-        <div class="nav-item" onclick="gotoView('settings',this)"><i class="ti ti-settings"></i> Configurações</div>
+        <div class="nav-item" onclick="gotoView('budget',this)"><i class="ti ti-shopping-cart"></i> Products</div>
+        <div class="nav-item" onclick="gotoView('suppliers',this)"><i class="ti ti-building-store"></i> Suppliers</div>
+        <div class="nav-group">Management</div>
+        <div class="nav-item" id="nav-team" style="display:none" onclick="gotoView('team',this)"><i class="ti ti-shield"></i> Team & Access</div>
+        <div class="nav-item" id="nav-invites" style="display:none" onclick="gotoView('invites',this)"><i class="ti ti-ticket"></i> Invites</div>
+        <div class="nav-item" onclick="gotoView('settings',this)"><i class="ti ti-settings"></i> Settings</div>
       </nav>
       <div class="sidebar-footer">
         <div class="user-card">
           <div class="user-av" id="uav">??</div>
           <div style="min-width:0;flex:1">
-            <div class="user-name" id="uname">—</div>
-            <div class="user-role-badge" id="urole">—</div>
+            <div class="user-name" id="uname">--</div>
+            <div class="user-role-badge" id="urole">--</div>
           </div>
-          <button class="logout-btn" onclick="doLogout()" title="Sair"><i class="ti ti-logout"></i></button>
+          <button class="logout-btn" onclick="doLogout()" title="Sign out"><i class="ti ti-logout"></i></button>
         </div>
       </div>
     </aside>
 
     <div class="main">
       <header class="topbar">
-        <div class="page-title" id="page-title">Projetos</div>
+        <div class="page-title" id="page-title">Projects</div>
         <div style="display:flex;align-items:center;gap:9px">
-          <div class="search-wrap"><i class="ti ti-search"></i><input type="text" id="gsearch" placeholder="Buscar..." oninput="renderProjects()"></div>
-          <button class="btn primary" id="new-btn" style="display:none" onclick="openModal()"><i class="ti ti-plus"></i> Novo projeto</button>
+          <div class="search-wrap"><i class="ti ti-search"></i><input type="text" id="gsearch" placeholder="Search..." oninput="renderProjects()"></div>
+          <button class="btn primary" id="new-btn" style="display:none" onclick="openModal()"><i class="ti ti-plus"></i> New project</button>
         </div>
       </header>
       <div class="content">
@@ -361,18 +361,18 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
           <div id="ro-notice"></div>
           <div class="metrics" id="metrics"></div>
           <div class="filters">
-            <span class="filter-lbl">Filtrar:</span>
+            <span class="filter-lbl">Filter:</span>
             <select class="filter-sel" id="f-st" onchange="renderProjects()">
-              <option value="">Todos os status</option>
+              <option value="">All statuses</option>
               <option>Not Started</option><option>In Progress</option><option>On Hold</option><option>Completed</option><option>Cancelled</option>
             </select>
             <select class="filter-sel" id="f-cat" onchange="renderProjects()">
-              <option value="">Todas as categorias</option>
+              <option value="">All categories</option>
               <option>Preparation</option><option>Definition &amp; Planning</option>
               <option>Launch &amp; Execution</option><option>Performance &amp; Monitoring</option><option>Closure &amp; Handoff</option>
             </select>
-            <select class="filter-sel" id="f-ow" onchange="renderProjects()"><option value="">Todos os responsáveis</option></select>
-            <button class="btn sm" onclick="clearFilters()"><i class="ti ti-filter-off"></i> Limpar</button>
+            <select class="filter-sel" id="f-ow" onchange="renderProjects()"><option value="">All assignees</option></select>
+            <button class="btn sm" onclick="clearFilters()"><i class="ti ti-filter-off"></i> Clear</button>
           </div>
           <div class="proj-list" id="proj-list"></div>
         </div>
@@ -381,14 +381,14 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         <div class="view" id="view-dashboard">
           <div class="metrics" id="dash-metrics"></div>
           <div class="dash-grid">
-            <div class="dcard full"><div class="dcard-title"><i class="ti ti-chart-bar"></i> Progresso por projeto</div><div id="d-prog"></div></div>
+            <div class="dcard full"><div class="dcard-title"><i class="ti ti-chart-bar"></i> Progress by project</div><div id="d-prog"></div></div>
             <div class="dcard full">
               <div class="dcard-title"><i class="ti ti-timeline"></i> Timeline — Gantt</div>
               <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:9px" id="gantt-dates"></div>
               <div id="d-gantt"></div>
             </div>
-            <div class="dcard"><div class="dcard-title"><i class="ti ti-circle-half-2"></i> Status das fases</div><div id="d-status"></div></div>
-            <div class="dcard"><div class="dcard-title"><i class="ti ti-cash"></i> Custo por projeto</div><div id="d-cost"></div></div>
+            <div class="dcard"><div class="dcard-title"><i class="ti ti-circle-half-2"></i> Status das phases</div><div id="d-status"></div></div>
+            <div class="dcard"><div class="dcard-title"><i class="ti ti-cash"></i> Cost by project</div><div id="d-cost"></div></div>
           </div>
         </div>
 
@@ -396,7 +396,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         <div class="view" id="view-team">
           <div style="max-width:600px">
             <div style="font-size:15px;font-weight:600;margin-bottom:3px">Equipe</div>
-            <div style="font-size:13px;color:var(--text3);margin-bottom:20px">Gerencie membros e permissões de acesso.</div>
+            <div style="font-size:13px;color:var(--text3);margin-bottom:20px">Manage members and access permissions.</div>
             <div id="team-list"></div>
             <div id="access-section"></div>
             <div id="invite-section"></div>
@@ -406,32 +406,32 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         <!-- INVITES -->
         <div class="view" id="view-invites">
           <div style="max-width:600px">
-            <div style="font-size:15px;font-weight:600;margin-bottom:3px">Convites</div>
-            <div style="font-size:13px;color:var(--text3);margin-bottom:20px">Gere códigos de convite para novos membros. Cada código é de uso único.</div>
+            <div style="font-size:15px;font-weight:600;margin-bottom:3px">Invites</div>
+            <div style="font-size:13px;color:var(--text3);margin-bottom:20px">Generate invite codes for new members. Each code is single-use.</div>
 
-            <!-- Gerar novo convite -->
+            <!-- Generate new invite -->
             <div class="settings-section" style="margin-bottom:16px">
-              <h3>Gerar novo convite</h3>
-              <p>Defina um prazo de validade e gere o código para compartilhar.</p>
+              <h3>Generate new invite</h3>
+              <p>Set an expiration and generate a code to share.</p>
               <div class="form-row2">
                 <div class="form-group" style="margin-bottom:0">
-                  <label>Validade</label>
+                  <label>Expiration</label>
                   <select id="inv-expires" class="filter-sel" style="width:100%">
-                    <option value="1">1 dia</option>
-                    <option value="3">3 dias</option>
-                    <option value="7" selected>7 dias</option>
-                    <option value="15">15 dias</option>
-                    <option value="30">30 dias</option>
-                    <option value="0">Sem validade</option>
+                    <option value="1">1 day</option>
+                    <option value="3">3 days</option>
+                    <option value="7" selected>7 days</option>
+                    <option value="15">15 days</option>
+                    <option value="30">30 days</option>
+                    <option value="0">No expiration</option>
                   </select>
                 </div>
                 <div class="form-group" style="margin-bottom:0;justify-content:flex-end;padding-top:20px">
-                  <button class="btn primary" style="width:100%" onclick="generateInvite()"><i class="ti ti-plus"></i> Gerar código</button>
+                  <button class="btn primary" style="width:100%" onclick="generateInvite()"><i class="ti ti-plus"></i> Generate code</button>
                 </div>
               </div>
-              <!-- Código gerado -->
+              <!-- Code gerado -->
               <div id="new-invite-box" style="display:none;margin-top:16px;background:var(--accent-light);border:1px solid #c8c8ff;border-radius:var(--radius);padding:14px 16px">
-                <div style="font-size:11px;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Código gerado — compartilhe com o convidado</div>
+                <div style="font-size:11px;color:var(--accent);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Code generated — share with the invitee</div>
                 <div style="display:flex;align-items:center;gap:10px">
                   <div id="new-invite-code" style="font-size:20px;font-weight:700;font-family:var(--mono);color:var(--accent);letter-spacing:.1em;flex:1"></div>
                   <button class="btn sm" onclick="copyInviteCode()" id="copy-invite-btn"><i class="ti ti-copy"></i> Copiar</button>
@@ -442,9 +442,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
             <!-- Lista de convites -->
             <div class="settings-section">
-              <h3>Histórico de convites</h3>
-              <p>Todos os códigos gerados e seu status atual.</p>
-              <div id="invites-list"><div style="font-size:13px;color:var(--text3)">Carregando...</div></div>
+              <h3>Invite history</h3>
+              <p>All generated codes and their current status.</p>
+              <div id="invites-list"><div style="font-size:13px;color:var(--text3)">Loading...</div></div>
             </div>
           </div>
         </div>
@@ -453,20 +453,20 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         <div class="view" id="view-settings">
           <div style="max-width:560px">
             <div class="settings-section">
-              <h3>Conexão Supabase</h3>
-              <p>Cole as credenciais do seu projeto. Salvas localmente neste navegador.</p>
+              <h3>Supabase Connection</h3>
+              <p>Enter your project credentials. Saved locally in this browser.</p>
               <div class="form-group" style="margin-bottom:10px"><label>Supabase URL</label><input id="cfg-url" type="text" placeholder="https://xxxx.supabase.co"></div>
               <div class="form-group" style="margin-bottom:14px"><label>Anon Key</label><input id="cfg-key" type="text" placeholder="eyJhbGci..."></div>
               <div style="display:flex;gap:9px">
-                <button class="btn primary" style="width:auto;padding:8px 18px" onclick="saveConfig()"><i class="ti ti-device-floppy"></i> Salvar</button>
-                <button class="btn" onclick="testConn()"><i class="ti ti-plug"></i> Testar conexão</button>
+                <button class="btn primary" style="width:auto;padding:8px 18px" onclick="saveConfig()"><i class="ti ti-device-floppy"></i> Save</button>
+                <button class="btn" onclick="testConn()"><i class="ti ti-plug"></i> Test connection</button>
               </div>
               <div id="cfg-status" style="display:none" class="config-status"></div>
             </div>
             <div class="settings-section">
-              <h3>Conta</h3>
-              <p>Sessão: <span id="s-email" style="color:var(--accent)"></span></p>
-              <button class="btn danger" onclick="doLogout()"><i class="ti ti-logout"></i> Sair</button>
+              <h3>Account</h3>
+              <p>Session: <span id="s-email" style="color:var(--accent)"></span></p>
+              <button class="btn danger" onclick="doLogout()"><i class="ti ti-logout"></i> Sign out</button>
             </div>
           </div>
         </div>
@@ -475,10 +475,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         <div class="view" id="view-companies">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
             <div>
-              <div style="font-size:15px;font-weight:600;margin-bottom:2px">Empresas</div>
-              <div style="font-size:13px;color:var(--text3)">Gerencie as empresas e seus departamentos.</div>
+              <div style="font-size:15px;font-weight:600;margin-bottom:2px">Companies</div>
+              <div style="font-size:13px;color:var(--text3)">Manage companies and their departments.</div>
             </div>
-            <button class="btn primary" onclick="openCompanyModal()"><i class="ti ti-plus"></i> Nova empresa</button>
+            <button class="btn primary" onclick="openCompanyModal()"><i class="ti ti-plus"></i> New company</button>
           </div>
           <div id="companies-list"></div>
         </div>
@@ -487,16 +487,16 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         <div class="view" id="view-people">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
             <div>
-              <div style="font-size:15px;font-weight:600;margin-bottom:2px">Pessoas</div>
-              <div style="font-size:13px;color:var(--text3)">Toda a equipe — usuários da plataforma ou não.</div>
+              <div style="font-size:15px;font-weight:600;margin-bottom:2px">People</div>
+              <div style="font-size:13px;color:var(--text3)">All team members — platform users or not.</div>
             </div>
             <div style="display:flex;gap:8px">
-              <select class="filter-sel" id="ppl-company-filter" onchange="renderPeople()"><option value="">Todas as empresas</option></select>
+              <select class="filter-sel" id="ppl-company-filter" onchange="renderPeople()"><option value="">All companies</option></select>
               <select class="filter-sel" id="ppl-view" onchange="renderPeople()">
-                <option value="list">Lista por departamento</option>
-                <option value="org">Org chart hierárquico</option>
+                <option value="list">List by department</option>
+                <option value="org">Hierarchical org chart</option>
               </select>
-              <button class="btn primary" onclick="openPersonModal()"><i class="ti ti-plus"></i> Nova pessoa</button>
+              <button class="btn primary" onclick="openPersonModal()"><i class="ti ti-plus"></i> New person</button>
             </div>
           </div>
           <div id="people-container"></div>
@@ -506,17 +506,17 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         <div class="view" id="view-budget">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
             <div>
-              <div style="font-size:15px;font-weight:600;margin-bottom:2px">Produtos & Budget</div>
-              <div style="font-size:13px;color:var(--text3)">Produtos vinculados às fases dos projetos. O valor total é somado ao custo realizado da fase.</div>
+              <div style="font-size:15px;font-weight:600;margin-bottom:2px">Products & Budget</div>
+              <div style="font-size:13px;color:var(--text3)">Products vinculados às phases dos projetos. O valor total é somado ao custo actual da fase.</div>
             </div>
-            <button class="btn primary" onclick="openBudgetModal()"><i class="ti ti-plus"></i> Adicionar produto</button>
+            <button class="btn primary" onclick="openBudgetModal()"><i class="ti ti-plus"></i> Add product</button>
           </div>
           <!-- Filtros budget -->
           <div class="filters" style="margin-bottom:16px">
-            <span class="filter-lbl">Filtrar:</span>
-            <select class="filter-sel" id="bf-project" onchange="renderBudget()"><option value="">Todos os projetos</option></select>
-            <select class="filter-sel" id="bf-supplier" onchange="renderBudget()"><option value="">Todos os fornecedores</option></select>
-            <input type="text" class="filter-sel" id="bf-search" placeholder="Buscar produto..." oninput="renderBudget()" style="min-width:180px">
+            <span class="filter-lbl">Filter:</span>
+            <select class="filter-sel" id="bf-project" onchange="renderBudget()"><option value="">All projects</option></select>
+            <select class="filter-sel" id="bf-supplier" onchange="renderBudget()"><option value="">All suppliers</option></select>
+            <input type="text" class="filter-sel" id="bf-search" placeholder="Search product..." oninput="renderBudget()" style="min-width:180px">
           </div>
           <!-- Metrics budget -->
           <div class="metrics" id="budget-metrics"></div>
@@ -524,11 +524,11 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
           <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)">
             <table class="ptable" style="table-layout:auto">
               <thead><tr>
-                <th>Produto</th><th>Código</th><th>Fornecedor</th>
-                <th>Projeto</th><th>Fase</th>
-                <th>Qtd</th><th>Valor unit.</th><th>Total</th><th></th>
+                <th>Product</th><th>Code</th><th>Supplier</th>
+                <th>Project</th><th>Phase</th>
+                <th>Qty</th><th>Unit price</th><th>Total</th><th></th>
               </tr></thead>
-              <tbody id="budget-tbody"><tr><td colspan="9" style="padding:20px;text-align:center;color:var(--text3);font-size:13px">Carregando...</td></tr></tbody>
+              <tbody id="budget-tbody"><tr><td colspan="9" style="padding:20px;text-align:center;color:var(--text3);font-size:13px">Loading...</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -537,15 +537,15 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         <div class="view" id="view-suppliers">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
             <div>
-              <div style="font-size:15px;font-weight:600;margin-bottom:2px">Fornecedores</div>
-              <div style="font-size:13px;color:var(--text3)">Cadastro de fornecedores para vincular aos produtos.</div>
+              <div style="font-size:15px;font-weight:600;margin-bottom:2px">Suppliers</div>
+              <div style="font-size:13px;color:var(--text3)">Supplier directory for linking to products.</div>
             </div>
-            <button class="btn primary" onclick="openSupplierModal()"><i class="ti ti-plus"></i> Novo fornecedor</button>
+            <button class="btn primary" onclick="openSupplierModal()"><i class="ti ti-plus"></i> New supplier</button>
           </div>
           <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)">
             <table class="ptable" style="table-layout:auto">
-              <thead><tr><th>Nome</th><th>Contato</th><th>E-mail</th><th>Telefone</th><th>Observações</th><th></th></tr></thead>
-              <tbody id="suppliers-tbody"><tr><td colspan="6" style="padding:20px;text-align:center;color:var(--text3);font-size:13px">Carregando...</td></tr></tbody>
+              <thead><tr><th>Name</th><th>Contact</th><th>Email</th><th>Phone</th><th>Notes</th><th></th></tr></thead>
+              <tbody id="suppliers-tbody"><tr><td colspan="6" style="padding:20px;text-align:center;color:var(--text3);font-size:13px">Loading...</td></tr></tbody>
             </table>
           </div>
         </div>
@@ -558,22 +558,22 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 <!-- MODAL NOVO PROJETO -->
 <div class="overlay" id="modal-overlay" style="display:none" onclick="overlayClick(event)">
   <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-head"><h2>Novo projeto</h2><button class="close-btn" onclick="closeModal()"><i class="ti ti-x"></i></button></div>
+    <div class="modal-head"><h2>New project</h2><button class="close-btn" onclick="closeModal()"><i class="ti ti-x"></i></button></div>
     <div class="form-row2">
-      <div class="form-group" style="margin-bottom:0"><label>Nome do projeto *</label><input id="m-name" placeholder="Ex: Portal do Cliente"></div>
-      <div class="form-group" style="margin-bottom:0"><label>Responsável *</label><select id="m-owner"></select></div>
+      <div class="form-group" style="margin-bottom:0"><label>Project name *</label><input id="m-name" placeholder="Ex: Customer Portal"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Owner *</label><select id="m-owner"></select></div>
     </div>
     <div class="divider"></div>
     <div class="form-row2">
-      <div class="form-group" style="margin-bottom:0"><label>Data de início *</label><input id="m-start" type="date"></div>
-      <div class="form-group" style="margin-bottom:0"><label>Prazo final *</label><input id="m-end" type="date"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Start date *</label><input id="m-start" type="date"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Due date *</label><input id="m-end" type="date"></div>
     </div>
     <div class="divider"></div>
-    <div style="font-size:12px;color:var(--text3);margin-bottom:12px">Adicione fases por categoria. Linhas com nome em branco são ignoradas.</div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:12px">Adicione phases por categoria. Linhas com nome em branco são ignoradas.</div>
     <div id="cat-forms"></div>
     <div class="modal-footer">
-      <button class="btn" onclick="closeModal()">Cancelar</button>
-      <button class="btn primary" id="modal-save" onclick="saveProject()"><i class="ti ti-device-floppy"></i> Salvar projeto</button>
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn primary" id="modal-save" onclick="saveProject()"><i class="ti ti-device-floppy"></i> Save projeto</button>
     </div>
   </div>
 </div>
@@ -582,22 +582,22 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 <div class="overlay" id="edit-modal-overlay" style="display:none" onclick="editOverlayClick(event)">
   <div class="modal" style="max-width:500px" onclick="event.stopPropagation()">
     <div class="modal-head">
-      <h2>Editar projeto</h2>
+      <h2>Edit project</h2>
       <button class="close-btn" onclick="closeEditModal()"><i class="ti ti-x"></i></button>
     </div>
     <input type="hidden" id="edit-proj-id">
     <div class="form-row2">
-      <div class="form-group" style="margin-bottom:0"><label>Nome do projeto *</label><input id="edit-name" placeholder="Nome do projeto"></div>
-      <div class="form-group" style="margin-bottom:0"><label>Responsável *</label><select id="edit-owner"></select></div>
+      <div class="form-group" style="margin-bottom:0"><label>Project name *</label><input id="edit-name" placeholder="Project name"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Owner *</label><select id="edit-owner"></select></div>
     </div>
     <div class="divider"></div>
     <div class="form-row2">
-      <div class="form-group" style="margin-bottom:0"><label>Data de início *</label><input id="edit-start" type="date"></div>
-      <div class="form-group" style="margin-bottom:0"><label>Prazo final *</label><input id="edit-end" type="date"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Start date *</label><input id="edit-start" type="date"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Due date *</label><input id="edit-end" type="date"></div>
     </div>
     <div class="modal-footer">
-      <button class="btn" onclick="closeEditModal()">Cancelar</button>
-      <button class="btn primary" id="edit-save" onclick="updateProject()"><i class="ti ti-device-floppy"></i> Salvar alterações</button>
+      <button class="btn" onclick="closeEditModal()">Cancel</button>
+      <button class="btn primary" id="edit-save" onclick="updateProject()"><i class="ti ti-device-floppy"></i> Save changesações</button>
     </div>
   </div>
 </div>
@@ -606,60 +606,60 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 <div class="overlay" id="budget-modal-overlay" style="display:none" onclick="if(event.target===this)closeBudgetModal()">
   <div class="modal" style="max-width:580px" onclick="event.stopPropagation()">
     <div class="modal-head">
-      <h2 id="budget-modal-title">Adicionar produto</h2>
+      <h2 id="budget-modal-title">Add product</h2>
       <button class="close-btn" onclick="closeBudgetModal()"><i class="ti ti-x"></i></button>
     </div>
     <input type="hidden" id="bm-id">
     <div class="form-row2">
-      <div class="form-group" style="margin-bottom:0"><label>Nome do produto *</label><input id="bm-name" placeholder="Ex: Notebook Dell"></div>
-      <div class="form-group" style="margin-bottom:0"><label>Código</label><input id="bm-code" placeholder="Ex: NB-001"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Name do produto *</label><input id="bm-name" placeholder="Ex: Dell Notebook"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Code</label><input id="bm-code" placeholder="Ex: NB-001"></div>
     </div>
     <div class="divider"></div>
     <div class="form-row2">
       <div class="form-group" style="margin-bottom:0">
-        <label>Fornecedor</label>
+        <label>Supplier</label>
         <select id="bm-supplier">
-          <option value="">— Selecionar —</option>
-          <option value="__new__">+ Cadastrar novo fornecedor</option>
+          <option value="">— Select —</option>
+          <option value="__new__">+ Add new supplier</option>
         </select>
       </div>
-      <div class="form-group" style="margin-bottom:0"><label>Valor unitário (R$) *</label><input id="bm-unit" type="number" min="0" step="0.01" placeholder="0,00" oninput="calcBudgetTotal()"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Unit price *</label><input id="bm-unit" type="number" min="0" step="0.01" placeholder="0,00" oninput="calcBudgetTotal()"></div>
     </div>
     <div class="form-row2" style="margin-top:12px">
-      <div class="form-group" style="margin-bottom:0"><label>Quantidade *</label><input id="bm-qty" type="number" min="0.01" step="0.01" placeholder="1" oninput="calcBudgetTotal()"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Quantity *</label><input id="bm-qty" type="number" min="0.01" step="0.01" placeholder="1" oninput="calcBudgetTotal()"></div>
       <div class="form-group" style="margin-bottom:0">
-        <label>Valor total</label>
+        <label>Total value</label>
         <div style="background:var(--accent-light);border:1px solid #c8c8ff;border-radius:var(--radius);padding:8px 12px;font-size:15px;font-weight:600;color:var(--accent)" id="bm-total">R$ 0,00</div>
       </div>
     </div>
-    <!-- Novo fornecedor inline -->
+    <!-- New supplier inline -->
     <div id="new-supplier-inline" style="display:none;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-top:12px">
-      <div style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Novo fornecedor</div>
+      <div style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">New supplier</div>
       <div class="form-row2">
-        <div class="form-group" style="margin-bottom:8px"><label>Nome *</label><input id="ns-name" placeholder="Nome do fornecedor"></div>
-        <div class="form-group" style="margin-bottom:8px"><label>Contato</label><input id="ns-contact" placeholder="Nome do contato"></div>
+        <div class="form-group" style="margin-bottom:8px"><label>Name *</label><input id="ns-name" placeholder="Supplier name"></div>
+        <div class="form-group" style="margin-bottom:8px"><label>Contact</label><input id="ns-contact" placeholder="Contact's name"></div>
       </div>
       <div class="form-row2">
-        <div class="form-group" style="margin-bottom:0"><label>E-mail</label><input id="ns-email" type="email" placeholder="email@fornecedor.com"></div>
-        <div class="form-group" style="margin-bottom:0"><label>Telefone</label><input id="ns-phone" placeholder="(11) 99999-9999"></div>
+        <div class="form-group" style="margin-bottom:0"><label>Email</label><input id="ns-email" type="email" placeholder="email@supplier.com"></div>
+        <div class="form-group" style="margin-bottom:0"><label>Phone</label><input id="ns-phone" placeholder="+1 (555) 000-0000"></div>
       </div>
     </div>
     <div class="divider"></div>
     <div class="form-row2">
       <div class="form-group" style="margin-bottom:0">
-        <label>Projeto *</label>
+        <label>Project *</label>
         <select id="bm-project" onchange="loadBudgetPhases()">
-          <option value="">— Selecionar projeto —</option>
+          <option value="">— Select project —</option>
         </select>
       </div>
       <div class="form-group" style="margin-bottom:0">
-        <label>Fase *</label>
-        <select id="bm-phase"><option value="">— Selecionar fase —</option></select>
+        <label>Phase *</label>
+        <select id="bm-phase"><option value="">— Select phase —</option></select>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn" onclick="closeBudgetModal()">Cancelar</button>
-      <button class="btn primary" id="budget-save" onclick="saveBudgetItem()"><i class="ti ti-device-floppy"></i> Salvar produto</button>
+      <button class="btn" onclick="closeBudgetModal()">Cancel</button>
+      <button class="btn primary" id="budget-save" onclick="saveBudgetItem()"><i class="ti ti-device-floppy"></i> Save produto</button>
     </div>
   </div>
 </div>
@@ -668,22 +668,22 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 <div class="overlay" id="supplier-modal-overlay" style="display:none" onclick="if(event.target===this)closeSupplierModal()">
   <div class="modal" style="max-width:500px" onclick="event.stopPropagation()">
     <div class="modal-head">
-      <h2 id="supplier-modal-title">Novo fornecedor</h2>
+      <h2 id="supplier-modal-title">New supplier</h2>
       <button class="close-btn" onclick="closeSupplierModal()"><i class="ti ti-x"></i></button>
     </div>
     <input type="hidden" id="sm-id">
     <div class="form-row2">
-      <div class="form-group" style="margin-bottom:0"><label>Nome *</label><input id="sm-name" placeholder="Nome do fornecedor"></div>
-      <div class="form-group" style="margin-bottom:0"><label>Contato</label><input id="sm-contact" placeholder="Nome do responsável"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Name *</label><input id="sm-name" placeholder="Supplier name"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Contact</label><input id="sm-contact" placeholder="Contact's name"></div>
     </div>
     <div class="form-row2" style="margin-top:12px">
-      <div class="form-group" style="margin-bottom:0"><label>E-mail</label><input id="sm-email" type="email" placeholder="email@fornecedor.com"></div>
-      <div class="form-group" style="margin-bottom:0"><label>Telefone</label><input id="sm-phone" placeholder="(11) 99999-9999"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Email</label><input id="sm-email" type="email" placeholder="email@supplier.com"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Phone</label><input id="sm-phone" placeholder="+1 (555) 000-0000"></div>
     </div>
-    <div class="form-group" style="margin-top:12px;margin-bottom:0"><label>Observações</label><input id="sm-notes" placeholder="Notas adicionais"></div>
+    <div class="form-group" style="margin-top:12px;margin-bottom:0"><label>Notes</label><input id="sm-notes" placeholder="Additional notes"></div>
     <div class="modal-footer">
-      <button class="btn" onclick="closeSupplierModal()">Cancelar</button>
-      <button class="btn primary" id="supplier-save" onclick="saveSupplier()"><i class="ti ti-device-floppy"></i> Salvar fornecedor</button>
+      <button class="btn" onclick="closeSupplierModal()">Cancel</button>
+      <button class="btn primary" id="supplier-save" onclick="saveSupplier()"><i class="ti ti-device-floppy"></i> Save fornecedor</button>
     </div>
   </div>
 </div>
@@ -691,20 +691,20 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 <!-- MODAL EMPRESA -->
 <div class="overlay" id="company-modal-overlay" style="display:none" onclick="if(event.target===this)closeCompanyModal()">
   <div class="modal" style="max-width:500px" onclick="event.stopPropagation()">
-    <div class="modal-head"><h2 id="company-modal-title">Nova empresa</h2><button class="close-btn" onclick="closeCompanyModal()"><i class="ti ti-x"></i></button></div>
+    <div class="modal-head"><h2 id="company-modal-title">New company</h2><button class="close-btn" onclick="closeCompanyModal()"><i class="ti ti-x"></i></button></div>
     <input type="hidden" id="cm-id">
     <div class="form-row2">
-      <div class="form-group" style="margin-bottom:0"><label>Nome da empresa *</label><input id="cm-name" placeholder="Ex: Turbo Machine"></div>
-      <div class="form-group" style="margin-bottom:0"><label>Setor / Indústria</label><input id="cm-industry" placeholder="Ex: Engenharia"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Name da empresa *</label><input id="cm-name" placeholder="Ex: Turbo Machine"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Industry / Sector</label><input id="cm-industry" placeholder="Ex: Engineering"></div>
     </div>
-    <div class="form-group" style="margin-top:12px;margin-bottom:0"><label>Observações</label><input id="cm-notes" placeholder="Notas adicionais"></div>
+    <div class="form-group" style="margin-top:12px;margin-bottom:0"><label>Notes</label><input id="cm-notes" placeholder="Additional notes"></div>
     <div class="divider"></div>
-    <div style="font-size:13px;font-weight:500;margin-bottom:10px;color:var(--text2)">Departamentos</div>
+    <div style="font-size:13px;font-weight:500;margin-bottom:10px;color:var(--text2)">Departments</div>
     <div id="cm-depts"></div>
-    <button class="add-row-btn" onclick="addDeptRow()"><i class="ti ti-plus"></i> Adicionar departamento</button>
+    <button class="add-row-btn" onclick="addDeptRow()"><i class="ti ti-plus"></i> Add department</button>
     <div class="modal-footer">
-      <button class="btn" onclick="closeCompanyModal()">Cancelar</button>
-      <button class="btn primary" id="company-save" onclick="saveCompany()"><i class="ti ti-device-floppy"></i> Salvar empresa</button>
+      <button class="btn" onclick="closeCompanyModal()">Cancel</button>
+      <button class="btn primary" id="company-save" onclick="saveCompany()"><i class="ti ti-device-floppy"></i> Save empresa</button>
     </div>
   </div>
 </div>
@@ -712,45 +712,43 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 <!-- MODAL PESSOA -->
 <div class="overlay" id="person-modal-overlay" style="display:none" onclick="if(event.target===this)closePersonModal()">
   <div class="modal" style="max-width:520px" onclick="event.stopPropagation()">
-    <div class="modal-head"><h2 id="person-modal-title">Nova pessoa</h2><button class="close-btn" onclick="closePersonModal()"><i class="ti ti-x"></i></button></div>
+    <div class="modal-head"><h2 id="person-modal-title">New person</h2><button class="close-btn" onclick="closePersonModal()"><i class="ti ti-x"></i></button></div>
     <input type="hidden" id="pm-id">
     <div class="form-row2">
-      <div class="form-group" style="margin-bottom:0"><label>Nome completo *</label><input id="pm-name" placeholder="Nome da pessoa"></div>
-      <div class="form-group" style="margin-bottom:0"><label>Cargo</label><input id="pm-role" placeholder="Ex: Engenheiro Sênior"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Full name *</label><input id="pm-name" placeholder="Person's name"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Job title</label><input id="pm-role" placeholder="Ex: Senior Engineer"></div>
     </div>
     <div class="form-row2" style="margin-top:12px">
       <div class="form-group" style="margin-bottom:0">
-        <label>Empresa *</label>
+        <label>Company *</label>
         <select id="pm-company" onchange="loadPersonDepts()">
-          <option value="">— Selecionar —</option>
+          <option value="">— Select —</option>
         </select>
       </div>
       <div class="form-group" style="margin-bottom:0">
-        <label>Departamento</label>
-        <select id="pm-dept"><option value="">— Selecionar —</option></select>
+        <label>Department</label>
+        <select id="pm-dept"><option value="">— Select —</option></select>
       </div>
     </div>
     <div class="form-row2" style="margin-top:12px">
-      <div class="form-group" style="margin-bottom:0"><label>E-mail</label><input id="pm-email" type="email" placeholder="email@empresa.com"></div>
-      <div class="form-group" style="margin-bottom:0"><label>Telefone</label><input id="pm-phone" placeholder="(11) 99999-9999"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Email</label><input id="pm-email" type="email" placeholder="email@company.com"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Phone</label><input id="pm-phone" placeholder="+1 (555) 000-0000"></div>
     </div>
     <div class="form-group" style="margin-top:12px;margin-bottom:0">
-      <label>Reporta para (gestor direto)</label>
-      <select id="pm-manager"><option value="">— Nenhum —</option></select>
+      <label>Reports to (direct manager)</label>
+      <select id="pm-manager"><option value="">— None —</option></select>
     </div>
     <div class="modal-footer">
-      <button class="btn" onclick="closePersonModal()">Cancelar</button>
-      <button class="btn primary" id="person-save" onclick="savePerson()"><i class="ti ti-device-floppy"></i> Salvar pessoa</button>
+      <button class="btn" onclick="closePersonModal()">Cancel</button>
+      <button class="btn primary" id="person-save" onclick="savePerson()"><i class="ti ti-device-floppy"></i> Save pessoa</button>
     </div>
   </div>
 </div>
 
 <script>
-// COLE SUAS CREDENCIAIS AQUI (opcional)
-// ou use a tela de Configurações dentro do app
-const SUPABASE_URL = 'https://gcrhhqftbstngnmbmahx.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdjcmhocWZ0YnN0bmdubWJtYWh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2MTA2ODUsImV4cCI6MjA5NzE4NjY4NX0.XxyJrxpmkdLf3YCBa0bjQscfprmc0X7pUjd47KTmFek';
-// ══════════════════════════════════════════════
+// Edge Function endpoint - credentials are fetched from Supabase at runtime
+const EDGE_FUNCTION_URL = 'https://gcrhhqftbstngnmbmahx.supabase.co/functions/v1/get-config';
+// ----------------------------------------------
 
 const CATS=[
   {key:'prep',   label:'Preparation',              color:'#5b5ef4'},
@@ -759,19 +757,36 @@ const CATS=[
   {key:'perf',   label:'Performance & Monitoring', color:'#c47f00'},
   {key:'close',  label:'Closure & Handoff',        color:'#d03060'}
 ];
+const DEFAULT_DEPTS=['Leadership','Engineering','Marketing & Communications','Finance','Human Resources'];
 const STATUSES=['Not Started','In Progress','On Hold','Completed','Cancelled'];
 const SCLS={'Not Started':'sns','In Progress':'sip','On Hold':'soh','Completed':'sdone','Cancelled':'scancel'};
-const PCOLS=['#5b5ef4','#0da47a','#1a7fc1','#c47f00','#d03060','#7b5ea7'];
-const ROLES={admin:'Administrador',manager:'Gerente de Projetos',member:'Membro'};
+const PCOLS=['#1565C0','#0da47a','#c47f00','#d03060','#7b5ea7','#0097a7'];
+const ROLES={admin:'Administrator',manager:'Project Manager',member:'Member'};
 
 let sb=null, currentUser=null, projects=[], members=[], projectAccess={};
 let openCards={}, openCats={};
+let cachedConfig={url:'',key:''};
 
-// ── Config ──
-function getConfig(){return{url:localStorage.getItem('pf_url')||SUPABASE_URL,key:localStorage.getItem('pf_key')||SUPABASE_KEY};}
+// -- Config via Edge Function --
+async function fetchConfig(){
+  // try edge function first
+  try{
+    const r=await fetch(EDGE_FUNCTION_URL);
+    if(r.ok){
+      const d=await r.json();
+      if(d.url&&d.key){cachedConfig={url:d.url,key:d.key};return cachedConfig;}
+    }
+  }catch(e){console.warn('Edge function unavailable, falling back to localStorage');}
+  // fallback to localStorage
+  const url=localStorage.getItem('pf_url')||'';
+  const key=localStorage.getItem('pf_key')||'';
+  cachedConfig={url,key};
+  return cachedConfig;
+}
+function getConfig(){return cachedConfig;}
 function initSB(url,key){
   if(!url||!key) return false;
-  if(sb) return true; // já inicializado, reutiliza
+  if(sb) return true;
   try{sb=window.supabase.createClient(url,key,{auth:{storageKey:'pf_session',autoRefreshToken:true,persistSession:true}});return true;}
   catch(e){return false;}
 }
@@ -781,25 +796,25 @@ function saveConfig(){
   const key=document.getElementById('cfg-key').value.trim();
   localStorage.setItem('pf_url',url);localStorage.setItem('pf_key',key);
   sb=null; initSB(url,key);
-  toast('Configurações salvas! Faça logout e login novamente.','ok');
+  toast('Settings saved! Please sign out and sign in again.','ok');
 }
 async function testConn(){
   const url=document.getElementById('cfg-url').value.trim();
   const key=document.getElementById('cfg-key').value.trim();
   const el=document.getElementById('cfg-status');el.style.display='none';
-  if(!url||!key){showCfgSt('Preencha URL e Anon Key.',false);return;}
+  if(!url||!key){showCfgSt('Please enter the URL and Anon Key.',false);return;}
   try{
-    // cliente temporário só para teste — não substitui o sb principal
+    // cliente tempor-rio s- para teste - n-o substitui o sb principal
     const c=window.supabase.createClient(url,key,{auth:{storageKey:'pf_test_'+Date.now()}});
     const{error}=await c.from('profiles').select('id').limit(1);
     if(error&&error.code!=='PGRST116') throw error;
-    showCfgSt('Conexão bem-sucedida!',true);
-  }catch(e){showCfgSt('Erro: '+e.message,false);}
+    showCfgSt('Connection successful!',true);
+  }catch(e){showCfgSt('Error: '+e.message,false);}
 }
-function showCfgSt(msg,ok){const el=document.getElementById('cfg-status');el.className='config-status '+(ok?'ok':'err');el.textContent=(ok?'✓ ':'✗ ')+msg;el.style.display='block';}
+function showCfgSt(msg,ok){const el=document.getElementById('cfg-status');el.className='config-status '+(ok?'ok':'err');el.textContent=(ok?'OK: ':'Error: ')+msg;el.style.display='block';}
 function gotoSettings(){document.getElementById('login-screen').style.display='none';document.getElementById('app').style.display='block';gotoView('settings',document.querySelector('.nav-item:last-child'));}
 
-// ── Helpers ──
+// -- Helpers --
 function uid(){return'x'+Math.random().toString(36).slice(2,9);}
 function delay(ms){return new Promise(r=>setTimeout(r,ms));}
 function allTasks(p){return CATS.flatMap(c=>p.phases.filter(ph=>ph.category===c.key));}
@@ -807,12 +822,12 @@ function projPct(p){const a=allTasks(p);return a.length?Math.round(a.filter(t=>t
 function projTots(p){const a=allTasks(p);return{est:a.reduce((s,t)=>s+(t.cost_estimated||0),0),real:a.reduce((s,t)=>s+(t.cost_realized||0),0)};}
 function days(a,b){return Math.round((new Date(b)-new Date(a))/86400000);}
 function today(){return new Date().toISOString().slice(0,10);}
-function fmtDate(d){if(!d) return'—';const[y,m,dd]=d.split('-');return`${dd}/${m}/${y}`;}
-function fmt(n){return'R$\u00a0'+Math.round(n||0).toLocaleString('pt-BR');}
+function fmtDate(d){if(!d) return '--';const[y,m,dd]=d.split('-');return`${dd}/${m}/${y}`;}
+function fmt(n){return'R$\u00a0'+Math.round(n||0).toLocaleString('en-US');}
 function inits(n){return(n||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();}
 function sc(s){return SCLS[s]||'sns';}
 function pcol(i){return PCOLS[i%PCOLS.length];}
-function memberName(id){return members.find(m=>m.id===id)?.name||id||'—';}
+function memberName(id){return members.find(m=>m.id===id)?.name||id||'--';}
 function isAdmin(){return currentUser?.role==='admin';}
 function isManager(){return currentUser?.role==='manager';}
 function canEdit(projId){
@@ -828,7 +843,7 @@ function toast(msg,type='ok',dur=3000){
 }
 function loader(on){let lb=document.getElementById('lb');if(on&&!lb){lb=document.createElement('div');lb.id='lb';lb.className='loader-bar';document.body.appendChild(lb);}else if(!on&&lb) lb.remove();}
 
-// ── Auth ──
+// -- Auth --
 function switchForm(f){
   document.getElementById('form-login').style.display=f==='login'?'':'none';
   document.getElementById('form-register').style.display=f==='register'?'':'none';
@@ -840,18 +855,14 @@ async function doLogin(){
   const email=document.getElementById('li-email').value.trim().toLowerCase();
   const pass=document.getElementById('li-pass').value;
   document.getElementById('login-err').style.display='none';
-  if(!email||!pass){showErr('login-err','Preencha e-mail e senha.');return;}
-  const cfg=getConfig();
-  if(!cfg.url||!cfg.key){
-    if(!SUPABASE_URL) document.getElementById('cfg-alert').style.display='flex';
-    else showErr('login-err','Erro de configuração. Recarregue a página.');
-    return;
-  }
-  if(!initSB(cfg.url,cfg.key)){showErr('login-err','Erro ao conectar ao Supabase.');return;}
-  const btn=document.getElementById('li-btn');btn.disabled=true;btn.innerHTML='<div class="spin"></div> Entrando...';
+  if(!email||!pass){showErr('login-err','Please enter your email and password.');return;}
+  const btn=document.getElementById('li-btn');btn.disabled=true;btn.innerHTML='<div class="spin"></div> Signing in...';
+  const cfg=await fetchConfig();
+  if(!cfg.url||!cfg.key){document.getElementById('cfg-alert').style.display='flex';btn.disabled=false;btn.innerHTML='Sign in';return;}
+  if(!initSB(cfg.url,cfg.key)){showErr('login-err','Error connecting to Supabase.');btn.disabled=false;btn.innerHTML='Sign in';return;}
   const{data,error}=await sb.auth.signInWithPassword({email,password:pass});
-  if(error){showErr('login-err',error.message);btn.disabled=false;btn.innerHTML='Entrar';return;}
-  await onLogin(data.user);btn.disabled=false;btn.innerHTML='Entrar';
+  if(error){showErr('login-err',error.message);btn.disabled=false;btn.innerHTML='Sign in';return;}
+  await onLogin(data.user);btn.disabled=false;btn.innerHTML='Sign in';
 }
 
 async function doRegister(){
@@ -860,25 +871,25 @@ async function doRegister(){
   const email=document.getElementById('reg-email').value.trim().toLowerCase();
   const pass=document.getElementById('reg-pass').value;
   document.getElementById('reg-err').style.display='none';
-  if(!code){showErr('reg-err','Informe o código de convite.');return;}
-  if(!name||!email||!pass){showErr('reg-err','Preencha todos os campos.');return;}
-  if(pass.length<6){showErr('reg-err','Senha mínimo 6 caracteres.');return;}
-  const cfg=getConfig();
-  if(!cfg.url||!cfg.key){showErr('reg-err','Configure o Supabase primeiro.');return;}
-  if(!initSB(cfg.url,cfg.key)){showErr('reg-err','Erro ao conectar ao Supabase.');return;}
-  const btn=document.getElementById('reg-btn');btn.disabled=true;btn.innerHTML='<div class="spin"></div> Verificando...';
+  if(!code){showErr('reg-err','Please enter your invite code.');return;}
+  if(!name||!email||!pass){showErr('reg-err','Please fill in all fields.');return;}
+  if(pass.length<6){showErr('reg-err','Password must be at least 6 characters.');return;}
+  const btn=document.getElementById('reg-btn');btn.disabled=true;btn.innerHTML='<div class="spin"></div> Checking...';
+  const cfg=await fetchConfig();
+  if(!cfg.url||!cfg.key){showErr('reg-err','Please configure Supabase first.');btn.disabled=false;btn.innerHTML='Sign up';return;}
+  if(!initSB(cfg.url,cfg.key)){showErr('reg-err','Error connecting to Supabase.');btn.disabled=false;btn.innerHTML='Sign up';return;}
 
-  // validar código de convite
+  // validate invite code
   const{data:invite,error:ie}=await sb.from('invite_codes')
     .select('*').eq('code',code).eq('is_used',false).single();
-  if(ie||!invite){showErr('reg-err','Código de convite inválido ou já utilizado.');btn.disabled=false;btn.innerHTML='Criar conta';return;}
-  if(invite.expires_at&&new Date(invite.expires_at)<new Date()){showErr('reg-err','Este código de convite expirou.');btn.disabled=false;btn.innerHTML='Criar conta';return;}
+  if(ie||!invite){showErr('reg-err','Invalid or already used invite code.');btn.disabled=false;btn.innerHTML='Sign up';return;}
+  if(invite.expires_at&&new Date(invite.expires_at)<new Date()){showErr('reg-err','This invite code has expired.');btn.disabled=false;btn.innerHTML='Sign up';return;}
 
-  btn.innerHTML='<div class="spin"></div> Criando conta...';
+  btn.innerHTML='<div class="spin"></div> Creating account...';
   const{data,error}=await sb.auth.signUp({email,password:pass,options:{data:{full_name:name}}});
-  if(error){showErr('reg-err',error.message);btn.disabled=false;btn.innerHTML='Criar conta';return;}
+  if(error){showErr('reg-err',error.message);btn.disabled=false;btn.innerHTML='Sign up';return;}
 
-  // marcar código como usado
+  // marcar c-digo como usado
   if(data.user){
     await sb.from('invite_codes').update({is_used:true,used_by:data.user.id,used_at:new Date().toISOString()}).eq('id',invite.id);
   }
@@ -886,11 +897,11 @@ async function doRegister(){
   if(data.user&&!data.session){
     const el=document.getElementById('reg-err');
     el.style.cssText='display:flex;background:var(--teal-bg);border-color:#90d0b8;color:var(--teal)';
-    el.querySelector('span').textContent='Conta criada! Confirme seu e-mail e faça login.';
-    btn.disabled=false;btn.innerHTML='Criar conta';return;
+    el.querySelector('span').textContent='Account created! Please confirm your email and sign in.';
+    btn.disabled=false;btn.innerHTML='Sign up';return;
   }
   if(data.user) await onLogin(data.user);
-  btn.disabled=false;btn.innerHTML='Criar conta';
+  btn.disabled=false;btn.innerHTML='Sign up';
 }
 
 async function onLogin(user){
@@ -905,7 +916,7 @@ async function onLogin(user){
   document.getElementById('new-btn').style.display=(isAdmin()||isManager())?'':'none';
   document.getElementById('nav-team').style.display=isAdmin()?'':'none';
   document.getElementById('nav-invites').style.display=isAdmin()?'':'none';
-  toast('Bem-vindo, '+currentUser.name.split(' ')[0]+'!','ok');
+  toast('Welcome, '+currentUser.name.split(' ')[0]+'!','ok');
   await loadAll();
 }
 
@@ -917,14 +928,14 @@ async function doLogout(){
   switchForm('login');
 }
 
-// ── Load profile ──
+// -- Load profile --
 async function loadProfile(){
   if(!sb) return;
   const{data}=await sb.from('profiles').select('*').eq('id',currentUser.id).single();
   if(data) currentUser.role=data.role||'member';
 }
 
-// ── Load data ──
+// -- Load data --
 async function loadAll(){
   loader(true);
   try{
@@ -945,18 +956,18 @@ async function loadAll(){
     (acc||[]).forEach(a=>{if(!projectAccess[a.project_id]) projectAccess[a.project_id]={};projectAccess[a.project_id][a.user_id]=a.access_level;});
     projects=(projs||[]).map(p=>({...p,phases:(phases||[]).filter(ph=>ph.project_id===p.id)}));
     renderProjects();
-  }catch(e){toast('Erro ao carregar: '+e.message,'err');console.error('loadAll error:',e);}
+  }catch(e){toast('Error loading: '+e.message,'err');console.error('loadAll error:',e);}
   loader(false);
 }
 
-// ── CRUD ──
+// -- CRUD --
 async function saveProject(){
   const name=document.getElementById('m-name').value.trim();
   const owner=document.getElementById('m-owner').value;
   const start=document.getElementById('m-start').value;
   const end=document.getElementById('m-end').value;
-  if(!name||!owner||!start||!end){toast('Preencha todos os campos obrigatórios.','err');return;}
-  if(start>end){toast('Data de início deve ser anterior ao prazo final.','err');return;}
+  if(!name||!owner||!start||!end){toast('Please fill in all required fields.','err');return;}
+  if(start>end){toast('Start date must be before the due date.','err');return;}
   const phaseRows=[];
   CATS.forEach(cat=>{
     document.querySelectorAll(`.cf-n[data-cat="${cat.key}"]`).forEach((inp,i)=>{
@@ -970,7 +981,7 @@ async function saveProject(){
         responsible:document.querySelectorAll(`.cf-resp[data-cat="${cat.key}"]`)[i]?.value||owner,comment:'',sort_order:i});
     });
   });
-  const btn=document.getElementById('modal-save');btn.disabled=true;btn.innerHTML='<div class="spin"></div> Salvando...';
+  const btn=document.getElementById('modal-save');btn.disabled=true;btn.innerHTML='<div class="spin"></div> Saving...';
   try{
     const{data:proj,error:e1}=await sb.from('projects').insert({name,owner_id:owner,start_date:start,end_date:end,created_by:currentUser.id}).select().single();
     if(e1) throw e1;
@@ -982,71 +993,71 @@ async function saveProject(){
     const accessRows=members.map(m=>({project_id:proj.id,user_id:m.id,access_level:['admin','manager'].includes(m.role)?'edit':'view'}));
     if(accessRows.length) await sb.from('project_access').insert(accessRows);
     toast('"'+name+'" criado!','ok');closeModal();await loadAll();
-  }catch(e){toast('Erro: '+e.message,'err');}
-  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Salvar projeto';
+  }catch(e){toast('Error: '+e.message,'err');}
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Save projeto';
 }
 
 async function upPhase(id,projId,field,val){
-  if(!canEdit(projId)){toast('Sem permissão para editar.','err');return;}
+  if(!canEdit(projId)){toast('You do not have permission to edit.','err');return;}
   const upd={};upd[field]=['cost_estimated','cost_realized'].includes(field)?parseFloat(val)||0:val;
   const{error}=await sb.from('phases').update(upd).eq('id',id);
-  if(error){toast('Erro: '+error.message,'err');return;}
+  if(error){toast('Error: '+error.message,'err');return;}
   projects.forEach(p=>p.phases.forEach(ph=>{if(ph.id===id) ph[field]=upd[field];}));
   if(['status','cost_estimated','cost_realized'].includes(field)) renderProjects();
 }
 
 async function delPhase(id,projId){
-  if(!canEdit(projId)){toast('Sem permissão.','err');return;}
-  if(!confirm('Remover esta fase?')) return;
+  if(!canEdit(projId)){toast('Permission denied.','err');return;}
+  if(!confirm('Remove this phase?')) return;
   const{error}=await sb.from('phases').delete().eq('id',id);
-  if(error){toast('Erro: '+error.message,'err');return;}
+  if(error){toast('Error: '+error.message,'err');return;}
   const p=projects.find(x=>x.id===projId);if(p) p.phases=p.phases.filter(ph=>ph.id!==id);
-  toast('Fase removida.','ok');renderProjects();
+  toast('Phase removed.','ok');renderProjects();
 }
 
 async function delProject(projId){
-  if(!canEdit(projId)){toast('Sem permissão.','err');return;}
-  if(!confirm('Remover este projeto e todas as suas fases?')) return;
+  if(!canEdit(projId)){toast('Permission denied.','err');return;}
+  if(!confirm('Remove this project and all its phases?')) return;
   const{error}=await sb.from('projects').delete().eq('id',projId);
-  if(error){toast('Erro: '+error.message,'err');return;}
+  if(error){toast('Error: '+error.message,'err');return;}
   projects=projects.filter(p=>p.id!==projId);delete projectAccess[projId];
-  toast('Projeto removido.','ok');renderProjects();
+  toast('Project removed.','ok');renderProjects();
 }
 
 async function addPhaseInline(projId,catKey){
-  if(!canEdit(projId)){toast('Sem permissão.','err');return;}
-  const name=prompt('Nome da nova fase:');if(!name||!name.trim()) return;
+  if(!canEdit(projId)){toast('Permission denied.','err');return;}
+  const name=prompt('Name da nova fase:');if(!name||!name.trim()) return;
   const p=projects.find(x=>x.id===projId);
   const ph={category:catKey,name:name.trim(),status:'Not Started',cost_estimated:0,cost_realized:0,responsible:currentUser.id,start_date:today(),end_date:p.end_date,comment:'',sort_order:p.phases.filter(x=>x.category===catKey).length};
   const{data,error}=await sb.from('phases').insert({...ph,project_id:projId}).select().single();
-  if(error){toast('Erro: '+error.message,'err');return;}
-  p.phases.push(data);toast('Fase adicionada!','ok');renderProjects();
+  if(error){toast('Error: '+error.message,'err');return;}
+  p.phases.push(data);toast('Phase added!','ok');renderProjects();
 }
 
 async function setAccess(projId,userId,level){
-  if(!isAdmin()){toast('Sem permissão.','err');return;}
+  if(!isAdmin()){toast('Permission denied.','err');return;}
   const{error}=await sb.from('project_access').upsert({project_id:projId,user_id:userId,access_level:level},{onConflict:'project_id,user_id'});
-  if(error){toast('Erro: '+error.message,'err');return;}
+  if(error){toast('Error: '+error.message,'err');return;}
   if(!projectAccess[projId]) projectAccess[projId]={};
   projectAccess[projId][userId]=level;
-  toast('Permissão atualizada.','ok');
+  toast('Permission updated.','ok');
 }
 
 async function changeRole(userId,role){
-  if(!isAdmin()){toast('Sem permissão.','err');return;}
+  if(!isAdmin()){toast('Permission denied.','err');return;}
   const{error}=await sb.from('profiles').update({role}).eq('id',userId);
-  if(error){toast('Erro: '+error.message,'err');return;}
+  if(error){toast('Error: '+error.message,'err');return;}
   const m=members.find(x=>x.id===userId);if(m) m.role=role;
-  toast('Perfil atualizado.','ok');renderTeam();
+  toast('Role updated.','ok');renderTeam();
 }
 
-// ── Views ──
+// -- Views --
 function gotoView(v,el){
   document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
   if(el) el.classList.add('active');
-  document.getElementById('page-title').textContent={projects:'Projetos',dashboard:'Dashboard',companies:'Empresas',people:'Pessoas',budget:'Produtos & Budget',suppliers:'Fornecedores',team:'Equipe & Acesso',invites:'Convites',settings:'Configurações'}[v]||v;
+  document.getElementById('page-title').textContent={projects:'Projects',dashboard:'Dashboard',companies:'Companies',people:'People',budget:'Products & Budget',suppliers:'Suppliers',team:'Team & Access',invites:'Invites',settings:'Settings'}[v]||v;
   document.getElementById('new-btn').style.display=v==='projects'&&(isAdmin()||isManager())?'':'none';
   if(v==='dashboard') renderDashboard();
   if(v==='team') renderTeam();
@@ -1059,7 +1070,7 @@ function gotoView(v,el){
 }
 function clearFilters(){['f-st','f-cat','f-ow','gsearch'].forEach(id=>document.getElementById(id).value='');renderProjects();}
 
-// ── Render projects ──
+// -- Render projects --
 function renderProjects(){
   if(!currentUser) return;
   const total=projects.length;
@@ -1068,16 +1079,16 @@ function renderProjects(){
   const totEst=projects.reduce((s,p)=>s+projTots(p).est,0);
   const totReal=projects.reduce((s,p)=>s+projTots(p).real,0);
   document.getElementById('metrics').innerHTML=`
-    <div class="mcard"><div class="mcard-icon" style="background:#ededff;color:#4040cc"><i class="ti ti-folders"></i></div><div class="mcard-label">Total de projetos</div><div class="mcard-value">${total}</div><div class="mcard-sub">${done} concluídos</div></div>
-    <div class="mcard"><div class="mcard-icon" style="background:#e8f5ee;color:#1a7a4a"><i class="ti ti-player-play"></i></div><div class="mcard-label">Em execução</div><div class="mcard-value">${active}</div><div class="mcard-sub">${total-active-done} aguardando</div></div>
-    <div class="mcard"><div class="mcard-icon" style="background:#e8f3fb;color:#1a7fc1"><i class="ti ti-cash"></i></div><div class="mcard-label">Custo estimado</div><div class="mcard-value" style="font-size:18px">${fmt(totEst)}</div><div class="mcard-sub" style="color:${totReal>totEst?'var(--red)':'var(--text3)'}">${fmt(totReal)} realizado</div></div>
-    <div class="mcard"><div class="mcard-icon" style="background:#fff8e6;color:#c47f00"><i class="ti ti-chart-line"></i></div><div class="mcard-label">Progresso médio</div><div class="mcard-value">${total?Math.round(projects.reduce((s,p)=>s+projPct(p),0)/total):0}%</div><div class="mcard-sub">${projects.reduce((s,p)=>s+allTasks(p).filter(t=>t.status==='Completed').length,0)} fases concluídas</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#ededff;color:#4040cc"><i class="ti ti-folders"></i></div><div class="mcard-label">Total projects</div><div class="mcard-value">${total}</div><div class="mcard-sub">${done} completed</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#e8f5ee;color:#1a7a4a"><i class="ti ti-player-play"></i></div><div class="mcard-label">In progress</div><div class="mcard-value">${active}</div><div class="mcard-sub">${total-active-done} pending</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#e8f3fb;color:#1a7fc1"><i class="ti ti-cash"></i></div><div class="mcard-label">Estimated cost</div><div class="mcard-value" style="font-size:18px">${fmt(totEst)}</div><div class="mcard-sub" style="color:${totReal>totEst?'var(--red)':'var(--text3)'}">${fmt(totReal)} actual</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#fff8e6;color:#c47f00"><i class="ti ti-chart-line"></i></div><div class="mcard-label">Avg progress</div><div class="mcard-value">${total?Math.round(projects.reduce((s,p)=>s+projPct(p),0)/total):0}%</div><div class="mcard-sub">${projects.reduce((s,p)=>s+allTasks(p).filter(t=>t.status==='Completed').length,0)} phases completed</div></div>
   `;
   document.getElementById('nb').textContent=total;
   const sel=document.getElementById('f-ow');const cur=sel.value;
-  sel.innerHTML='<option value="">Todos os responsáveis</option>'+members.map(m=>`<option value="${m.id}" ${m.id===cur?'selected':''}>${m.name}</option>`).join('');
+  sel.innerHTML='<option value="">All assignees</option>'+members.map(m=>`<option value="${m.id}" ${m.id===cur?'selected':''}>${m.name}</option>`).join('');
   const ro=document.getElementById('ro-notice');
-  ro.innerHTML=currentUser.role==='member'?`<div class="readonly-notice"><i class="ti ti-eye"></i> Modo visualização — sem permissão para editar.</div>`:'';
+  ro.innerHTML=currentUser.role==='member'?`<div class="readonly-notice"><i class="ti ti-eye"></i> View-only mode - you do not have permission to edit.</div>`:'';
   const search=document.getElementById('gsearch').value.toLowerCase();
   const fSt=document.getElementById('f-st').value;
   const fCt=document.getElementById('f-cat').value;
@@ -1090,8 +1101,8 @@ function renderProjects(){
     return ms&&mst&&mct&&mow;
   });
   const list=document.getElementById('proj-list');
-  if(!filtered.length){list.innerHTML=`<div class="empty"><i class="ti ti-folder-search"></i><p>Nenhum projeto encontrado.</p><button class="btn" onclick="clearFilters()"><i class="ti ti-filter-off"></i> Limpar filtros</button></div>`;return;}
-  // se há filtro de responsável, abre todos os cards automaticamente
+  if(!filtered.length){list.innerHTML=`<div class="empty"><i class="ti ti-folder-search"></i><p>No projects found.</p><button class="btn" onclick="clearFilters()"><i class="ti ti-filter-off"></i> Clear filtros</button></div>`;return;}
+  // se h- filtro de respons-vel, abre todos os cards automaticamente
   if(fOw) filtered.forEach(p=>{ openCards[p.id]=true; });
   list.innerHTML=filtered.map((p,pi)=>{
     const pct=projPct(p),tots=projTots(p);
@@ -1107,16 +1118,16 @@ function renderProjects(){
       <div class="pcard-head" onclick="toggleCard('${p.id}')">
         <div class="pav" style="background:${col}18;color:${col}">${inits(memberName(p.owner_id))}</div>
         <div class="pinfo">
-          <div class="pname">${p.name}${!editable?'<span style="font-size:10px;background:#fff8e6;color:#c47f00;border:1px solid #e8c860;padding:1px 7px;border-radius:20px;font-weight:500;margin-left:6px">Somente leitura</span>':''}</div>
+          <div class="pname">${p.name}${!editable?'<span style="font-size:10px;background:#fff8e6;color:#c47f00;border:1px solid #e8c860;padding:1px 7px;border-radius:20px;font-weight:500;margin-left:6px">Read only</span>':''}</div>
           <div class="pmeta">
             <span><i class="ti ti-user"></i>${memberName(p.owner_id)}</span>
-            <span><i class="ti ti-clock"></i>${running}d em andamento</span>
-            <span style="color:${left<0?'var(--red)':''}"><i class="ti ti-calendar-due"></i>${left>=0?left+'d restantes':Math.abs(left)+'d em atraso'}</span>
+            <span><i class="ti ti-clock"></i>${running}d running</span>
+            <span style="color:${left<0?'var(--red)':''}"><i class="ti ti-calendar-due"></i>${left>=0?left+'d remaining':Math.abs(left)+'d overdue'}</span>
             <span style="color:${tots.real>tots.est&&tots.est>0?'var(--red)':''}"><i class="ti ti-cash"></i>${fmt(tots.real)} / ${fmt(tots.est)}</span>
           </div>
         </div>
         <div class="pright">
-          <div class="pstat"><div class="pstat-val">${td}/${ta}</div><div class="pstat-lbl">fases</div></div>
+          <div class="pstat"><div class="pstat-val">${td}/${ta}</div><div class="pstat-lbl">phases</div></div>
           <div class="ring">
             <svg width="46" height="46" viewBox="0 0 44 44">
               <circle cx="22" cy="22" r="${r}" fill="none" stroke="var(--surface3)" stroke-width="3.5"/>
@@ -1125,16 +1136,16 @@ function renderProjects(){
             <div class="ring-txt" style="color:${col}">${pct}%</div>
           </div>
           ${editable?`
-            <button onclick="event.stopPropagation();openEditModal('${p.id}')" class="icon-action" title="Editar projeto"><i class="ti ti-pencil"></i></button>
-            <button onclick="event.stopPropagation();delProject('${p.id}')" class="icon-action" title="Excluir projeto"><i class="ti ti-trash"></i></button>`:''}
+            <button onclick="event.stopPropagation();openEditModal('${p.id}')" class="icon-action" title="Edit project"><i class="ti ti-pencil"></i></button>
+            <button onclick="event.stopPropagation();delProject('${p.id}')" class="icon-action" title="Delete project"><i class="ti ti-trash"></i></button>`:''}
           <i class="ti ti-chevron-down chev ${isOpen?'open':''}"></i>
         </div>
       </div>
       <div class="date-strip">
-        <i class="ti ti-calendar-event"></i><span>Início: <strong>${fmtDate(p.start_date)}</strong></span>
-        <span class="date-sep">|</span><i class="ti ti-calendar-due"></i><span>Prazo: <strong>${fmtDate(p.end_date)}</strong></span>
-        <span class="date-sep">|</span><i class="ti ti-clock"></i><span><strong>${running}</strong> dias em andamento</span>
-        <span class="date-sep">|</span><span style="color:${left<0?'var(--red)':'var(--text3)'}"><strong>${left>=0?left+'d restantes':Math.abs(left)+'d em atraso'}</strong></span>
+        <i class="ti ti-calendar-event"></i><span>Start: <strong>${fmtDate(p.start_date)}</strong></span>
+        <span class="date-sep">|</span><i class="ti ti-calendar-due"></i><span>Deadline: <strong>${fmtDate(p.end_date)}</strong></span>
+        <span class="date-sep">|</span><i class="ti ti-clock"></i><span><strong>${running}</strong> days running</span>
+        <span class="date-sep">|</span><span style="color:${left<0?'var(--red)':'var(--text3)'}"><strong>${left>=0?left+'d remaining':Math.abs(left)+'d overdue'}</strong></span>
       </div>
       ${isOpen?renderCatsHTML(p, fOw):''}
     </div>`;
@@ -1145,7 +1156,7 @@ function renderCatsHTML(p, filterOwner=''){
   const editable=canEdit(p.id);
   return `<div class="cats">${CATS.map(cat=>{
     const allCatTasks=p.phases.filter(ph=>ph.category===cat.key);
-    // se há filtro de responsável, mostra só as fases dele; senão mostra todas
+    // se h- filtro de respons-vel, mostra s- as phases dele; sen-o mostra todas
     const tasks=filterOwner ? allCatTasks.filter(t=>t.responsible===filterOwner) : allCatTasks;
     if(filterOwner && tasks.length===0) return ''; // esconde categoria vazia no filtro
     const done=tasks.filter(t=>t.status==='Completed').length;
@@ -1155,14 +1166,14 @@ function renderCatsHTML(p, filterOwner=''){
       <div class="cat-head" onclick="toggleCat('${p.id}','${cat.key}')">
         <div class="cat-bar" style="background:${cat.color}"></div>
         <div class="cat-title">${cat.label}</div>
-        <div class="cat-pill">${done}/${tasks.length} concluídas</div>
+        <div class="cat-pill">${done}/${tasks.length} completed</div>
         <div class="cat-pct">${pct}%</div>
         <i class="ti ti-chevron-down cchev ${open?'open':''}"></i>
       </div>
       ${open?`<div>
         <table class="ptable">
           <colgroup><col style="width:18%"><col style="width:12%"><col style="width:11%"><col style="width:10%"><col style="width:10%"><col style="width:13%"><col style="width:20%"><col style="width:6%"></colgroup>
-          <thead><tr><th>Fase</th><th>Status</th><th>Responsável</th><th>Início</th><th>Término</th><th>Est. / Realizado</th><th>Comentário</th><th></th></tr></thead>
+          <thead><tr><th>Phase</th><th>Status</th><th>Assignee</th><th>Start</th><th>End</th><th>Est. / Actual</th><th>Comment</th><th></th></tr></thead>
           <tbody>
           ${tasks.length?tasks.map(t=>{
             const ro=!editable;const over=t.cost_realized>t.cost_estimated&&t.cost_estimated>0;
@@ -1173,9 +1184,9 @@ function renderCatsHTML(p, filterOwner=''){
                 :`<select class="ssel ${sc(t.status)}" onchange="upPhase('${t.id}','${p.id}','status',this.value)">
                   ${STATUSES.map(s=>`<option ${s===t.status?'selected':''}>${s}</option>`).join('')}</select>`}</td>
               <td>${ro
-                ? `<span style="font-size:12px;color:var(--text2)">${memberName(t.responsible)||'—'}</span>`
+                ? `<span style="font-size:12px;color:var(--text2)">${memberName(t.responsible)||'--'}</span>`
                 : `<select class="inplace" style="font-size:12px;padding:3px 6px" onchange="upPhase('${t.id}','${p.id}','responsible',this.value)">
-                    <option value="">— Selecionar —</option>
+                    <option value="">- Select -</option>
                     ${members.map(m=>`<option value="${m.id}" ${m.id===t.responsible?'selected':''}>${m.name}</option>`).join('')}
                   </select>`
               }</td>
@@ -1186,13 +1197,13 @@ function renderCatsHTML(p, filterOwner=''){
                 <div style="font-size:11px;color:${over?'var(--red)':'var(--text3)'}">Real: <input type="number" class="inplace" style="width:70px" value="${t.cost_realized}" min="0" ${ro?'readonly':''} onchange="upPhase('${t.id}','${p.id}','cost_realized',this.value)"></div>
                 <div class="cost-bar-bg"><div class="cost-bar-fill" style="width:${phasePct}%;background:${over?'var(--red)':'var(--teal)'}"></div></div>
               </td>
-              <td><textarea class="comment-ta" ${ro?'readonly':''} onchange="upPhase('${t.id}','${p.id}','comment',this.value)" placeholder="${ro?'—':'Comentário...'}">${t.comment||''}</textarea></td>
+              <td><textarea class="comment-ta" ${ro?'readonly':''} onchange="upPhase('${t.id}','${p.id}','comment',this.value)" placeholder="${ro?'--':'Coment-rio...'}">${t.comment||''}</textarea></td>
               <td>${ro?'':`<button class="icon-action" onclick="delPhase('${t.id}','${p.id}')"><i class="ti ti-trash"></i></button>`}</td>
             </tr>`;
-          }).join(''):`<tr><td colspan="8" style="padding:11px 14px;font-size:12px;color:var(--text3)">Nenhuma fase nesta categoria.</td></tr>`}
+          }).join(''):`<tr><td colspan="8" style="padding:11px 14px;font-size:12px;color:var(--text3)">No phases in this category.</td></tr>`}
           </tbody>
         </table>
-        ${editable?`<button class="add-phase-btn" onclick="addPhaseInline('${p.id}','${cat.key}')"><i class="ti ti-plus"></i> Adicionar fase em ${cat.label}</button>`:''}
+        ${editable?`<button class="add-phase-btn" onclick="addPhaseInline('${p.id}','${cat.key}')"><i class="ti ti-plus"></i> Add phase to ${cat.label}</button>`:''}
       </div>`:''}
     </div>`;
   }).join('')}</div>`;
@@ -1201,60 +1212,72 @@ function renderCatsHTML(p, filterOwner=''){
 function toggleCard(id){openCards[id]=!openCards[id];renderProjects();}
 function toggleCat(pid,cat){const k=pid+'_'+cat;openCats[k]=openCats[k]===false;renderProjects();}
 
-// ── Dashboard ──
+// -- Dashboard --
 function renderDashboard(){
   const total=projects.length;
   const est=projects.reduce((s,p)=>s+projTots(p).est,0);
   const real=projects.reduce((s,p)=>s+projTots(p).real,0);
   const avg=total?Math.round(projects.reduce((s,p)=>s+projPct(p),0)/total):0;
   document.getElementById('dash-metrics').innerHTML=`
-    <div class="mcard"><div class="mcard-icon" style="background:#ededff;color:#4040cc"><i class="ti ti-folders"></i></div><div class="mcard-label">Projetos</div><div class="mcard-value">${total}</div></div>
-    <div class="mcard"><div class="mcard-icon" style="background:#e8f5ee;color:#1a7a4a"><i class="ti ti-percent"></i></div><div class="mcard-label">Progresso médio</div><div class="mcard-value">${avg}%</div></div>
-    <div class="mcard"><div class="mcard-icon" style="background:#e8f3fb;color:#1a7fc1"><i class="ti ti-cash"></i></div><div class="mcard-label">Total estimado</div><div class="mcard-value" style="font-size:18px">${fmt(est)}</div></div>
-    <div class="mcard"><div class="mcard-icon" style="background:${real>est?'#fdf0f4':'#e8f5ee'};color:${real>est?'#d03060':'#1a7a4a'}"><i class="ti ti-receipt"></i></div><div class="mcard-label">Total realizado</div><div class="mcard-value" style="font-size:18px;color:${real>est?'var(--red)':'var(--green)'}">${fmt(real)}</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#ededff;color:#4040cc"><i class="ti ti-folders"></i></div><div class="mcard-label">Projects</div><div class="mcard-value">${total}</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#e8f5ee;color:#1a7a4a"><i class="ti ti-percent"></i></div><div class="mcard-label">Avg progress</div><div class="mcard-value">${avg}%</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#e8f3fb;color:#1a7fc1"><i class="ti ti-cash"></i></div><div class="mcard-label">Total estimated</div><div class="mcard-value" style="font-size:18px">${fmt(est)}</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:${real>est?'#fdf0f4':'#e8f5ee'};color:${real>est?'#d03060':'#1a7a4a'}"><i class="ti ti-receipt"></i></div><div class="mcard-label">Total actual</div><div class="mcard-value" style="font-size:18px;color:${real>est?'var(--red)':'var(--green)'}">${fmt(real)}</div></div>
   `;
   document.getElementById('d-prog').innerHTML=projects.map((p,i)=>{const pct=projPct(p);const col=pcol(i);return`<div class="prog-row"><div class="prog-lbl">${p.name}</div><div class="prog-bg"><div class="prog-fill" style="width:${pct}%;background:${col}"></div></div><div class="prog-pct">${pct}%</div></div>`;}).join('');
-  if(!projects.length){['d-prog','d-gantt','d-status','d-cost'].forEach(id=>document.getElementById(id).innerHTML='<p style="font-size:13px;color:var(--text3)">Nenhum dado ainda.</p>');return;}
+  if(!projects.length){['d-prog','d-gantt','d-status','d-cost'].forEach(id=>document.getElementById(id).innerHTML='<p style="font-size:13px;color:var(--text3)">No data yet.</p>');return;}
   const allD=projects.flatMap(p=>[new Date(p.start_date),new Date(p.end_date)]);
   const minD=new Date(Math.min(...allD)),maxD=new Date(Math.max(...allD));
   const span=Math.max(1,days(minD.toISOString().slice(0,10),maxD.toISOString().slice(0,10)));
   const tPct=Math.max(0,Math.min(100,days(minD.toISOString().slice(0,10),today())/span*100));
-  document.getElementById('gantt-dates').innerHTML=`<span>${minD.toLocaleDateString('pt-BR',{month:'short',year:'numeric'})}</span><span style="color:var(--red);font-weight:600">hoje</span><span>${maxD.toLocaleDateString('pt-BR',{month:'short',year:'numeric'})}</span>`;
+  document.getElementById('gantt-dates').innerHTML=`<span>${minD.toLocaleDateString('en-US',{month:'short',year:'numeric'})}</span><span style="color:var(--red);font-weight:600">today</span><span>${maxD.toLocaleDateString('en-US',{month:'short',year:'numeric'})}</span>`;
   document.getElementById('d-gantt').innerHTML=projects.map((p,i)=>{const s=Math.max(0,days(minD.toISOString().slice(0,10),p.start_date)/span*100);const w=Math.min(100-s,days(p.start_date,p.end_date)/span*100);const col=pcol(i);return`<div class="gantt-row"><div class="gantt-lbl">${p.name}</div><div class="gantt-track"><div class="today-ln" style="left:${tPct.toFixed(1)}%"></div><div class="gantt-bar" style="left:${s.toFixed(1)}%;width:${Math.max(1.5,w).toFixed(1)}%;background:${col}">${p.name}</div></div></div>`;}).join('');
   const sclr={'Not Started':'#1a7fc1','In Progress':'#0da47a','On Hold':'#c47f00','Completed':'#5b5ef4','Cancelled':'#d03060'};
   const sc2={};STATUSES.forEach(s=>sc2[s]=0);projects.forEach(p=>allTasks(p).forEach(t=>sc2[t.status]=(sc2[t.status]||0)+1));
   const tt=Object.values(sc2).reduce((a,b)=>a+b,0)||1;
   document.getElementById('d-status').innerHTML=`<div class="seg-bar">${STATUSES.map(s=>`<div class="seg" style="width:${Math.round(sc2[s]/tt*100)}%;background:${sclr[s]}"></div>`).join('')}</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">${STATUSES.map(s=>`<div style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2)"><div style="width:8px;height:8px;border-radius:2px;background:${sclr[s]}"></div>${s} <strong style="color:var(--text);margin-left:2px">${sc2[s]}</strong></div>`).join('')}</div>`;
-  document.getElementById('d-cost').innerHTML=projects.map((p,i)=>{const tots=projTots(p);const over=tots.real>tots.est&&tots.est>0;const pct=tots.est?Math.min(120,Math.round(tots.real/tots.est*100)):0;return`<div style="margin-bottom:13px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><div style="font-size:13px;font-weight:500">${p.name}</div><div style="font-size:12px;color:${over?'var(--red)':'var(--text3)'}">${fmt(tots.real)} / ${fmt(tots.est)}</div></div><div class="cost-bar-bg" style="height:6px;width:100%"><div class="cost-bar-fill" style="width:${pct}%;background:${over?'var(--red)':'var(--teal)'};height:6px"></div></div><div style="font-size:11px;color:var(--text3);margin-top:3px">${pct}% do estimado${over?' — acima do orçamento':''}</div></div>`;}).join('');
+  document.getElementById('d-cost').innerHTML=projects.map((p,i)=>{const tots=projTots(p);const over=tots.real>tots.est&&tots.est>0;const pct=tots.est?Math.min(120,Math.round(tots.real/tots.est*100)):0;return`<div style="margin-bottom:13px"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><div style="font-size:13px;font-weight:500">${p.name}</div><div style="font-size:12px;color:${over?'var(--red)':'var(--text3)'}">${fmt(tots.real)} / ${fmt(tots.est)}</div></div><div class="cost-bar-bg" style="height:6px;width:100%"><div class="cost-bar-fill" style="width:${pct}%;background:${over?'var(--red)':'var(--teal)'};height:6px"></div></div><div style="font-size:11px;color:var(--text3);margin-top:3px">${pct}% of estimated${over?' - over budget':''}</div></div>`;}).join('');
 }
 
-// ── Team ──
+// -- Team --
 function renderTeam(){
   if(!isAdmin()) return;
-  document.getElementById('team-list').innerHTML=`<div style="font-size:12px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Membros (${members.length})</div>`+
+  document.getElementById('team-list').innerHTML=`<div style="font-size:12px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Members (${members.length})</div>`+
     members.map((m,i)=>`<div class="team-card">
       <div style="width:36px;height:36px;border-radius:50%;background:${pcol(i)}18;color:${pcol(i)};border:1px solid ${pcol(i)}40;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0">${inits(m.name)}</div>
       <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500">${m.name}</div><div style="font-size:12px;color:var(--text3)">${m.email||''}</div></div>
       <select class="filter-sel" style="font-size:12px;padding:4px 8px" onchange="changeRole('${m.id}',this.value)" ${m.id===currentUser.id?'disabled':''}>
         ${Object.entries(ROLES).map(([k,v])=>`<option value="${k}" ${m.role===k?'selected':''}>${v}</option>`).join('')}
       </select>
+      ${m.id!==currentUser.id?`<button class="icon-action" onclick="deleteUser('${m.id}','${m.name}')" title="Delete user" style="margin-left:4px"><i class="ti ti-user-minus"></i></button>`:''}
     </div>`).join('');
-  document.getElementById('access-section').innerHTML=`<div style="margin:20px 0 12px;font-size:12px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Permissões por projeto</div>`+
+  document.getElementById('access-section').innerHTML=`<div style="margin:20px 0 12px;font-size:12px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.06em">Permissions by project</div>`+
     projects.map(p=>`<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:10px">
       <div style="font-size:13px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:7px"><i class="ti ti-folder" style="color:var(--accent);font-size:15px"></i>${p.name}</div>
       ${members.filter(m=>m.role!=='admin').map(m=>`<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--border)">
         <div style="font-size:13px;flex:1;color:var(--text2)">${m.name} <span style="font-size:11px;color:var(--text3)">(${ROLES[m.role]||m.role})</span></div>
         <select class="filter-sel" style="font-size:12px;padding:3px 8px" onchange="setAccess('${p.id}','${m.id}',this.value)">
-          <option value="view" ${(projectAccess[p.id]||{})[m.id]!=='edit'?'selected':''}>Somente visualizar</option>
-          <option value="edit" ${(projectAccess[p.id]||{})[m.id]==='edit'?'selected':''}>Pode editar</option>
+          <option value="view" ${(projectAccess[p.id]||{})[m.id]!=='edit'?'selected':''}>View only</option>
+          <option value="edit" ${(projectAccess[p.id]||{})[m.id]==='edit'?'selected':''}>Can edit</option>
         </select>
       </div>`).join('')}
     </div>`).join('');
 }
 
-// ── Modal ──
+async function deleteUser(userId, userName){
+  if(!isAdmin()){toast('Permission denied.','err');return;}
+  if(!confirm(`Remove user "${userName}" from the platform? This action cannot be undone.`)) return;
+  // delete from profiles (auth user handled by cascade or admin API)
+  const{error}=await sb.from('profiles').delete().eq('id',userId);
+  if(error){toast('Error: '+error.message,'err');return;}
+  members=members.filter(m=>m.id!==userId);
+  toast(`${userName} has been removed.`,'ok');
+  renderTeam();
+}
+
+// -- Modal --
 function openModal(){
-  if(!isAdmin()&&!isManager()){toast('Sem permissão.','err');return;}
+  if(!isAdmin()&&!isManager()){toast('Permission denied.','err');return;}
   ['m-name','m-start','m-end'].forEach(id=>document.getElementById(id).value='');
   const ownerSel=document.getElementById('m-owner');
   ownerSel.innerHTML=members.filter(m=>['admin','manager'].includes(m.role)).map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
@@ -1263,12 +1286,12 @@ function openModal(){
     <div class="cat-block-form">
       <div class="cat-block-head"><div class="cat-block-dot" style="background:${cat.color}"></div><div class="cat-block-label">${cat.label}</div></div>
       <div class="cat-block-body">
-        <div class="trf-hdr"><span>Fase</span><span>Status</span><span>Responsável</span><span>Est. R$</span><span>Real R$</span><span>Início</span><span>Término</span><span></span></div>
+        <div class="trf-hdr"><span>Phase</span><span>Status</span><span>Assignee</span><span>Est. $</span><span>Actual $</span><span>Start</span><span>End</span><span></span></div>
         <div id="cf-${cat.key}">
           <div class="trf">
-            <input placeholder="Nome da fase..." class="cf-n" data-cat="${cat.key}">
+            <input placeholder="Phase name..." class="cf-n" data-cat="${cat.key}">
             <select class="cf-s" data-cat="${cat.key}">${STATUSES.map(s=>`<option>${s}</option>`).join('')}</select>
-            <select class="cf-resp" data-cat="${cat.key}"><option value="">— Responsável —</option>${memberOpts}</select>
+            <select class="cf-resp" data-cat="${cat.key}"><option value="">- Assignee -</option>${memberOpts}</select>
             <input type="number" placeholder="0" class="cf-e" data-cat="${cat.key}" min="0">
             <input type="number" placeholder="0" class="cf-r" data-cat="${cat.key}" min="0">
             <input type="date" class="cf-sd" data-cat="${cat.key}">
@@ -1276,7 +1299,7 @@ function openModal(){
             <div></div>
           </div>
         </div>
-        <button class="add-row-btn" onclick="addFormRow('${cat.key}')"><i class="ti ti-plus"></i> Mais fase</button>
+        <button class="add-row-btn" onclick="addFormRow('${cat.key}')"><i class="ti ti-plus"></i> Add phase</button>
       </div>
     </div>`).join('');
   document.getElementById('modal-overlay').style.display='flex';
@@ -1284,13 +1307,13 @@ function openModal(){
 function addFormRow(k){
   const w=document.getElementById('cf-'+k);const r=document.createElement('div');r.className='trf';
   const memberOpts=members.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
-  r.innerHTML=`<input placeholder="Nome da fase..." class="cf-n" data-cat="${k}"><select class="cf-s" data-cat="${k}">${STATUSES.map(s=>`<option>${s}</option>`).join('')}</select><select class="cf-resp" data-cat="${k}"><option value="">— Responsável —</option>${memberOpts}</select><input type="number" placeholder="0" class="cf-e" data-cat="${k}" min="0"><input type="number" placeholder="0" class="cf-r" data-cat="${k}" min="0"><input type="date" class="cf-sd" data-cat="${k}"><input type="date" class="cf-ed" data-cat="${k}"><button class="rm-btn" onclick="this.parentElement.remove()"><i class="ti ti-x"></i></button>`;
+  r.innerHTML=`<input placeholder="Phase name..." class="cf-n" data-cat="${k}"><select class="cf-s" data-cat="${k}">${STATUSES.map(s=>`<option>${s}</option>`).join('')}</select><select class="cf-resp" data-cat="${k}"><option value="">- Assignee -</option>${memberOpts}</select><input type="number" placeholder="0" class="cf-e" data-cat="${k}" min="0"><input type="number" placeholder="0" class="cf-r" data-cat="${k}" min="0"><input type="date" class="cf-sd" data-cat="${k}"><input type="date" class="cf-ed" data-cat="${k}"><button class="rm-btn" onclick="this.parentElement.remove()"><i class="ti ti-x"></i></button>`;
   w.appendChild(r);
 }
 function closeModal(){document.getElementById('modal-overlay').style.display='none';}
 function overlayClick(e){if(e.target===document.getElementById('modal-overlay')) closeModal();}
 
-// ── Edit project ──
+// -- Edit project --
 function openEditModal(projId){
   const p=projects.find(x=>x.id===projId);
   if(!p) return;
@@ -1311,24 +1334,24 @@ async function updateProject(){
   const owner=document.getElementById('edit-owner').value;
   const start=document.getElementById('edit-start').value;
   const end=document.getElementById('edit-end').value;
-  if(!name||!owner||!start||!end){toast('Preencha todos os campos.','err');return;}
-  if(start>end){toast('Data de início deve ser anterior ao prazo final.','err');return;}
+  if(!name||!owner||!start||!end){toast('Please fill in all fields.','err');return;}
+  if(start>end){toast('Start date must be before the due date.','err');return;}
   const btn=document.getElementById('edit-save');
-  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Salvando...';
+  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Saving...';
   try{
     const{error}=await sb.from('projects').update({name,owner_id:owner,start_date:start,end_date:end}).eq('id',projId);
     if(error) throw error;
     // update local
     const p=projects.find(x=>x.id===projId);
     if(p){p.name=name;p.owner_id=owner;p.start_date=start;p.end_date=end;}
-    toast('Projeto atualizado!','ok');
+    toast('Project updated!','ok');
     closeEditModal();
     renderProjects();
-  }catch(e){toast('Erro: '+e.message,'err');}
-  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Salvar alterações';
+  }catch(e){toast('Error: '+e.message,'err');}
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Save changes';
 }
 
-// ── Invites ──
+// -- Invites --
 function generateCode(){
   const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let code='';
@@ -1340,21 +1363,21 @@ function generateCode(){
 }
 
 async function generateInvite(){
-  if(!isAdmin()){toast('Sem permissão.','err');return;}
+  if(!isAdmin()){toast('Permission denied.','err');return;}
   const days=parseInt(document.getElementById('inv-expires').value);
   const code=generateCode();
   const expires_at=days>0?new Date(Date.now()+days*86400000).toISOString():null;
   const{data,error}=await sb.from('invite_codes').insert({
     code, created_by:currentUser.id, expires_at, is_used:false
   }).select().single();
-  if(error){toast('Erro ao gerar convite: '+error.message,'err');return;}
-  // mostrar código gerado
+  if(error){toast('Error generating invite: '+error.message,'err');return;}
+  // mostrar c-digo gerado
   document.getElementById('new-invite-code').textContent=code;
   document.getElementById('new-invite-expires').textContent=expires_at
-    ?`Válido até ${new Date(expires_at).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'})}`
-    :'Sem prazo de validade';
+    ?`Valid until ${new Date(expires_at).toLocaleDateString('en-US',{day:'2-digit',month:'2-digit',year:'numeric'})}`
+    :'No expiration';
   document.getElementById('new-invite-box').style.display='block';
-  toast('Código gerado com sucesso!','ok');
+  toast('Code generated successfully!','ok');
   renderInvites();
 }
 
@@ -1362,8 +1385,8 @@ function copyInviteCode(){
   const code=document.getElementById('new-invite-code').textContent;
   navigator.clipboard.writeText(code).then(()=>{
     const btn=document.getElementById('copy-invite-btn');
-    btn.innerHTML='<i class="ti ti-check"></i> Copiado!';
-    setTimeout(()=>btn.innerHTML='<i class="ti ti-copy"></i> Copiar',2000);
+    btn.innerHTML='<i class="ti ti-check"></i> Copied!';
+    setTimeout(()=>btn.innerHTML='<i class="ti ti-copy"></i> Copy',2000);
   });
 }
 
@@ -1371,47 +1394,47 @@ async function renderInvites(){
   if(!isAdmin()) return;
   const{data,error}=await sb.from('invite_codes').select('*, used_profile:used_by(name)').order('created_at',{ascending:false});
   const el=document.getElementById('invites-list');
-  if(error){el.innerHTML='<p style="color:var(--red);font-size:13px">Erro ao carregar convites.</p>';return;}
-  if(!data||!data.length){el.innerHTML='<p style="font-size:13px;color:var(--text3)">Nenhum convite gerado ainda.</p>';return;}
+  if(error){el.innerHTML='<p style="color:var(--red);font-size:13px">Failed to load invites.</p>';return;}
+  if(!data||!data.length){el.innerHTML='<p style="font-size:13px;color:var(--text3)">No invites generated yet.</p>';return;}
   const now=new Date();
   el.innerHTML=data.map(inv=>{
     const expired=inv.expires_at&&new Date(inv.expires_at)<now;
     let badge,badgeLabel;
-    if(inv.is_used){badge='ibadge-used';badgeLabel='Usado';}
-    else if(expired){badge='ibadge-expired';badgeLabel='Expirado';}
-    else{badge='ibadge-active';badgeLabel='Ativo';}
+    if(inv.is_used){badge='ibadge-used';badgeLabel='Used';}
+    else if(expired){badge='ibadge-expired';badgeLabel='Expired';}
+    else{badge='ibadge-active';badgeLabel='Active';}
     const expiresStr=inv.expires_at
-      ?new Date(inv.expires_at).toLocaleDateString('pt-BR')
-      :'Sem prazo';
-    const usedByStr=inv.used_profile?.name||'—';
+      ?new Date(inv.expires_at).toLocaleDateString('en-US')
+      :'No expiry';
+    const usedByStr=inv.used_profile?.name||'--';
     return `<div class="invite-row">
       <div style="flex:1;min-width:0">
         <div class="invite-code">${inv.code}</div>
         <div style="font-size:11px;color:var(--text3);margin-top:3px;display:flex;gap:12px">
-          <span>Validade: <strong>${expiresStr}</strong></span>
-          ${inv.is_used?`<span>Usado por: <strong>${usedByStr}</strong></span>`:''}
+          <span>Expiration: <strong>${expiresStr}</strong></span>
+          ${inv.is_used?`<span>Used by: <strong>${usedByStr}</strong></span>`:''}
         </div>
       </div>
       <span class="invite-badge ${badge}">${badgeLabel}</span>
       ${!inv.is_used&&!expired?`<button class="btn sm" onclick="copyCode('${inv.code}')"><i class="ti ti-copy"></i></button>`:''}
-      <button class="icon-action" onclick="deleteInvite('${inv.id}')" title="Remover"><i class="ti ti-trash"></i></button>
+      <button class="icon-action" onclick="deleteInvite('${inv.id}')" title="Remove"><i class="ti ti-trash"></i></button>
     </div>`;
   }).join('');
 }
 
 function copyCode(code){
-  navigator.clipboard.writeText(code).then(()=>toast('Código copiado!','ok'));
+  navigator.clipboard.writeText(code).then(()=>toast('Code copied!','ok'));
 }
 
 async function deleteInvite(id){
-  if(!confirm('Remover este convite?')) return;
+  if(!confirm('Remove this invite?')) return;
   const{error}=await sb.from('invite_codes').delete().eq('id',id);
-  if(error){toast('Erro: '+error.message,'err');return;}
-  toast('Convite removido.','ok');
+  if(error){toast('Error: '+error.message,'err');return;}
+  toast('Invite removed.','ok');
   renderInvites();
 }
 
-// ── Budget & Suppliers ──
+// -- Budget & Suppliers --
 let suppliers=[], budgetItems=[];
 
 async function loadBudgetData(){
@@ -1424,24 +1447,24 @@ async function loadBudgetData(){
   budgetItems=b||[];
 }
 
-function supplierName(id){return suppliers.find(s=>s.id===id)?.name||'—';}
+function supplierName(id){return suppliers.find(s=>s.id===id)?.name||'--';}
 function phaseName(item){
-  if(!item.phase) return '—';
+  if(!item.phase) return '--';
   const cat=CATS.find(c=>c.key===item.phase.category);
-  return `${cat?cat.label+' › ':''}${item.phase.name}`;
+  return `${cat?cat.label+' - ':''}${item.phase.name}`;
 }
 
-// ── BUDGET ──
+// -- BUDGET --
 async function renderBudget(){
   await loadBudgetData();
   // populate project filter
   const bfProj=document.getElementById('bf-project');
   const curProj=bfProj.value;
-  bfProj.innerHTML='<option value="">Todos os projetos</option>'+projects.map(p=>`<option value="${p.id}" ${p.id===curProj?'selected':''}>${p.name}</option>`).join('');
+  bfProj.innerHTML='<option value="">All projects</option>'+projects.map(p=>`<option value="${p.id}" ${p.id===curProj?'selected':''}>${p.name}</option>`).join('');
   // populate supplier filter
   const bfSup=document.getElementById('bf-supplier');
   const curSup=bfSup.value;
-  bfSup.innerHTML='<option value="">Todos os fornecedores</option>'+suppliers.map(s=>`<option value="${s.id}" ${s.id===curSup?'selected':''}>${s.name}</option>`).join('');
+  bfSup.innerHTML='<option value="">All suppliers</option>'+suppliers.map(s=>`<option value="${s.id}" ${s.id===curSup?'selected':''}>${s.name}</option>`).join('');
 
   const fProj=document.getElementById('bf-project').value;
   const fSup=document.getElementById('bf-supplier').value;
@@ -1455,35 +1478,35 @@ async function renderBudget(){
   });
 
   const totalGeral=filtered.reduce((s,b)=>s+(b.total_price||0),0);
-  const totalProjetos=new Set(filtered.map(b=>b.project_id)).size;
+  const totalProjects=new Set(filtered.map(b=>b.project_id)).size;
 
   document.getElementById('budget-metrics').innerHTML=`
-    <div class="mcard"><div class="mcard-icon" style="background:#ededff;color:#4040cc"><i class="ti ti-package"></i></div><div class="mcard-label">Produtos cadastrados</div><div class="mcard-value">${filtered.length}</div></div>
-    <div class="mcard"><div class="mcard-icon" style="background:#e8f5ee;color:#1a7a4a"><i class="ti ti-folders"></i></div><div class="mcard-label">Projetos com produtos</div><div class="mcard-value">${totalProjetos}</div></div>
-    <div class="mcard"><div class="mcard-icon" style="background:#e8f3fb;color:#1a7fc1"><i class="ti ti-building-store"></i></div><div class="mcard-label">Fornecedores</div><div class="mcard-value">${suppliers.length}</div></div>
-    <div class="mcard"><div class="mcard-icon" style="background:#fff8e6;color:#c47f00"><i class="ti ti-cash"></i></div><div class="mcard-label">Total em produtos</div><div class="mcard-value" style="font-size:18px">${fmt(totalGeral)}</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#ededff;color:#4040cc"><i class="ti ti-package"></i></div><div class="mcard-label">Products cadastrados</div><div class="mcard-value">${filtered.length}</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#e8f5ee;color:#1a7a4a"><i class="ti ti-folders"></i></div><div class="mcard-label">Projects com produtos</div><div class="mcard-value">${totalProjects}</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#e8f3fb;color:#1a7fc1"><i class="ti ti-building-store"></i></div><div class="mcard-label">Suppliers</div><div class="mcard-value">${suppliers.length}</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#fff8e6;color:#c47f00"><i class="ti ti-cash"></i></div><div class="mcard-label">Total products value</div><div class="mcard-value" style="font-size:18px">${fmt(totalGeral)}</div></div>
   `;
 
   const tbody=document.getElementById('budget-tbody');
-  if(!filtered.length){tbody.innerHTML=`<tr><td colspan="9" style="padding:28px;text-align:center;color:var(--text3);font-size:13px">Nenhum produto encontrado.</td></tr>`;return;}
+  if(!filtered.length){tbody.innerHTML=`<tr><td colspan="9" style="padding:28px;text-align:center;color:var(--text3);font-size:13px">No products found.</td></tr>`;return;}
 
   tbody.innerHTML=filtered.map(b=>`
     <tr>
       <td style="font-weight:500">${b.name}</td>
-      <td style="font-size:12px;color:var(--text3);font-family:var(--mono)">${b.code||'—'}</td>
-      <td style="font-size:12px">${b.supplier?.name||'—'}</td>
-      <td style="font-size:12px">${b.project?.name||'—'}</td>
+      <td style="font-size:12px;color:var(--text3);font-family:var(--mono)">${b.code||'--'}</td>
+      <td style="font-size:12px">${b.supplier?.name||'--'}</td>
+      <td style="font-size:12px">${b.project?.name||'--'}</td>
       <td style="font-size:12px;color:var(--text2)">${phaseName(b)}</td>
-      <td style="font-size:13px;text-align:right">${(b.quantity||0).toLocaleString('pt-BR')}</td>
+      <td style="font-size:13px;text-align:right">${(b.quantity||0).toLocaleString('en-US')}</td>
       <td style="font-size:13px;text-align:right">${fmt(b.unit_price)}</td>
       <td style="font-size:13px;font-weight:600;text-align:right;color:var(--accent)">${fmt(b.total_price)}</td>
       <td style="white-space:nowrap">
-        <button class="icon-action" onclick="openBudgetModal('${b.id}')" title="Editar"><i class="ti ti-pencil"></i></button>
-        <button class="icon-action" onclick="deleteBudgetItem('${b.id}','${b.phase_id}',${b.total_price})" title="Excluir"><i class="ti ti-trash"></i></button>
+        <button class="icon-action" onclick="openBudgetModal('${b.id}')" title="Edit"><i class="ti ti-pencil"></i></button>
+        <button class="icon-action" onclick="deleteBudgetItem('${b.id}','${b.phase_id}',${b.total_price})" title="Delete"><i class="ti ti-trash"></i></button>
       </td>
     </tr>`).join('')+`
     <tr class="budget-total-row">
-      <td colspan="7" style="text-align:right;padding:10px 14px;font-size:13px">Total geral</td>
+      <td colspan="7" style="text-align:right;padding:10px 14px;font-size:13px">Grand total</td>
       <td style="text-align:right;padding:10px 14px;font-size:14px;color:var(--accent)">${fmt(totalGeral)}</td>
       <td></td>
     </tr>`;
@@ -1498,12 +1521,12 @@ function calcBudgetTotal(){
 
 async function openBudgetModal(itemId=null){
   document.getElementById('bm-id').value=itemId||'';
-  document.getElementById('budget-modal-title').textContent=itemId?'Editar produto':'Adicionar produto';
+  document.getElementById('budget-modal-title').textContent=itemId?'Edit product':'Add product';
   document.getElementById('new-supplier-inline').style.display='none';
 
   // populate supplier select
   const supSel=document.getElementById('bm-supplier');
-  supSel.innerHTML='<option value="">— Selecionar —</option><option value="__new__">+ Cadastrar novo fornecedor</option>'+
+  supSel.innerHTML='<option value="">- Select -</option><option value="__new__">+ Add new supplier</option>'+
     suppliers.map(s=>`<option value="${s.id}">${s.name}</option>`).join('');
   supSel.onchange=()=>{
     document.getElementById('new-supplier-inline').style.display=supSel.value==='__new__'?'block':'none';
@@ -1511,7 +1534,7 @@ async function openBudgetModal(itemId=null){
 
   // populate project select
   const projSel=document.getElementById('bm-project');
-  projSel.innerHTML='<option value="">— Selecionar projeto —</option>'+projects.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+  projSel.innerHTML='<option value="">- Select project -</option>'+projects.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
 
   if(itemId){
     const item=budgetItems.find(b=>b.id===itemId);
@@ -1528,7 +1551,7 @@ async function openBudgetModal(itemId=null){
   } else {
     ['bm-name','bm-code','bm-unit','bm-qty'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('bm-total').textContent='R$ 0,00';
-    document.getElementById('bm-phase').innerHTML='<option value="">— Selecionar fase —</option>';
+    document.getElementById('bm-phase').innerHTML='<option value="">- Select phase -</option>';
   }
   document.getElementById('budget-modal-overlay').style.display='flex';
 }
@@ -1536,7 +1559,7 @@ async function openBudgetModal(itemId=null){
 async function loadBudgetPhases(selectedPhaseId=null){
   const projId=document.getElementById('bm-project').value;
   const phaseSel=document.getElementById('bm-phase');
-  phaseSel.innerHTML='<option value="">— Selecionar fase —</option>';
+  phaseSel.innerHTML='<option value="">- Select phase -</option>';
   if(!projId) return;
   const p=projects.find(x=>x.id===projId);
   if(!p) return;
@@ -1544,7 +1567,7 @@ async function loadBudgetPhases(selectedPhaseId=null){
     const cat=CATS.find(c=>c.key===ph.category);
     const opt=document.createElement('option');
     opt.value=ph.id;
-    opt.textContent=`${cat?cat.label+' › ':''}${ph.name}`;
+    opt.textContent=`${cat?cat.label+' - ':''}${ph.name}`;
     if(ph.id===selectedPhaseId) opt.selected=true;
     phaseSel.appendChild(opt);
   });
@@ -1565,17 +1588,17 @@ async function saveBudgetItem(){
   const phaseId=document.getElementById('bm-phase').value;
   let supplierId=document.getElementById('bm-supplier').value;
 
-  if(!name){toast('Informe o nome do produto.','err');return;}
-  if(!projId||!phaseId){toast('Selecione o projeto e a fase.','err');return;}
-  if(unit<=0||qty<=0){toast('Informe valor unitário e quantidade.','err');return;}
+  if(!name){toast('Please enter the product name.','err');return;}
+  if(!projId||!phaseId){toast('Please select a project and phase.','err');return;}
+  if(unit<=0||qty<=0){toast('Please enter unit price and quantity.','err');return;}
 
   const btn=document.getElementById('budget-save');
-  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Salvando...';
+  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Saving...';
 
-  // criar novo fornecedor inline se necessário
+  // criar novo fornecedor inline se necess-rio
   if(supplierId==='__new__'){
     const nsName=document.getElementById('ns-name').value.trim();
-    if(!nsName){toast('Informe o nome do fornecedor.','err');btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Salvar produto';return;}
+    if(!nsName){toast('Please enter the supplier name.','err');btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Save produto';return;}
     const{data:ns,error:nse}=await sb.from('suppliers').insert({
       name:nsName,
       email:document.getElementById('ns-email').value.trim(),
@@ -1583,7 +1606,7 @@ async function saveBudgetItem(){
       contact:document.getElementById('ns-contact').value.trim(),
       created_by:currentUser.id
     }).select().single();
-    if(nse){toast('Erro ao criar fornecedor: '+nse.message,'err');btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Salvar produto';return;}
+    if(nse){toast('Error creating supplier: '+nse.message,'err');btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Save produto';return;}
     supplierId=ns.id;
     suppliers.push(ns);
   }
@@ -1597,11 +1620,11 @@ async function saveBudgetItem(){
 
   try{
     if(id){
-      // editar — reverter custo antigo e aplicar novo
+      // editar - reverter custo antigo e aplicar novo
       const old=budgetItems.find(b=>b.id===id);
       const{error}=await sb.from('budget_items').update(payload).eq('id',id);
       if(error) throw error;
-      // atualizar custo realizado da fase: remove antigo, adiciona novo
+      // atualizar custo actual da fase: remove antigo, adiciona novo
       if(old){
         const oldPhase=projects.flatMap(p=>p.phases).find(ph=>ph.id===old.phase_id);
         if(oldPhase){
@@ -1609,7 +1632,7 @@ async function saveBudgetItem(){
           await sb.from('phases').update({cost_realized:newReal}).eq('id',old.phase_id);
           oldPhase.cost_realized=newReal;
         }
-        // se mudou de fase, atualiza fase nova também
+        // se mudou de fase, atualiza fase nova tamb-m
         if(old.phase_id!==phaseId){
           const newPhase=projects.flatMap(p=>p.phases).find(ph=>ph.id===phaseId);
           if(newPhase){
@@ -1619,9 +1642,9 @@ async function saveBudgetItem(){
           }
         }
       }
-      toast('Produto atualizado!','ok');
+      toast('Product updated!','ok');
     } else {
-      // novo — adiciona ao custo realizado da fase
+      // novo - adiciona ao custo actual da fase
       const{error}=await sb.from('budget_items').insert(payload);
       if(error) throw error;
       const phase=projects.flatMap(p=>p.phases).find(ph=>ph.id===phaseId);
@@ -1630,54 +1653,54 @@ async function saveBudgetItem(){
         await sb.from('phases').update({cost_realized:newReal}).eq('id',phaseId);
         phase.cost_realized=newReal;
       }
-      toast('Produto adicionado e custo da fase atualizado!','ok');
+      toast('Product added and phase cost updated!','ok');
     }
     closeBudgetModal();
     await renderBudget();
     renderProjects();
-  }catch(e){toast('Erro: '+e.message,'err');}
-  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Salvar produto';
+  }catch(e){toast('Error: '+e.message,'err');}
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Save produto';
 }
 
 async function deleteBudgetItem(id, phaseId, totalPrice){
-  if(!confirm('Remover este produto? O valor será subtraído do custo realizado da fase.')) return;
+  if(!confirm('Remove this product? The value will be subtracted from the phase actual cost.')) return;
   const{error}=await sb.from('budget_items').delete().eq('id',id);
-  if(error){toast('Erro: '+error.message,'err');return;}
-  // subtrair do custo realizado da fase
+  if(error){toast('Error: '+error.message,'err');return;}
+  // subtrair do custo actual da fase
   const phase=projects.flatMap(p=>p.phases).find(ph=>ph.id===phaseId);
   if(phase){
     const newReal=Math.max(0,(phase.cost_realized||0)-totalPrice);
     await sb.from('phases').update({cost_realized:newReal}).eq('id',phaseId);
     phase.cost_realized=newReal;
   }
-  toast('Produto removido.','ok');
+  toast('Product removed.','ok');
   await renderBudget();
   renderProjects();
 }
 
-// ── SUPPLIERS ──
+// -- SUPPLIERS --
 async function renderSuppliers(){
   const{data,error}=await sb.from('suppliers').select('*').order('name');
   if(error){toast('Erro ao carregar fornecedores.','err');return;}
   suppliers=data||[];
   const tbody=document.getElementById('suppliers-tbody');
-  if(!suppliers.length){tbody.innerHTML=`<tr><td colspan="6" style="padding:28px;text-align:center;color:var(--text3);font-size:13px">Nenhum fornecedor cadastrado.</td></tr>`;return;}
+  if(!suppliers.length){tbody.innerHTML=`<tr><td colspan="6" style="padding:28px;text-align:center;color:var(--text3);font-size:13px">No suppliers added yet.</td></tr>`;return;}
   tbody.innerHTML=suppliers.map(s=>`<tr>
     <td style="font-weight:500">${s.name}</td>
-    <td style="font-size:12px">${s.contact||'—'}</td>
-    <td style="font-size:12px">${s.email||'—'}</td>
-    <td style="font-size:12px">${s.phone||'—'}</td>
-    <td style="font-size:12px;color:var(--text3)">${s.notes||'—'}</td>
+    <td style="font-size:12px">${s.contact||'--'}</td>
+    <td style="font-size:12px">${s.email||'--'}</td>
+    <td style="font-size:12px">${s.phone||'--'}</td>
+    <td style="font-size:12px;color:var(--text3)">${s.notes||'--'}</td>
     <td style="white-space:nowrap">
-      <button class="icon-action" onclick="openSupplierModal('${s.id}')" title="Editar"><i class="ti ti-pencil"></i></button>
-      <button class="icon-action" onclick="deleteSupplier('${s.id}')" title="Excluir"><i class="ti ti-trash"></i></button>
+      <button class="icon-action" onclick="openSupplierModal('${s.id}')" title="Edit"><i class="ti ti-pencil"></i></button>
+      <button class="icon-action" onclick="deleteSupplier('${s.id}')" title="Delete"><i class="ti ti-trash"></i></button>
     </td>
   </tr>`).join('');
 }
 
 function openSupplierModal(id=null){
   document.getElementById('sm-id').value=id||'';
-  document.getElementById('supplier-modal-title').textContent=id?'Editar fornecedor':'Novo fornecedor';
+  document.getElementById('supplier-modal-title').textContent=id?'Edit supplier':'New supplier';
   if(id){
     const s=suppliers.find(x=>x.id===id);
     if(s){
@@ -1697,7 +1720,7 @@ function closeSupplierModal(){document.getElementById('supplier-modal-overlay').
 async function saveSupplier(){
   const id=document.getElementById('sm-id').value;
   const name=document.getElementById('sm-name').value.trim();
-  if(!name){toast('Informe o nome do fornecedor.','err');return;}
+  if(!name){toast('Please enter the supplier name.','err');return;}
   const payload={
     name,
     contact:document.getElementById('sm-contact').value.trim(),
@@ -1706,32 +1729,32 @@ async function saveSupplier(){
     notes:document.getElementById('sm-notes').value.trim()
   };
   const btn=document.getElementById('supplier-save');
-  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Salvando...';
+  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Saving...';
   try{
     if(id){
       const{error}=await sb.from('suppliers').update(payload).eq('id',id);
       if(error) throw error;
-      toast('Fornecedor atualizado!','ok');
+      toast('Supplier atualizado!','ok');
     } else {
       const{error}=await sb.from('suppliers').insert({...payload,created_by:currentUser.id});
       if(error) throw error;
-      toast('Fornecedor cadastrado!','ok');
+      toast('Supplier cadastrado!','ok');
     }
     closeSupplierModal();
     renderSuppliers();
-  }catch(e){toast('Erro: '+e.message,'err');}
-  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Salvar fornecedor';
+  }catch(e){toast('Error: '+e.message,'err');}
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Save fornecedor';
 }
 
 async function deleteSupplier(id){
-  if(!confirm('Remover este fornecedor?')) return;
+  if(!confirm('Remove this supplier?')) return;
   const{error}=await sb.from('suppliers').delete().eq('id',id);
-  if(error){toast('Erro: '+error.message,'err');return;}
-  toast('Fornecedor removido.','ok');
+  if(error){toast('Error: '+error.message,'err');return;}
+  toast('Supplier removido.','ok');
   renderSuppliers();
 }
 
-// ── Companies & People ──
+// -- Companies & People --
 let companies=[], departments=[], people=[];
 
 async function loadOrgData(){
@@ -1744,16 +1767,16 @@ async function loadOrgData(){
   companies=c||[];departments=d||[];people=p||[];
 }
 
-function companyName(id){return companies.find(c=>c.id===id)?.name||'—';}
-function deptName(id){return departments.find(d=>d.id===id)?.name||'—';}
+function companyName(id){return companies.find(c=>c.id===id)?.name||'--';}
+function deptName(id){return departments.find(d=>d.id===id)?.name||'--';}
 function personInits(name){return(name||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();}
 
-// ── COMPANIES ──
+// -- COMPANIES --
 async function renderCompanies(){
   await loadOrgData();
   const el=document.getElementById('companies-list');
   if(!companies.length){
-    el.innerHTML=`<div class="empty"><i class="ti ti-building"></i><p>Nenhuma empresa cadastrada ainda.</p></div>`;return;
+    el.innerHTML=`<div class="empty"><i class="ti ti-building"></i><p>No companies added yet.</p></div>`;return;
   }
   el.innerHTML=companies.map((c,i)=>{
     const depts=departments.filter(d=>d.company_id===c.id);
@@ -1763,10 +1786,10 @@ async function renderCompanies(){
         <div class="company-logo" style="background:${PCOLS[i%PCOLS.length]}18;color:${PCOLS[i%PCOLS.length]}">${personInits(c.name)}</div>
         <div style="flex:1">
           <div style="font-size:15px;font-weight:600;color:var(--text)">${c.name}</div>
-          <div style="font-size:12px;color:var(--text3)">${c.industry||'—'} &nbsp;·&nbsp; ${ppl.length} pessoas &nbsp;·&nbsp; ${depts.length} departamentos</div>
+          <div style="font-size:12px;color:var(--text3)">${c.industry||'--'} &nbsp;-&nbsp; ${ppl.length} people &nbsp;-&nbsp; ${depts.length} departments</div>
         </div>
-        <button class="btn sm" onclick="openCompanyModal('${c.id}')"><i class="ti ti-pencil"></i> Editar</button>
-        <button class="icon-action" onclick="deleteCompany('${c.id}')" title="Excluir"><i class="ti ti-trash"></i></button>
+        <button class="btn sm" onclick="openCompanyModal('${c.id}')"><i class="ti ti-pencil"></i> Edit</button>
+        <button class="icon-action" onclick="deleteCompany('${c.id}')" title="Delete"><i class="ti ti-trash"></i></button>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:${depts.length?'10px':'0'}">
         ${depts.map(d=>`<span class="dept-badge"><i class="ti ti-layout-grid" style="font-size:11px"></i>${d.name}
@@ -1780,7 +1803,7 @@ async function renderCompanies(){
 
 async function openCompanyModal(id=null){
   document.getElementById('cm-id').value=id||'';
-  document.getElementById('company-modal-title').textContent=id?'Editar empresa':'Nova empresa';
+  document.getElementById('company-modal-title').textContent=id?'Edit company':'New company';
   const deptWrap=document.getElementById('cm-depts');
   deptWrap.innerHTML='';
   if(id){
@@ -1796,11 +1819,19 @@ async function openCompanyModal(id=null){
       const row=document.createElement('div');
       row.style.cssText='display:flex;gap:8px;margin-bottom:7px;align-items:center';
       row.innerHTML=`<input value="${d.name}" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:7px 10px;font-size:13px;color:var(--text);font-family:var(--font);outline:none" readonly>
-        <span style="font-size:11px;color:var(--text3)">já salvo</span>`;
+        <span style="font-size:11px;color:var(--text3)">already saved</span>`;
       deptWrap.appendChild(row);
     });
   } else {
     ['cm-name','cm-industry','cm-notes'].forEach(id=>document.getElementById(id).value='');
+    // add default departments as suggestions
+    DEFAULT_DEPTS.forEach(name=>{
+      const row=document.createElement('div');
+      row.style.cssText='display:flex;gap:8px;margin-bottom:7px;align-items:center';
+      row.innerHTML=`<input value="${name}" class="new-dept-input" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:7px 10px;font-size:13px;color:var(--text);font-family:var(--font);outline:none">
+        <button class="rm-btn" onclick="this.parentElement.remove()"><i class="ti ti-x"></i></button>`;
+      deptWrap.appendChild(row);
+    });
   }
   document.getElementById('company-modal-overlay').style.display='flex';
 }
@@ -1808,7 +1839,7 @@ function addDeptRow(){
   const wrap=document.getElementById('cm-depts');
   const row=document.createElement('div');
   row.style.cssText='display:flex;gap:8px;margin-bottom:7px;align-items:center';
-  row.innerHTML=`<input placeholder="Nome do departamento" class="new-dept-input" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:7px 10px;font-size:13px;color:var(--text);font-family:var(--font);outline:none">
+  row.innerHTML=`<input placeholder="Department name" class="new-dept-input" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:7px 10px;font-size:13px;color:var(--text);font-family:var(--font);outline:none">
     <button class="rm-btn" onclick="this.parentElement.remove()"><i class="ti ti-x"></i></button>`;
   wrap.appendChild(row);
 }
@@ -1817,10 +1848,10 @@ function closeCompanyModal(){document.getElementById('company-modal-overlay').st
 async function saveCompany(){
   const id=document.getElementById('cm-id').value;
   const name=document.getElementById('cm-name').value.trim();
-  if(!name){toast('Informe o nome da empresa.','err');return;}
+  if(!name){toast('Please enter the company name.','err');return;}
   const payload={name,industry:document.getElementById('cm-industry').value.trim(),notes:document.getElementById('cm-notes').value.trim()};
   const btn=document.getElementById('company-save');
-  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Salvando...';
+  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Saving...';
   try{
     let companyId=id;
     if(id){
@@ -1837,33 +1868,33 @@ async function saveCompany(){
       const{error}=await sb.from('departments').insert(newDepts.map(n=>({name:n,company_id:companyId})));
       if(error) throw error;
     }
-    toast(id?'Empresa atualizada!':'Empresa cadastrada!','ok');
+    toast(id?'Company updated!':'Company added!','ok');
     closeCompanyModal();
     await renderCompanies();
-  }catch(e){toast('Erro: '+e.message,'err');}
-  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Salvar empresa';
+  }catch(e){toast('Error: '+e.message,'err');}
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Save empresa';
 }
 
 async function deleteCompany(id){
-  if(!confirm('Remover esta empresa e todos os seus dados?')) return;
+  if(!confirm('Remove this company and all its data?')) return;
   const{error}=await sb.from('companies').delete().eq('id',id);
-  if(error){toast('Erro: '+error.message,'err');return;}
-  toast('Empresa removida.','ok');renderCompanies();
+  if(error){toast('Error: '+error.message,'err');return;}
+  toast('Company removed.','ok');renderCompanies();
 }
 async function deleteDept(id){
-  if(!confirm('Remover este departamento?')) return;
+  if(!confirm('Remove this department?')) return;
   const{error}=await sb.from('departments').delete().eq('id',id);
-  if(error){toast('Erro: '+error.message,'err');return;}
-  toast('Departamento removido.','ok');renderCompanies();
+  if(error){toast('Error: '+error.message,'err');return;}
+  toast('Department removido.','ok');renderCompanies();
 }
 
-// ── PEOPLE ──
+// -- PEOPLE --
 async function renderPeople(){
   await loadOrgData();
   // populate company filter
   const cSel=document.getElementById('ppl-company-filter');
   const cur=cSel.value;
-  cSel.innerHTML='<option value="">Todas as empresas</option>'+companies.map(c=>`<option value="${c.id}" ${c.id===cur?'selected':''}>${c.name}</option>`).join('');
+  cSel.innerHTML='<option value="">All companies</option>'+companies.map(c=>`<option value="${c.id}" ${c.id===cur?'selected':''}>${c.name}</option>`).join('');
 
   const fComp=document.getElementById('ppl-company-filter').value;
   const viewMode=document.getElementById('ppl-view').value;
@@ -1872,7 +1903,7 @@ async function renderPeople(){
   const container=document.getElementById('people-container');
 
   if(!filteredPeople.length){
-    container.innerHTML=`<div class="empty"><i class="ti ti-users"></i><p>Nenhuma pessoa cadastrada ainda.</p></div>`;return;
+    container.innerHTML=`<div class="empty"><i class="ti ti-users"></i><p>No people added yet.</p></div>`;return;
   }
 
   if(viewMode==='org'){
@@ -1891,7 +1922,7 @@ function renderPeopleList(comps, ppl, container){
     return `<div style="margin-bottom:28px">
       <div style="font-size:14px;font-weight:600;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px">
         <div style="width:28px;height:28px;background:${PCOLS[ci%PCOLS.length]}18;color:${PCOLS[ci%PCOLS.length]};border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">${personInits(c.name)}</div>
-        ${c.name} <span style="font-size:12px;color:var(--text3);font-weight:400">${compPeople.length} pessoas</span>
+        ${c.name} <span style="font-size:12px;color:var(--text3);font-weight:400">${compPeople.length} people</span>
       </div>
       ${depts.map(d=>{
         const dPeople=compPeople.filter(p=>p.department_id===d.id);
@@ -1902,7 +1933,7 @@ function renderPeopleList(comps, ppl, container){
         </div>`;
       }).join('')}
       ${noDept.length?`<div class="dept-section">
-        <div class="dept-title"><i class="ti ti-circle-dashed" style="font-size:13px"></i>Sem departamento</div>
+        <div class="dept-title"><i class="ti ti-circle-dashed" style="font-size:13px"></i>No department</div>
         ${noDept.map((p,pi)=>personCard(p,pi)).join('')}
       </div>`:''}
     </div>`;
@@ -1973,13 +2004,13 @@ function renderOrgNode(person, allPeople, depth){
 async function openPersonModal(id=null){
   await loadOrgData();
   document.getElementById('pm-id').value=id||'';
-  document.getElementById('person-modal-title').textContent=id?'Editar pessoa':'Nova pessoa';
+  document.getElementById('person-modal-title').textContent=id?'Edit person':'New person';
   // populate company select
   const cSel=document.getElementById('pm-company');
-  cSel.innerHTML='<option value="">— Selecionar —</option>'+companies.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  cSel.innerHTML='<option value="">- Select -</option>'+companies.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
   // populate manager select
   const mSel=document.getElementById('pm-manager');
-  mSel.innerHTML='<option value="">— Nenhum —</option>'+people.filter(p=>p.id!==id).map(p=>`<option value="${p.id}">${p.name} (${companyName(p.company_id)})</option>`).join('');
+  mSel.innerHTML='<option value="">- None -</option>'+people.filter(p=>p.id!==id).map(p=>`<option value="${p.id}">${p.name} (${companyName(p.company_id)})</option>`).join('');
   if(id){
     const p=people.find(x=>x.id===id);
     if(p){
@@ -1993,14 +2024,14 @@ async function openPersonModal(id=null){
     }
   } else {
     ['pm-name','pm-role','pm-email','pm-phone'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('pm-dept').innerHTML='<option value="">— Selecionar empresa primeiro —</option>';
+    document.getElementById('pm-dept').innerHTML='<option value="">- Select company first -</option>';
   }
   document.getElementById('person-modal-overlay').style.display='flex';
 }
 async function loadPersonDepts(selectedDeptId=null){
   const compId=document.getElementById('pm-company').value;
   const dSel=document.getElementById('pm-dept');
-  dSel.innerHTML='<option value="">— Nenhum —</option>';
+  dSel.innerHTML='<option value="">- None -</option>';
   if(!compId) return;
   const depts=departments.filter(d=>d.company_id===compId);
   depts.forEach(d=>{
@@ -2016,8 +2047,8 @@ async function savePerson(){
   const id=document.getElementById('pm-id').value;
   const name=document.getElementById('pm-name').value.trim();
   const companyId=document.getElementById('pm-company').value;
-  if(!name){toast('Informe o nome da pessoa.','err');return;}
-  if(!companyId){toast('Selecione a empresa.','err');return;}
+  if(!name){toast("Please enter the person's name.",'err');return;}
+  if(!companyId){toast('Please select a company.','err');return;}
   const payload={
     name,company_id:companyId,
     role:document.getElementById('pm-role').value.trim(),
@@ -2027,44 +2058,43 @@ async function savePerson(){
     manager_id:document.getElementById('pm-manager').value||null
   };
   const btn=document.getElementById('person-save');
-  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Salvando...';
+  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Saving...';
   try{
     if(id){
       const{error}=await sb.from('people').update(payload).eq('id',id);
       if(error) throw error;
-      toast('Pessoa atualizada!','ok');
+      toast('Person updated!','ok');
     } else {
       const{error}=await sb.from('people').insert({...payload,created_by:currentUser.id});
       if(error) throw error;
-      toast('Pessoa cadastrada!','ok');
+      toast('Person added!','ok');
     }
     closePersonModal();
     await renderPeople();
-  }catch(e){toast('Erro: '+e.message,'err');}
-  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Salvar pessoa';
+  }catch(e){toast('Error: '+e.message,'err');}
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Save person';
 }
 
 async function deletePerson(id){
-  if(!confirm('Remover esta pessoa?')) return;
+  if(!confirm('Remove this person?')) return;
   const{error}=await sb.from('people').delete().eq('id',id);
-  if(error){toast('Erro: '+error.message,'err');return;}
-  toast('Pessoa removida.','ok');renderPeople();
+  if(error){toast('Error: '+error.message,'err');return;}
+  toast('Person removed.','ok');renderPeople();
 }
 
-// ── Boot ──
+// -- Boot --
 (async function boot(){
-  const cfg=getConfig();
-  // se tem credenciais (via constante ou localStorage), inicializa direto
-  if(cfg.url&&cfg.key){
-    initSB(cfg.url,cfg.key);
+  loader(true);
+  const cfg=await fetchConfig();
+  if(cfg.url&&cfg.key&&initSB(cfg.url,cfg.key)){
     try{
       const{data:{session}}=await sb.auth.getSession();
-      if(session?.user){await onLogin(session.user);return;}
-    }catch(e){console.warn('session error:',e);}
+      if(session?.user){await onLogin(session.user);loader(false);return;}
+    }catch(e){console.warn('Session error:',e);}
   }
+  loader(false);
   document.getElementById('login-screen').style.display='flex';
-  // só mostra aviso se realmente não há credenciais em lugar nenhum
-  if(!SUPABASE_URL&&!SUPABASE_KEY&&!localStorage.getItem('pf_url')){
+  if(!cfg.url||!cfg.key){
     document.getElementById('cfg-alert').style.display='flex';
   }
 })();
