@@ -291,7 +291,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
       </div>
       <div class="login-err" id="login-err"><i class="ti ti-alert-circle"></i><span></span></div>
       <div class="fg"><label>Email</label><input id="li-email" type="email" placeholder="your@email.com" autocomplete="email"></div>
-      <div class="fg"><label>Senha</label><input id="li-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
+      <div class="fg"><label>Password</label><input id="li-pass" type="password" placeholder="••••••••" autocomplete="current-password"></div>
       <button class="btn primary" id="li-btn" onclick="doLogin()">Sign in</button>
       <div class="login-switch">Don't have an account? <a onclick="switchForm('register')">Sign up</a></div>
     </div>
@@ -304,7 +304,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
       <div class="fg"><label>Invite code *</label><input id="reg-code" placeholder="XXXX-XXXX" style="text-transform:uppercase;letter-spacing:.08em;font-weight:600;font-size:15px"></div>
       <div class="fg"><label>Full name</label><input id="reg-name" placeholder="Your name"></div>
       <div class="fg"><label>Email</label><input id="reg-email" type="email" placeholder="your@email.com" autocomplete="email"></div>
-      <div class="fg"><label>Senha</label><input id="reg-pass" type="password" placeholder="Minimum 6 characters" autocomplete="new-password"></div>
+      <div class="fg"><label>Password</label><input id="reg-pass" type="password" placeholder="Minimum 6 characters" autocomplete="new-password"></div>
       <button class="btn primary" id="reg-btn" onclick="doRegister()">Sign up</button>
       <div class="login-switch">Already have an account? <a onclick="switchForm('login')">Sign in</a></div>
     </div>
@@ -771,16 +771,21 @@ let cachedConfig={url:'',key:''};
 async function fetchConfig(){
   // try edge function first
   try{
-    const r=await fetch(EDGE_FUNCTION_URL);
+    const r=await fetch(EDGE_FUNCTION_URL,{method:'GET',headers:{'Content-Type':'application/json'}});
     if(r.ok){
       const d=await r.json();
       if(d.url&&d.key){cachedConfig={url:d.url,key:d.key};return cachedConfig;}
     }
-  }catch(e){console.warn('Edge function unavailable, falling back to localStorage');}
-  // fallback to localStorage
-  const url=localStorage.getItem('pf_url')||'';
-  const key=localStorage.getItem('pf_key')||'';
-  cachedConfig={url,key};
+  }catch(e){console.warn('Edge function unavailable, using fallback credentials.');}
+  // fallback 1: localStorage (user-configured)
+  const lsUrl=localStorage.getItem('pf_url');
+  const lsKey=localStorage.getItem('pf_key');
+  if(lsUrl&&lsKey){cachedConfig={url:lsUrl,key:lsKey};return cachedConfig;}
+  // fallback 2: hardcoded (safe — anon key only, RLS enforced)
+  cachedConfig={
+    url:'https://gcrhhqftbstngnmbmahx.supabase.co',
+    key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdjcmhocWZ0YnN0bmdubWJtYWh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2MTA2ODUsImV4cCI6MjA5NzE4NjY4NX0.XxyJrxpmkdLf3YCBa0bjQscfprmc0X7pUjd47KTmFek'
+  };
   return cachedConfig;
 }
 function getConfig(){return cachedConfig;}
