@@ -11,14 +11,14 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f4f5f7;--surface:#ffffff;--surface2:#f8f9fb;--surface3:#eef0f4;
-  --border:#e2e5ec;--border2:#c8cdd8;
-  --text:#1a1d23;--text2:#5a6072;--text3:#9099b0;
-  --accent:#5b5ef4;--accent2:#7b7ef6;--accent-bg:#5b5ef408;--accent-light:#ededff;
+  --bg:#f0f4f9;--surface:#ffffff;--surface2:#f4f7fb;--surface3:#e8eef6;
+  --border:#d8e2ef;--border2:#b8c8e0;
+  --text:#1a1d23;--text2:#4a5568;--text3:#8096b0;
+  --accent:#1565C0;--accent2:#1976D2;--accent-bg:#1565C008;--accent-light:#e3eefb;
   --teal:#0da47a;--teal-bg:#e6f7f2;
   --amber:#c47f00;--amber-bg:#fff8e6;
   --red:#d03060;--red-bg:#fdf0f4;
-  --blue:#1a7fc1;--blue-bg:#e8f3fb;
+  --blue:#1565C0;--blue-bg:#e3eefb;
   --green:#1a7a4a;--green-bg:#e8f5ee;
   --radius:8px;--radius-lg:12px;--sidebar:228px;
   --font:'Inter',sans-serif;
@@ -242,6 +242,24 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .ibadge-expired{background:var(--red-bg);color:var(--red);border:1px solid #e8a0b8}
 .budget-total-row{background:var(--surface2);font-weight:600}
 .budget-total-row td{border-top:2px solid var(--border2)!important}
+.company-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.company-header{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.company-logo{width:44px;height:44px;border-radius:10px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--accent);flex-shrink:0}
+.dept-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:3px 10px;margin:3px;color:var(--text2)}
+.person-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.person-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;border:2px solid}
+.org-chart{overflow-x:auto;padding:16px 0}
+.org-node{display:inline-flex;flex-direction:column;align-items:center;position:relative;padding:0 12px}
+.org-box{background:var(--surface);border:1.5px solid var(--border2);border-radius:var(--radius);padding:10px 14px;min-width:130px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative}
+.org-box.is-root{border-color:var(--accent);background:var(--accent-light)}
+.org-box-name{font-size:13px;font-weight:600;color:var(--text)}
+.org-box-role{font-size:11px;color:var(--text3);margin-top:2px}
+.org-box-dept{font-size:10px;color:var(--accent);margin-top:3px;font-weight:500}
+.org-children{display:flex;align-items:flex-start;justify-content:center;position:relative;margin-top:28px}
+.org-connector-v{width:1.5px;height:24px;background:var(--border2);margin:0 auto}
+.org-connector-h{height:1.5px;background:var(--border2);position:absolute;top:0}
+.dept-section{margin-bottom:24px}
+.dept-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);padding:6px 0;border-bottom:1px solid var(--border);margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .settings-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;margin-bottom:14px}
 .settings-section h3{font-size:14px;font-weight:600;margin-bottom:4px}
 .settings-section p{font-size:13px;color:var(--text3);margin-bottom:18px}
@@ -305,11 +323,14 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         <div class="nav-group">Workspace</div>
         <div class="nav-item active" onclick="gotoView('projects',this)"><i class="ti ti-layout-list"></i> Projetos <span class="nav-badge" id="nb">0</span></div>
         <div class="nav-item" onclick="gotoView('dashboard',this)"><i class="ti ti-chart-bar"></i> Dashboard</div>
+        <div class="nav-group">Empresas</div>
+        <div class="nav-item" onclick="gotoView('companies',this)"><i class="ti ti-building"></i> Empresas</div>
+        <div class="nav-item" onclick="gotoView('people',this)"><i class="ti ti-users"></i> Pessoas</div>
         <div class="nav-group">Budget</div>
         <div class="nav-item" onclick="gotoView('budget',this)"><i class="ti ti-shopping-cart"></i> Produtos</div>
         <div class="nav-item" onclick="gotoView('suppliers',this)"><i class="ti ti-building-store"></i> Fornecedores</div>
         <div class="nav-group">Gestão</div>
-        <div class="nav-item" id="nav-team" style="display:none" onclick="gotoView('team',this)"><i class="ti ti-users"></i> Equipe</div>
+        <div class="nav-item" id="nav-team" style="display:none" onclick="gotoView('team',this)"><i class="ti ti-shield"></i> Equipe & Acesso</div>
         <div class="nav-item" id="nav-invites" style="display:none" onclick="gotoView('invites',this)"><i class="ti ti-ticket"></i> Convites</div>
         <div class="nav-item" onclick="gotoView('settings',this)"><i class="ti ti-settings"></i> Configurações</div>
       </nav>
@@ -448,6 +469,37 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
               <button class="btn danger" onclick="doLogout()"><i class="ti ti-logout"></i> Sair</button>
             </div>
           </div>
+        </div>
+
+        <!-- COMPANIES -->
+        <div class="view" id="view-companies">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+            <div>
+              <div style="font-size:15px;font-weight:600;margin-bottom:2px">Empresas</div>
+              <div style="font-size:13px;color:var(--text3)">Gerencie as empresas e seus departamentos.</div>
+            </div>
+            <button class="btn primary" onclick="openCompanyModal()"><i class="ti ti-plus"></i> Nova empresa</button>
+          </div>
+          <div id="companies-list"></div>
+        </div>
+
+        <!-- PEOPLE -->
+        <div class="view" id="view-people">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+            <div>
+              <div style="font-size:15px;font-weight:600;margin-bottom:2px">Pessoas</div>
+              <div style="font-size:13px;color:var(--text3)">Toda a equipe — usuários da plataforma ou não.</div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <select class="filter-sel" id="ppl-company-filter" onchange="renderPeople()"><option value="">Todas as empresas</option></select>
+              <select class="filter-sel" id="ppl-view" onchange="renderPeople()">
+                <option value="list">Lista por departamento</option>
+                <option value="org">Org chart hierárquico</option>
+              </select>
+              <button class="btn primary" onclick="openPersonModal()"><i class="ti ti-plus"></i> Nova pessoa</button>
+            </div>
+          </div>
+          <div id="people-container"></div>
         </div>
 
         <!-- BUDGET / PRODUTOS -->
@@ -636,8 +688,64 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
   </div>
 </div>
 
+<!-- MODAL EMPRESA -->
+<div class="overlay" id="company-modal-overlay" style="display:none" onclick="if(event.target===this)closeCompanyModal()">
+  <div class="modal" style="max-width:500px" onclick="event.stopPropagation()">
+    <div class="modal-head"><h2 id="company-modal-title">Nova empresa</h2><button class="close-btn" onclick="closeCompanyModal()"><i class="ti ti-x"></i></button></div>
+    <input type="hidden" id="cm-id">
+    <div class="form-row2">
+      <div class="form-group" style="margin-bottom:0"><label>Nome da empresa *</label><input id="cm-name" placeholder="Ex: Turbo Machine"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Setor / Indústria</label><input id="cm-industry" placeholder="Ex: Engenharia"></div>
+    </div>
+    <div class="form-group" style="margin-top:12px;margin-bottom:0"><label>Observações</label><input id="cm-notes" placeholder="Notas adicionais"></div>
+    <div class="divider"></div>
+    <div style="font-size:13px;font-weight:500;margin-bottom:10px;color:var(--text2)">Departamentos</div>
+    <div id="cm-depts"></div>
+    <button class="add-row-btn" onclick="addDeptRow()"><i class="ti ti-plus"></i> Adicionar departamento</button>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeCompanyModal()">Cancelar</button>
+      <button class="btn primary" id="company-save" onclick="saveCompany()"><i class="ti ti-device-floppy"></i> Salvar empresa</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PESSOA -->
+<div class="overlay" id="person-modal-overlay" style="display:none" onclick="if(event.target===this)closePersonModal()">
+  <div class="modal" style="max-width:520px" onclick="event.stopPropagation()">
+    <div class="modal-head"><h2 id="person-modal-title">Nova pessoa</h2><button class="close-btn" onclick="closePersonModal()"><i class="ti ti-x"></i></button></div>
+    <input type="hidden" id="pm-id">
+    <div class="form-row2">
+      <div class="form-group" style="margin-bottom:0"><label>Nome completo *</label><input id="pm-name" placeholder="Nome da pessoa"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Cargo</label><input id="pm-role" placeholder="Ex: Engenheiro Sênior"></div>
+    </div>
+    <div class="form-row2" style="margin-top:12px">
+      <div class="form-group" style="margin-bottom:0">
+        <label>Empresa *</label>
+        <select id="pm-company" onchange="loadPersonDepts()">
+          <option value="">— Selecionar —</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label>Departamento</label>
+        <select id="pm-dept"><option value="">— Selecionar —</option></select>
+      </div>
+    </div>
+    <div class="form-row2" style="margin-top:12px">
+      <div class="form-group" style="margin-bottom:0"><label>E-mail</label><input id="pm-email" type="email" placeholder="email@empresa.com"></div>
+      <div class="form-group" style="margin-bottom:0"><label>Telefone</label><input id="pm-phone" placeholder="(11) 99999-9999"></div>
+    </div>
+    <div class="form-group" style="margin-top:12px;margin-bottom:0">
+      <label>Reporta para (gestor direto)</label>
+      <select id="pm-manager"><option value="">— Nenhum —</option></select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closePersonModal()">Cancelar</button>
+      <button class="btn primary" id="person-save" onclick="savePerson()"><i class="ti ti-device-floppy"></i> Salvar pessoa</button>
+    </div>
+  </div>
+</div>
+
 <script>
-// ══════════════════════════════════════════════
 // COLE SUAS CREDENCIAIS AQUI (opcional)
 // ou use a tela de Configurações dentro do app
 const SUPABASE_URL = 'https://gcrhhqftbstngnmbmahx.supabase.co';
@@ -938,13 +1046,15 @@ function gotoView(v,el){
   document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
   if(el) el.classList.add('active');
-  document.getElementById('page-title').textContent={projects:'Projetos',dashboard:'Dashboard',budget:'Produtos & Budget',suppliers:'Fornecedores',team:'Equipe',invites:'Convites',settings:'Configurações'}[v]||v;
+  document.getElementById('page-title').textContent={projects:'Projetos',dashboard:'Dashboard',companies:'Empresas',people:'Pessoas',budget:'Produtos & Budget',suppliers:'Fornecedores',team:'Equipe & Acesso',invites:'Convites',settings:'Configurações'}[v]||v;
   document.getElementById('new-btn').style.display=v==='projects'&&(isAdmin()||isManager())?'':'none';
   if(v==='dashboard') renderDashboard();
   if(v==='team') renderTeam();
   if(v==='invites') renderInvites();
   if(v==='budget') renderBudget();
   if(v==='suppliers') renderSuppliers();
+  if(v==='companies') renderCompanies();
+  if(v==='people') renderPeople();
   if(v==='settings'){const cfg=getConfig();document.getElementById('cfg-url').value=cfg.url;document.getElementById('cfg-key').value=cfg.key;}
 }
 function clearFilters(){['f-st','f-cat','f-ow','gsearch'].forEach(id=>document.getElementById(id).value='');renderProjects();}
@@ -1619,6 +1729,326 @@ async function deleteSupplier(id){
   if(error){toast('Erro: '+error.message,'err');return;}
   toast('Fornecedor removido.','ok');
   renderSuppliers();
+}
+
+// ── Companies & People ──
+let companies=[], departments=[], people=[];
+
+async function loadOrgData(){
+  if(!sb) return;
+  const[{data:c},{data:d},{data:p}]=await Promise.all([
+    sb.from('companies').select('*').order('name'),
+    sb.from('departments').select('*').order('name'),
+    sb.from('people').select('*').order('name')
+  ]);
+  companies=c||[];departments=d||[];people=p||[];
+}
+
+function companyName(id){return companies.find(c=>c.id===id)?.name||'—';}
+function deptName(id){return departments.find(d=>d.id===id)?.name||'—';}
+function personInits(name){return(name||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();}
+
+// ── COMPANIES ──
+async function renderCompanies(){
+  await loadOrgData();
+  const el=document.getElementById('companies-list');
+  if(!companies.length){
+    el.innerHTML=`<div class="empty"><i class="ti ti-building"></i><p>Nenhuma empresa cadastrada ainda.</p></div>`;return;
+  }
+  el.innerHTML=companies.map((c,i)=>{
+    const depts=departments.filter(d=>d.company_id===c.id);
+    const ppl=people.filter(p=>p.company_id===c.id);
+    return `<div class="company-card">
+      <div class="company-header">
+        <div class="company-logo" style="background:${PCOLS[i%PCOLS.length]}18;color:${PCOLS[i%PCOLS.length]}">${personInits(c.name)}</div>
+        <div style="flex:1">
+          <div style="font-size:15px;font-weight:600;color:var(--text)">${c.name}</div>
+          <div style="font-size:12px;color:var(--text3)">${c.industry||'—'} &nbsp;·&nbsp; ${ppl.length} pessoas &nbsp;·&nbsp; ${depts.length} departamentos</div>
+        </div>
+        <button class="btn sm" onclick="openCompanyModal('${c.id}')"><i class="ti ti-pencil"></i> Editar</button>
+        <button class="icon-action" onclick="deleteCompany('${c.id}')" title="Excluir"><i class="ti ti-trash"></i></button>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:${depts.length?'10px':'0'}">
+        ${depts.map(d=>`<span class="dept-badge"><i class="ti ti-layout-grid" style="font-size:11px"></i>${d.name}
+          <button onclick="deleteDept('${d.id}')" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:11px;padding:0 0 0 4px;display:inline-flex;align-items:center"><i class="ti ti-x"></i></button>
+        </span>`).join('')}
+      </div>
+      ${c.notes?`<div style="font-size:12px;color:var(--text3);margin-top:6px">${c.notes}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+async function openCompanyModal(id=null){
+  document.getElementById('cm-id').value=id||'';
+  document.getElementById('company-modal-title').textContent=id?'Editar empresa':'Nova empresa';
+  const deptWrap=document.getElementById('cm-depts');
+  deptWrap.innerHTML='';
+  if(id){
+    const c=companies.find(x=>x.id===id);
+    if(c){
+      document.getElementById('cm-name').value=c.name;
+      document.getElementById('cm-industry').value=c.industry||'';
+      document.getElementById('cm-notes').value=c.notes||'';
+    }
+    // show existing depts
+    const depts=departments.filter(d=>d.company_id===id);
+    depts.forEach(d=>{
+      const row=document.createElement('div');
+      row.style.cssText='display:flex;gap:8px;margin-bottom:7px;align-items:center';
+      row.innerHTML=`<input value="${d.name}" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:7px 10px;font-size:13px;color:var(--text);font-family:var(--font);outline:none" readonly>
+        <span style="font-size:11px;color:var(--text3)">já salvo</span>`;
+      deptWrap.appendChild(row);
+    });
+  } else {
+    ['cm-name','cm-industry','cm-notes'].forEach(id=>document.getElementById(id).value='');
+  }
+  document.getElementById('company-modal-overlay').style.display='flex';
+}
+function addDeptRow(){
+  const wrap=document.getElementById('cm-depts');
+  const row=document.createElement('div');
+  row.style.cssText='display:flex;gap:8px;margin-bottom:7px;align-items:center';
+  row.innerHTML=`<input placeholder="Nome do departamento" class="new-dept-input" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:7px 10px;font-size:13px;color:var(--text);font-family:var(--font);outline:none">
+    <button class="rm-btn" onclick="this.parentElement.remove()"><i class="ti ti-x"></i></button>`;
+  wrap.appendChild(row);
+}
+function closeCompanyModal(){document.getElementById('company-modal-overlay').style.display='none';}
+
+async function saveCompany(){
+  const id=document.getElementById('cm-id').value;
+  const name=document.getElementById('cm-name').value.trim();
+  if(!name){toast('Informe o nome da empresa.','err');return;}
+  const payload={name,industry:document.getElementById('cm-industry').value.trim(),notes:document.getElementById('cm-notes').value.trim()};
+  const btn=document.getElementById('company-save');
+  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Salvando...';
+  try{
+    let companyId=id;
+    if(id){
+      const{error}=await sb.from('companies').update(payload).eq('id',id);
+      if(error) throw error;
+    } else {
+      const{data,error}=await sb.from('companies').insert({...payload,created_by:currentUser.id}).select().single();
+      if(error) throw error;
+      companyId=data.id;
+    }
+    // save new departments
+    const newDepts=[...document.querySelectorAll('.new-dept-input')].map(i=>i.value.trim()).filter(Boolean);
+    if(newDepts.length){
+      const{error}=await sb.from('departments').insert(newDepts.map(n=>({name:n,company_id:companyId})));
+      if(error) throw error;
+    }
+    toast(id?'Empresa atualizada!':'Empresa cadastrada!','ok');
+    closeCompanyModal();
+    await renderCompanies();
+  }catch(e){toast('Erro: '+e.message,'err');}
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Salvar empresa';
+}
+
+async function deleteCompany(id){
+  if(!confirm('Remover esta empresa e todos os seus dados?')) return;
+  const{error}=await sb.from('companies').delete().eq('id',id);
+  if(error){toast('Erro: '+error.message,'err');return;}
+  toast('Empresa removida.','ok');renderCompanies();
+}
+async function deleteDept(id){
+  if(!confirm('Remover este departamento?')) return;
+  const{error}=await sb.from('departments').delete().eq('id',id);
+  if(error){toast('Erro: '+error.message,'err');return;}
+  toast('Departamento removido.','ok');renderCompanies();
+}
+
+// ── PEOPLE ──
+async function renderPeople(){
+  await loadOrgData();
+  // populate company filter
+  const cSel=document.getElementById('ppl-company-filter');
+  const cur=cSel.value;
+  cSel.innerHTML='<option value="">Todas as empresas</option>'+companies.map(c=>`<option value="${c.id}" ${c.id===cur?'selected':''}>${c.name}</option>`).join('');
+
+  const fComp=document.getElementById('ppl-company-filter').value;
+  const viewMode=document.getElementById('ppl-view').value;
+  const filteredPeople=fComp?people.filter(p=>p.company_id===fComp):people;
+  const filteredCompanies=fComp?companies.filter(c=>c.id===fComp):companies;
+  const container=document.getElementById('people-container');
+
+  if(!filteredPeople.length){
+    container.innerHTML=`<div class="empty"><i class="ti ti-users"></i><p>Nenhuma pessoa cadastrada ainda.</p></div>`;return;
+  }
+
+  if(viewMode==='org'){
+    renderOrgChart(filteredCompanies, filteredPeople, container);
+  } else {
+    renderPeopleList(filteredCompanies, filteredPeople, container);
+  }
+}
+
+function renderPeopleList(comps, ppl, container){
+  container.innerHTML=comps.map((c,ci)=>{
+    const compPeople=ppl.filter(p=>p.company_id===c.id);
+    if(!compPeople.length) return '';
+    const depts=departments.filter(d=>d.company_id===c.id);
+    const noDept=compPeople.filter(p=>!p.department_id);
+    return `<div style="margin-bottom:28px">
+      <div style="font-size:14px;font-weight:600;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px">
+        <div style="width:28px;height:28px;background:${PCOLS[ci%PCOLS.length]}18;color:${PCOLS[ci%PCOLS.length]};border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">${personInits(c.name)}</div>
+        ${c.name} <span style="font-size:12px;color:var(--text3);font-weight:400">${compPeople.length} pessoas</span>
+      </div>
+      ${depts.map(d=>{
+        const dPeople=compPeople.filter(p=>p.department_id===d.id);
+        if(!dPeople.length) return '';
+        return `<div class="dept-section">
+          <div class="dept-title"><i class="ti ti-layout-grid" style="font-size:13px"></i>${d.name} <span style="font-weight:400">(${dPeople.length})</span></div>
+          ${dPeople.map((p,pi)=>personCard(p,pi)).join('')}
+        </div>`;
+      }).join('')}
+      ${noDept.length?`<div class="dept-section">
+        <div class="dept-title"><i class="ti ti-circle-dashed" style="font-size:13px"></i>Sem departamento</div>
+        ${noDept.map((p,pi)=>personCard(p,pi)).join('')}
+      </div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function personCard(p, pi){
+  const manager=people.find(x=>x.id===p.manager_id);
+  return `<div class="person-card">
+    <div class="person-av" style="background:${PCOLS[pi%PCOLS.length]}18;color:${PCOLS[pi%PCOLS.length]};border-color:${PCOLS[pi%PCOLS.length]}40">${personInits(p.name)}</div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:13px;font-weight:500;color:var(--text)">${p.name}</div>
+      <div style="font-size:12px;color:var(--text3);display:flex;gap:10px;flex-wrap:wrap;margin-top:2px">
+        ${p.role?`<span><i class="ti ti-briefcase" style="font-size:11px"></i> ${p.role}</span>`:''}
+        ${p.email?`<span><i class="ti ti-mail" style="font-size:11px"></i> ${p.email}</span>`:''}
+        ${p.phone?`<span><i class="ti ti-phone" style="font-size:11px"></i> ${p.phone}</span>`:''}
+        ${manager?`<span><i class="ti ti-arrow-up" style="font-size:11px"></i> ${manager.name}</span>`:''}
+      </div>
+    </div>
+    <button class="btn sm" onclick="openPersonModal('${p.id}')"><i class="ti ti-pencil"></i></button>
+    <button class="icon-action" onclick="deletePerson('${p.id}')"><i class="ti ti-trash"></i></button>
+  </div>`;
+}
+
+function renderOrgChart(comps, ppl, container){
+  container.innerHTML=comps.map((c,ci)=>{
+    const compPeople=ppl.filter(p=>p.company_id===c.id);
+    if(!compPeople.length) return '';
+    // roots = people with no manager or manager not in this company
+    const compIds=new Set(compPeople.map(p=>p.id));
+    const roots=compPeople.filter(p=>!p.manager_id||!compIds.has(p.manager_id));
+    return `<div style="margin-bottom:32px">
+      <div style="font-size:14px;font-weight:600;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:8px">
+        <div style="width:28px;height:28px;background:${PCOLS[ci%PCOLS.length]}18;color:${PCOLS[ci%PCOLS.length]};border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">${personInits(c.name)}</div>
+        ${c.name}
+      </div>
+      <div class="org-chart">
+        <div style="display:flex;gap:24px;flex-wrap:wrap">
+          ${roots.map(r=>renderOrgNode(r,compPeople,0)).join('')}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderOrgNode(person, allPeople, depth){
+  const children=allPeople.filter(p=>p.manager_id===person.id);
+  const dept=departments.find(d=>d.id===person.department_id);
+  const isRoot=depth===0;
+  return `<div class="org-node">
+    <div class="org-box ${isRoot?'is-root':''}" style="${isRoot?'border-color:var(--accent)':''}">
+      <div style="width:28px;height:28px;border-radius:50%;background:${isRoot?'var(--accent)':'var(--surface3)'};color:${isRoot?'#fff':'var(--text2)'};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin:0 auto 6px">${personInits(person.name)}</div>
+      <div class="org-box-name">${person.name}</div>
+      ${person.role?`<div class="org-box-role">${person.role}</div>`:''}
+      ${dept?`<div class="org-box-dept">${dept.name}</div>`:''}
+      <div style="display:flex;justify-content:center;gap:4px;margin-top:6px">
+        <button onclick="openPersonModal('${person.id}')" style="background:transparent;border:none;cursor:pointer;color:var(--text3);font-size:13px;padding:2px"><i class="ti ti-pencil"></i></button>
+      </div>
+    </div>
+    ${children.length?`
+      <div class="org-connector-v"></div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center">
+        ${children.map(ch=>renderOrgNode(ch,allPeople,depth+1)).join('')}
+      </div>`:''}
+  </div>`;
+}
+
+async function openPersonModal(id=null){
+  await loadOrgData();
+  document.getElementById('pm-id').value=id||'';
+  document.getElementById('person-modal-title').textContent=id?'Editar pessoa':'Nova pessoa';
+  // populate company select
+  const cSel=document.getElementById('pm-company');
+  cSel.innerHTML='<option value="">— Selecionar —</option>'+companies.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+  // populate manager select
+  const mSel=document.getElementById('pm-manager');
+  mSel.innerHTML='<option value="">— Nenhum —</option>'+people.filter(p=>p.id!==id).map(p=>`<option value="${p.id}">${p.name} (${companyName(p.company_id)})</option>`).join('');
+  if(id){
+    const p=people.find(x=>x.id===id);
+    if(p){
+      document.getElementById('pm-name').value=p.name;
+      document.getElementById('pm-role').value=p.role||'';
+      document.getElementById('pm-email').value=p.email||'';
+      document.getElementById('pm-phone').value=p.phone||'';
+      cSel.value=p.company_id||'';
+      mSel.value=p.manager_id||'';
+      await loadPersonDepts(p.department_id);
+    }
+  } else {
+    ['pm-name','pm-role','pm-email','pm-phone'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('pm-dept').innerHTML='<option value="">— Selecionar empresa primeiro —</option>';
+  }
+  document.getElementById('person-modal-overlay').style.display='flex';
+}
+async function loadPersonDepts(selectedDeptId=null){
+  const compId=document.getElementById('pm-company').value;
+  const dSel=document.getElementById('pm-dept');
+  dSel.innerHTML='<option value="">— Nenhum —</option>';
+  if(!compId) return;
+  const depts=departments.filter(d=>d.company_id===compId);
+  depts.forEach(d=>{
+    const opt=document.createElement('option');
+    opt.value=d.id;opt.textContent=d.name;
+    if(d.id===selectedDeptId) opt.selected=true;
+    dSel.appendChild(opt);
+  });
+}
+function closePersonModal(){document.getElementById('person-modal-overlay').style.display='none';}
+
+async function savePerson(){
+  const id=document.getElementById('pm-id').value;
+  const name=document.getElementById('pm-name').value.trim();
+  const companyId=document.getElementById('pm-company').value;
+  if(!name){toast('Informe o nome da pessoa.','err');return;}
+  if(!companyId){toast('Selecione a empresa.','err');return;}
+  const payload={
+    name,company_id:companyId,
+    role:document.getElementById('pm-role').value.trim(),
+    email:document.getElementById('pm-email').value.trim(),
+    phone:document.getElementById('pm-phone').value.trim(),
+    department_id:document.getElementById('pm-dept').value||null,
+    manager_id:document.getElementById('pm-manager').value||null
+  };
+  const btn=document.getElementById('person-save');
+  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Salvando...';
+  try{
+    if(id){
+      const{error}=await sb.from('people').update(payload).eq('id',id);
+      if(error) throw error;
+      toast('Pessoa atualizada!','ok');
+    } else {
+      const{error}=await sb.from('people').insert({...payload,created_by:currentUser.id});
+      if(error) throw error;
+      toast('Pessoa cadastrada!','ok');
+    }
+    closePersonModal();
+    await renderPeople();
+  }catch(e){toast('Erro: '+e.message,'err');}
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Salvar pessoa';
+}
+
+async function deletePerson(id){
+  if(!confirm('Remover esta pessoa?')) return;
+  const{error}=await sb.from('people').delete().eq('id',id);
+  if(error){toast('Erro: '+error.message,'err');return;}
+  toast('Pessoa removida.','ok');renderPeople();
 }
 
 // ── Boot ──
