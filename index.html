@@ -191,7 +191,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
 /* MODAL */
 .overlay{position:fixed;inset:0;background:rgba(30,35,50,.45);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(2px)}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);width:680px;max-width:100%;max-height:92vh;overflow-y:auto;padding:26px;box-shadow:0 8px 40px rgba(0,0,0,.12)}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);width:860px;max-width:98vw;max-height:92vh;overflow-y:auto;padding:26px;box-shadow:0 8px 40px rgba(0,0,0,.12)}
 .modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
 .modal-head h2{font-size:16px;font-weight:600;letter-spacing:-.2px}
 .close-btn{background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:19px;display:flex;padding:4px;border-radius:6px}
@@ -206,8 +206,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .cat-block-dot{width:8px;height:8px;border-radius:3px;flex-shrink:0}
 .cat-block-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text2);flex:1}
 .cat-block-body{padding:10px 13px}
-.trf{display:grid;grid-template-columns:1fr 110px 110px 75px 75px 80px 80px 24px;gap:7px;margin-bottom:7px;align-items:center}
-.trf-hdr{display:grid;grid-template-columns:1fr 110px 110px 75px 75px 80px 80px 24px;gap:7px;margin-bottom:5px}
+.trf{display:grid;grid-template-columns:1.5fr 120px 120px 85px 85px 90px 90px 28px;gap:6px;margin-bottom:7px;align-items:center}
+.trf-hdr{display:grid;grid-template-columns:1.5fr 120px 120px 85px 85px 90px 90px 28px;gap:6px;margin-bottom:5px}
 .trf-hdr span{font-size:10px;color:var(--text3);font-weight:500;text-transform:uppercase;letter-spacing:.04em}
 .trf input,.trf select{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-size:12px;color:var(--text);font-family:var(--font);outline:none;width:100%}
 .trf input:focus,.trf select:focus{border-color:var(--accent);background:#fff}
@@ -242,6 +242,50 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .ibadge-expired{background:var(--red-bg);color:var(--red);border:1px solid #e8a0b8}
 .budget-total-row{background:var(--surface2);font-weight:600}
 .budget-total-row td{border-top:2px solid var(--border2)!important}
+
+/* Admin Tasks */
+.at-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+.at-view-toggle{display:flex;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.at-view-btn{padding:6px 14px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--text3);font-family:var(--font);transition:all .15s}
+.at-view-btn.active{background:var(--surface);color:var(--accent);box-shadow:inset 0 0 0 1px var(--border)}
+
+/* Kanban */
+.kanban-wrap{display:flex;gap:14px;overflow-x:auto;padding-bottom:12px;align-items:flex-start}
+.kanban-col{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-lg);min-width:240px;width:240px;flex-shrink:0}
+.kanban-col-head{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.kanban-col-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text2)}
+.kanban-count{font-size:11px;background:var(--surface);border:1px solid var(--border);color:var(--text3);padding:1px 8px;border-radius:20px;font-weight:500}
+.kanban-cards{padding:10px;display:flex;flex-direction:column;gap:8px;min-height:80px}
+.at-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;cursor:pointer;transition:all .15s;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.at-card:hover{border-color:var(--border2);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.at-card-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:6px;line-height:1.4}
+.at-card-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pri-badge{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em}
+.pri-low{background:#e8f5ee;color:#1a7a4a;border:1px solid #80c8a0}
+.pri-medium{background:#e3eefb;color:#1565C0;border:1px solid #90b8e8}
+.pri-high{background:#fff8e6;color:#c47f00;border:1px solid #e8c860}
+.pri-critical{background:#fdf0f4;color:#d03060;border:1px solid #e8a0b8}
+.at-due{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:3px}
+.at-due.overdue{color:var(--red)}
+.at-assignee{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:3px}
+.at-dept-tag{font-size:10px;background:var(--accent-light);color:var(--accent);border:1px solid #b8d0f0;padding:1px 7px;border-radius:20px}
+
+/* List view */
+.at-list-table{width:100%;border-collapse:collapse;table-layout:auto}
+.at-list-table th{font-size:11px;color:var(--text3);padding:9px 14px;text-align:left;font-weight:500;text-transform:uppercase;letter-spacing:.05em;background:var(--surface2);border-bottom:1px solid var(--border)}
+.at-list-table td{padding:11px 14px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle}
+.at-list-table tr:last-child td{border-bottom:none}
+.at-list-table tr:hover td{background:#f6f9fd}
+
+/* Task modal */
+.at-status-sel{font-size:11px;padding:3px 8px;border-radius:20px;font-weight:500;border:1px solid;cursor:pointer;font-family:var(--font);background:transparent}
+.at-todo{background:#e3eefb;color:#1565C0;border-color:#90b8e8}
+.at-inprogress{background:#e6f7f2;color:#0da47a;border-color:#80d0b8}
+.at-inreview{background:#fff8e6;color:#c47f00;border-color:#e8c860}
+.at-done{background:#e8f5ee;color:#1a7a4a;border-color:#80c8a0}
+.at-cancelled{background:#fdf0f4;color:#d03060;border-color:#e8a0b8}
+.add-task-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text3);background:transparent;border:1px dashed var(--border2);border-radius:var(--radius);padding:7px 14px;cursor:pointer;font-family:var(--font);transition:all .15s;margin:6px 10px}
+.add-task-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-light)}
 .company-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .company-header{display:flex;align-items:center;gap:14px;margin-bottom:14px}
 .company-logo{width:44px;height:44px;border-radius:10px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--accent);flex-shrink:0}
@@ -323,6 +367,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         <div class="nav-group">Workspace</div>
         <div class="nav-item active" onclick="gotoView('projects',this)"><i class="ti ti-layout-list"></i> Projects <span class="nav-badge" id="nb">0</span></div>
         <div class="nav-item" onclick="gotoView('dashboard',this)"><i class="ti ti-chart-bar"></i> Dashboard</div>
+        <div class="nav-item" onclick="gotoView('admin-tasks',this)"><i class="ti ti-checklist"></i> Admin Tasks <span class="nav-badge" id="nb-admin" style="display:none">0</span></div>
         <div class="nav-group">Companies</div>
         <div class="nav-item" onclick="gotoView('companies',this)"><i class="ti ti-building"></i> Companies</div>
         <div class="nav-item" onclick="gotoView('people',this)"><i class="ti ti-users"></i> People</div>
@@ -471,6 +516,42 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
           </div>
         </div>
 
+        <!-- ADMIN TASKS -->
+        <div class="view" id="view-admin-tasks">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+            <div>
+              <div style="font-size:15px;font-weight:600;margin-bottom:2px">Admin Tasks</div>
+              <div style="font-size:13px;color:var(--text3)">Operational & administrative actions across both companies.</div>
+            </div>
+            <button class="btn primary" onclick="openTaskModal()"><i class="ti ti-plus"></i> New task</button>
+          </div>
+
+          <!-- Toolbar -->
+          <div class="at-toolbar">
+            <div class="at-view-toggle">
+              <button class="at-view-btn active" id="at-btn-kanban" onclick="setAtView('kanban')"><i class="ti ti-layout-board" style="font-size:14px"></i> Kanban</button>
+              <button class="at-view-btn" id="at-btn-list" onclick="setAtView('list')"><i class="ti ti-list" style="font-size:14px"></i> List</button>
+            </div>
+            <select class="filter-sel" id="at-f-company" onchange="renderAdminTasks()"><option value="">All companies</option></select>
+            <select class="filter-sel" id="at-f-dept" onchange="renderAdminTasks()"><option value="">All departments</option></select>
+            <select class="filter-sel" id="at-f-priority" onchange="renderAdminTasks()">
+              <option value="">All priorities</option>
+              <option>Critical</option><option>High</option><option>Medium</option><option>Low</option>
+            </select>
+            <select class="filter-sel" id="at-f-status" onchange="renderAdminTasks()">
+              <option value="">All statuses</option>
+              <option>To Do</option><option>In Progress</option><option>In Review</option><option>Done</option><option>Cancelled</option>
+            </select>
+            <input type="text" class="filter-sel" id="at-search" placeholder="Search tasks..." oninput="renderAdminTasks()" style="min-width:180px">
+          </div>
+
+          <!-- Metrics -->
+          <div class="metrics" id="at-metrics" style="margin-bottom:18px"></div>
+
+          <!-- Content -->
+          <div id="at-content"></div>
+        </div>
+
         <!-- COMPANIES -->
         <div class="view" id="view-companies">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
@@ -569,7 +650,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
       <div class="form-group" style="margin-bottom:0"><label>Due date *</label><input id="m-end" type="date"></div>
     </div>
     <div class="divider"></div>
-    <div style="font-size:12px;color:var(--text3);margin-bottom:12px">Adicione phases por categoria. Linhas com nome em branco são ignoradas.</div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:12px">Add phases per category. Rows with no name are ignored.</div>
     <div id="cat-forms"></div>
     <div class="modal-footer">
       <button class="btn" onclick="closeModal()">Cancel</button>
@@ -684,6 +765,57 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
     <div class="modal-footer">
       <button class="btn" onclick="closeSupplierModal()">Cancel</button>
       <button class="btn primary" id="supplier-save" onclick="saveSupplier()"><i class="ti ti-device-floppy"></i> Save fornecedor</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ADMIN TASK -->
+<div class="overlay" id="task-modal-overlay" style="display:none" onclick="if(event.target===this)closeTaskModal()">
+  <div class="modal" style="max-width:560px" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <h2 id="task-modal-title">New task</h2>
+      <button class="close-btn" onclick="closeTaskModal()"><i class="ti ti-x"></i></button>
+    </div>
+    <input type="hidden" id="tm-id">
+    <div class="form-group"><label>Title *</label><input id="tm-title" placeholder="Ex: Set up HR onboarding process"></div>
+    <div class="form-group"><label>Description / Notes</label><textarea id="tm-desc" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:9px 12px;font-size:13px;color:var(--text);font-family:var(--font);outline:none;width:100%;resize:vertical;min-height:80px" placeholder="Details, links, context..."></textarea></div>
+    <div class="form-row2">
+      <div class="form-group" style="margin-bottom:0">
+        <label>Company</label>
+        <select id="tm-company" onchange="loadTaskDepts()"><option value="">-- Select --</option></select>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label>Department</label>
+        <select id="tm-dept"><option value="">-- Select --</option></select>
+      </div>
+    </div>
+    <div class="form-row2" style="margin-top:12px">
+      <div class="form-group" style="margin-bottom:0">
+        <label>Assignee</label>
+        <select id="tm-assignee"><option value="">-- Select --</option></select>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label>Due date</label>
+        <input id="tm-due" type="date">
+      </div>
+    </div>
+    <div class="form-row2" style="margin-top:12px">
+      <div class="form-group" style="margin-bottom:0">
+        <label>Status</label>
+        <select id="tm-status">
+          <option>To Do</option><option>In Progress</option><option>In Review</option><option>Done</option><option>Cancelled</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label>Priority</label>
+        <select id="tm-priority">
+          <option>Low</option><option selected>Medium</option><option>High</option><option>Critical</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeTaskModal()">Cancel</button>
+      <button class="btn primary" id="task-save" onclick="saveTask()"><i class="ti ti-device-floppy"></i> Save task</button>
     </div>
   </div>
 </div>
@@ -1062,7 +1194,7 @@ function gotoView(v,el){
   document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
   if(el) el.classList.add('active');
-  document.getElementById('page-title').textContent={projects:'Projects',dashboard:'Dashboard',companies:'Companies',people:'People',budget:'Products & Budget',suppliers:'Suppliers',team:'Team & Access',invites:'Invites',settings:'Settings'}[v]||v;
+  document.getElementById('page-title').textContent={projects:'Projects',dashboard:'Dashboard','admin-tasks':'Admin Tasks',companies:'Companies',people:'People',budget:'Products & Budget',suppliers:'Suppliers',team:'Team & Access',invites:'Invites',settings:'Settings'}[v]||v;
   document.getElementById('new-btn').style.display=v==='projects'&&(isAdmin()||isManager())?'':'none';
   if(v==='dashboard') renderDashboard();
   if(v==='team') renderTeam();
@@ -1071,6 +1203,7 @@ function gotoView(v,el){
   if(v==='suppliers') renderSuppliers();
   if(v==='companies') renderCompanies();
   if(v==='people') renderPeople();
+  if(v==='admin-tasks') renderAdminTasks();
   if(v==='settings'){const cfg=getConfig();document.getElementById('cfg-url').value=cfg.url;document.getElementById('cfg-key').value=cfg.key;}
 }
 function clearFilters(){['f-st','f-cat','f-ow','gsearch'].forEach(id=>document.getElementById(id).value='');renderProjects();}
@@ -1163,16 +1296,19 @@ function renderCatsHTML(p, filterOwner=''){
     const allCatTasks=p.phases.filter(ph=>ph.category===cat.key);
     // se h- filtro de respons-vel, mostra s- as phases dele; sen-o mostra todas
     const tasks=filterOwner ? allCatTasks.filter(t=>t.responsible===filterOwner) : allCatTasks;
-    if(filterOwner && tasks.length===0) return ''; // esconde categoria vazia no filtro
+    if(filterOwner && tasks.length===0) return ''; // hide empty categories when filtering
     const done=tasks.filter(t=>t.status==='Completed').length;
     const pct=tasks.length?Math.round(done/tasks.length*100):0;
     const open=openCats[p.id+'_'+cat.key]!==false;
+    // per-project category label override
+    const catLabel=(p.catLabels&&p.catLabels[cat.key])||cat.label;
     return `<div class="cat">
       <div class="cat-head" onclick="toggleCat('${p.id}','${cat.key}')">
         <div class="cat-bar" style="background:${cat.color}"></div>
-        <div class="cat-title">${cat.label}</div>
+        <div class="cat-title">${catLabel}</div>
         <div class="cat-pill">${done}/${tasks.length} completed</div>
         <div class="cat-pct">${pct}%</div>
+        ${editable?`<button onclick="event.stopPropagation();editCatLabel('${p.id}','${cat.key}','${catLabel}')" class="icon-action" style="font-size:13px;padding:3px 5px;margin-right:2px" title="Rename category"><i class="ti ti-pencil"></i></button>`:''}
         <i class="ti ti-chevron-down cchev ${open?'open':''}"></i>
       </div>
       ${open?`<div>
@@ -1216,6 +1352,17 @@ function renderCatsHTML(p, filterOwner=''){
 
 function toggleCard(id){openCards[id]=!openCards[id];renderProjects();}
 function toggleCat(pid,cat){const k=pid+'_'+cat;openCats[k]=openCats[k]===false;renderProjects();}
+
+function editCatLabel(projId, catKey, currentLabel){
+  const newLabel=prompt(`Rename category "${currentLabel}" to:`, currentLabel);
+  if(!newLabel||!newLabel.trim()||newLabel.trim()===currentLabel) return;
+  const p=projects.find(x=>x.id===projId);
+  if(!p) return;
+  if(!p.catLabels) p.catLabels={};
+  p.catLabels[catKey]=newLabel.trim();
+  toast('Category renamed to "'+newLabel.trim()+'"','ok');
+  renderProjects();
+}
 
 // -- Dashboard --
 function renderDashboard(){
@@ -2085,6 +2232,229 @@ async function deletePerson(id){
   const{error}=await sb.from('people').delete().eq('id',id);
   if(error){toast('Error: '+error.message,'err');return;}
   toast('Person removed.','ok');renderPeople();
+}
+
+// -- Admin Tasks --
+let adminTasks=[];
+let atView='kanban';
+
+const AT_STATUSES=['To Do','In Progress','In Review','Done','Cancelled'];
+const AT_STATUS_CLS={'To Do':'at-todo','In Progress':'at-inprogress','In Review':'at-inreview','Done':'at-done','Cancelled':'at-cancelled'};
+const AT_STATUS_COLORS={'To Do':'#1565C0','In Progress':'#0da47a','In Review':'#c47f00','Done':'#1a7a4a','Cancelled':'#d03060'};
+const PRI_CLS={'Low':'pri-low','Medium':'pri-medium','High':'pri-high','Critical':'pri-critical'};
+const PRI_ORDER={'Critical':0,'High':1,'Medium':2,'Low':3};
+
+function setAtView(v){
+  atView=v;
+  document.getElementById('at-btn-kanban').classList.toggle('active',v==='kanban');
+  document.getElementById('at-btn-list').classList.toggle('active',v==='list');
+  renderAdminTasks();
+}
+
+async function loadAdminTasks(){
+  if(!sb) return;
+  const{data,error}=await sb.from('admin_tasks').select('*').order('created_at',{ascending:false});
+  if(error){toast('Error loading tasks: '+error.message,'err');return;}
+  adminTasks=data||[];
+  // update badge
+  const open=adminTasks.filter(t=>t.status!=='Done'&&t.status!=='Cancelled').length;
+  const badge=document.getElementById('nb-admin');
+  if(badge){badge.textContent=open;badge.style.display=open>0?'':'none';}
+}
+
+async function renderAdminTasks(){
+  await loadAdminTasks();
+  await loadOrgData();
+
+  // populate filters
+  const cSel=document.getElementById('at-f-company');
+  const curC=cSel.value;
+  cSel.innerHTML='<option value="">All companies</option>'+companies.map(c=>`<option value="${c.id}" ${c.id===curC?'selected':''}>${c.name}</option>`).join('');
+
+  const dSel=document.getElementById('at-f-dept');
+  const curD=dSel.value;
+  const fComp=cSel.value;
+  const filtDepts=fComp?departments.filter(d=>d.company_id===fComp):departments;
+  dSel.innerHTML='<option value="">All departments</option>'+filtDepts.map(d=>`<option value="${d.id}" ${d.id===curD?'selected':''}>${d.name}</option>`).join('');
+
+  const fDept=dSel.value;
+  const fPri=document.getElementById('at-f-priority').value;
+  const fSt=document.getElementById('at-f-status').value;
+  const fSearch=document.getElementById('at-search').value.toLowerCase();
+
+  const filtered=adminTasks.filter(t=>{
+    const mc=!fComp||t.company_id===fComp;
+    const md=!fDept||t.department_id===fDept;
+    const mp=!fPri||t.priority===fPri;
+    const ms=!fSt||t.status===fSt;
+    const mn=!fSearch||t.title.toLowerCase().includes(fSearch)||(t.description||'').toLowerCase().includes(fSearch);
+    return mc&&md&&mp&&ms&&mn;
+  });
+
+  // metrics
+  const total=filtered.length;
+  const open=filtered.filter(t=>!['Done','Cancelled'].includes(t.status)).length;
+  const overdue=filtered.filter(t=>t.due_date&&t.due_date<new Date().toISOString().slice(0,10)&&!['Done','Cancelled'].includes(t.status)).length;
+  const critical=filtered.filter(t=>t.priority==='Critical'&&!['Done','Cancelled'].includes(t.status)).length;
+  document.getElementById('at-metrics').innerHTML=`
+    <div class="mcard"><div class="mcard-icon" style="background:#ededff;color:#4040cc"><i class="ti ti-checklist"></i></div><div class="mcard-label">Total tasks</div><div class="mcard-value">${total}</div><div class="mcard-sub">${filtered.filter(t=>t.status==='Done').length} done</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#e3eefb;color:#1565C0"><i class="ti ti-player-play"></i></div><div class="mcard-label">Open</div><div class="mcard-value">${open}</div><div class="mcard-sub">${filtered.filter(t=>t.status==='In Progress').length} in progress</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#fdf0f4;color:#d03060"><i class="ti ti-alert-triangle"></i></div><div class="mcard-label">Overdue</div><div class="mcard-value" style="color:${overdue>0?'var(--red)':'inherit'}">${overdue}</div><div class="mcard-sub">past due date</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#fff8e6;color:#c47f00"><i class="ti ti-flame"></i></div><div class="mcard-label">Critical</div><div class="mcard-value" style="color:${critical>0?'var(--amber)':'inherit'}">${critical}</div><div class="mcard-sub">needs attention</div></div>
+  `;
+
+  if(atView==='kanban') renderKanban(filtered);
+  else renderTaskList(filtered);
+}
+
+function taskCard(t){
+  const assignee=people.find(p=>p.id===t.assignee_id);
+  const dept=departments.find(d=>d.id===t.department_id);
+  const today=new Date().toISOString().slice(0,10);
+  const overdue=t.due_date&&t.due_date<today&&!['Done','Cancelled'].includes(t.status);
+  return `<div class="at-card" onclick="openTaskModal('${t.id}')">
+    <div class="at-card-title">${t.title}</div>
+    ${t.description?`<div style="font-size:12px;color:var(--text3);margin-bottom:6px;line-height:1.4">${t.description.slice(0,80)}${t.description.length>80?'...':''}</div>`:''}
+    <div class="at-card-meta">
+      <span class="pri-badge ${PRI_CLS[t.priority]||'pri-medium'}">${t.priority}</span>
+      ${dept?`<span class="at-dept-tag">${dept.name}</span>`:''}
+      ${t.due_date?`<span class="at-due ${overdue?'overdue':''}"><i class="ti ti-calendar" style="font-size:11px"></i>${fmtDate(t.due_date)}</span>`:''}
+      ${assignee?`<span class="at-assignee"><i class="ti ti-user" style="font-size:11px"></i>${assignee.name.split(' ')[0]}</span>`:''}
+    </div>
+  </div>`;
+}
+
+function renderKanban(tasks){
+  const content=document.getElementById('at-content');
+  content.innerHTML=`<div class="kanban-wrap">${AT_STATUSES.map(st=>{
+    const cols=tasks.filter(t=>t.status===st).sort((a,b)=>PRI_ORDER[a.priority]-PRI_ORDER[b.priority]);
+    return `<div class="kanban-col">
+      <div class="kanban-col-head">
+        <div class="kanban-col-title" style="color:${AT_STATUS_COLORS[st]}">${st}</div>
+        <span class="kanban-count">${cols.length}</span>
+      </div>
+      <div class="kanban-cards">
+        ${cols.map(t=>taskCard(t)).join('')}
+        <button class="add-task-btn" onclick="openTaskModal(null,'${st}')"><i class="ti ti-plus"></i> Add task</button>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function renderTaskList(tasks){
+  const sorted=[...tasks].sort((a,b)=>PRI_ORDER[a.priority]-PRI_ORDER[b.priority]);
+  const today=new Date().toISOString().slice(0,10);
+  const content=document.getElementById('at-content');
+  if(!sorted.length){content.innerHTML=`<div class="empty"><i class="ti ti-checklist"></i><p>No tasks found.</p></div>`;return;}
+  content.innerHTML=`<div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.04)">
+    <table class="at-list-table">
+      <thead><tr><th>Title</th><th>Status</th><th>Priority</th><th>Company</th><th>Department</th><th>Assignee</th><th>Due date</th><th></th></tr></thead>
+      <tbody>${sorted.map(t=>{
+        const overdue=t.due_date&&t.due_date<today&&!['Done','Cancelled'].includes(t.status);
+        const assignee=people.find(p=>p.id===t.assignee_id);
+        const dept=departments.find(d=>d.id===t.department_id);
+        const comp=companies.find(c=>c.id===t.company_id);
+        return `<tr onclick="openTaskModal('${t.id}')" style="cursor:pointer">
+          <td style="font-weight:500">${t.title}${t.description?`<div style="font-size:11px;color:var(--text3);margin-top:2px">${t.description.slice(0,60)}${t.description.length>60?'...':''}</div>`:''}</td>
+          <td><span class="at-status-sel ${AT_STATUS_CLS[t.status]||'at-todo'}" style="cursor:default">${t.status}</span></td>
+          <td><span class="pri-badge ${PRI_CLS[t.priority]||'pri-medium'}">${t.priority}</span></td>
+          <td style="font-size:12px">${comp?comp.name:'--'}</td>
+          <td style="font-size:12px">${dept?`<span class="at-dept-tag">${dept.name}</span>`:'--'}</td>
+          <td style="font-size:12px">${assignee?assignee.name:'--'}</td>
+          <td style="font-size:12px;color:${overdue?'var(--red)':'var(--text3)'}">${t.due_date?fmtDate(t.due_date):'--'}</td>
+          <td><button class="icon-action" onclick="event.stopPropagation();deleteTask('${t.id}')" title="Delete"><i class="ti ti-trash"></i></button></td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table>
+  </div>`;
+}
+
+async function openTaskModal(id=null, defaultStatus='To Do'){
+  await loadOrgData();
+  document.getElementById('tm-id').value=id||'';
+  document.getElementById('task-modal-title').textContent=id?'Edit task':'New task';
+
+  // populate selects
+  const cSel=document.getElementById('tm-company');
+  cSel.innerHTML='<option value="">-- Select --</option>'+companies.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
+
+  const aSel=document.getElementById('tm-assignee');
+  aSel.innerHTML='<option value="">-- Select --</option>'+people.map(p=>`<option value="${p.id}">${p.name} (${companyName(p.company_id)})</option>`).join('');
+
+  if(id){
+    const t=adminTasks.find(x=>x.id===id);
+    if(t){
+      document.getElementById('tm-title').value=t.title;
+      document.getElementById('tm-desc').value=t.description||'';
+      document.getElementById('tm-due').value=t.due_date||'';
+      document.getElementById('tm-status').value=t.status;
+      document.getElementById('tm-priority').value=t.priority;
+      cSel.value=t.company_id||'';
+      aSel.value=t.assignee_id||'';
+      await loadTaskDepts(t.department_id);
+    }
+  } else {
+    ['tm-title','tm-desc','tm-due'].forEach(i=>document.getElementById(i).value='');
+    document.getElementById('tm-status').value=defaultStatus;
+    document.getElementById('tm-priority').value='Medium';
+    document.getElementById('tm-dept').innerHTML='<option value="">-- Select --</option>';
+  }
+  document.getElementById('task-modal-overlay').style.display='flex';
+}
+
+async function loadTaskDepts(selectedId=null){
+  const compId=document.getElementById('tm-company').value;
+  const dSel=document.getElementById('tm-dept');
+  dSel.innerHTML='<option value="">-- Select --</option>';
+  if(!compId) return;
+  departments.filter(d=>d.company_id===compId).forEach(d=>{
+    const opt=document.createElement('option');
+    opt.value=d.id;opt.textContent=d.name;
+    if(d.id===selectedId) opt.selected=true;
+    dSel.appendChild(opt);
+  });
+}
+
+function closeTaskModal(){document.getElementById('task-modal-overlay').style.display='none';}
+
+async function saveTask(){
+  const id=document.getElementById('tm-id').value;
+  const title=document.getElementById('tm-title').value.trim();
+  if(!title){toast('Please enter a task title.','err');return;}
+  const payload={
+    title,
+    description:document.getElementById('tm-desc').value.trim(),
+    status:document.getElementById('tm-status').value,
+    priority:document.getElementById('tm-priority').value,
+    company_id:document.getElementById('tm-company').value||null,
+    department_id:document.getElementById('tm-dept').value||null,
+    assignee_id:document.getElementById('tm-assignee').value||null,
+    due_date:document.getElementById('tm-due').value||null
+  };
+  const btn=document.getElementById('task-save');
+  btn.disabled=true;btn.innerHTML='<div class="spin"></div> Saving...';
+  try{
+    if(id){
+      const{error}=await sb.from('admin_tasks').update(payload).eq('id',id);
+      if(error) throw error;
+      toast('Task updated!','ok');
+    } else {
+      const{error}=await sb.from('admin_tasks').insert({...payload,created_by:currentUser.id});
+      if(error) throw error;
+      toast('Task created!','ok');
+    }
+    closeTaskModal();
+    await renderAdminTasks();
+  }catch(e){toast('Error: '+e.message,'err');}
+  btn.disabled=false;btn.innerHTML='<i class="ti ti-device-floppy"></i> Save task';
+}
+
+async function deleteTask(id){
+  if(!confirm('Delete this task?')) return;
+  const{error}=await sb.from('admin_tasks').delete().eq('id',id);
+  if(error){toast('Error: '+error.message,'err');return;}
+  toast('Task deleted.','ok');
+  await renderAdminTasks();
 }
 
 // -- Boot --
