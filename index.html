@@ -251,7 +251,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
 /* Kanban */
 .kanban-wrap{display:flex;gap:14px;overflow-x:auto;padding-bottom:12px;align-items:flex-start}
-.kanban-col{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-lg);min-width:240px;width:240px;flex-shrink:0}
+.kanban-col{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-lg);min-width:240px;width:240px;flex-shrink:0;transition:background .15s,border-color .15s}
 .kanban-col-head{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
 .kanban-col-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text2)}
 .kanban-count{font-size:11px;background:var(--surface);border:1px solid var(--border);color:var(--text3);padding:1px 8px;border-radius:20px;font-weight:500}
@@ -2307,13 +2307,36 @@ async function renderAdminTasks(){
   else renderTaskList(filtered);
 }
 
+// drag state
+let dragTaskId=null;
+
 function taskCard(t){
   const assignee=people.find(p=>p.id===t.assignee_id);
   const dept=departments.find(d=>d.id===t.department_id);
   const today=new Date().toISOString().slice(0,10);
   const overdue=t.due_date&&t.due_date<today&&!['Done','Cancelled'].includes(t.status);
-  return `<div class="at-card" onclick="openTaskModal('${t.id}')">
-    <div class="at-card-title">${t.title}</div>
+  const nextIdx=AT_STATUSES.indexOf(t.status)+1;
+  const nextStatus=nextIdx<AT_STATUSES.length?AT_STATUSES[nextIdx]:null;
+  return `<div class="at-card"
+    draggable="true"
+    ondragstart="onDragStart(event,'${t.id}')"
+    ondragend="onDragEnd(event)"
+    onclick="openTaskModal('${t.id}')">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:4px">
+      <div class="at-card-title" style="margin-bottom:0">${t.title}</div>
+      <div style="display:flex;gap:4px;flex-shrink:0">
+        ${nextStatus?`<button onclick="event.stopPropagation();moveTaskTo('${t.id}','${nextStatus}')"
+          title="Move to ${nextStatus}"
+          style="background:var(--accent-light);border:1px solid #b8d0f0;color:var(--accent);border-radius:6px;padding:3px 7px;font-size:11px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:3px;white-space:nowrap">
+          <i class="ti ti-arrow-right" style="font-size:12px"></i>
+        </button>`:''}
+        <button onclick="event.stopPropagation();deleteTask('${t.id}')"
+          title="Delete"
+          style="background:transparent;border:1px solid var(--border);color:var(--text3);border-radius:6px;padding:3px 6px;font-size:11px;cursor:pointer;display:flex;align-items:center">
+          <i class="ti ti-trash" style="font-size:12px"></i>
+        </button>
+      </div>
+    </div>
     ${t.description?`<div style="font-size:12px;color:var(--text3);margin-bottom:6px;line-height:1.4">${t.description.slice(0,80)}${t.description.length>80?'...':''}</div>`:''}
     <div class="at-card-meta">
       <span class="pri-badge ${PRI_CLS[t.priority]||'pri-medium'}">${t.priority}</span>
@@ -2326,19 +2349,123 @@ function taskCard(t){
 
 function renderKanban(tasks){
   const content=document.getElementById('at-content');
-  content.innerHTML=`<div class="kanban-wrap">${AT_STATUSES.map(st=>{
+  content.innerHTML=`<div class="kanban-wrap" id="kanban-board">${AT_STATUSES.map(st=>{
     const cols=tasks.filter(t=>t.status===st).sort((a,b)=>PRI_ORDER[a.priority]-PRI_ORDER[b.priority]);
-    return `<div class="kanban-col">
+    return `<div class="kanban-col"
+      data-status="${st}"
+      ondragover="onDragOver(event)"
+      ondragenter="onDragEnter(event)"
+      ondragleave="onDragLeave(event)"
+      ondrop="onDrop(event,'${st}')">
       <div class="kanban-col-head">
-        <div class="kanban-col-title" style="color:${AT_STATUS_COLORS[st]}">${st}</div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="width:8px;height:8px;border-radius:50%;background:${AT_STATUS_COLORS[st]};flex-shrink:0"></div>
+          <div class="kanban-col-title" style="color:${AT_STATUS_COLORS[st]}">${st}</div>
+        </div>
         <span class="kanban-count">${cols.length}</span>
       </div>
-      <div class="kanban-cards">
+      <div class="kanban-cards" id="col-${st.replace(/ /g,'-')}">
         ${cols.map(t=>taskCard(t)).join('')}
         <button class="add-task-btn" onclick="openTaskModal(null,'${st}')"><i class="ti ti-plus"></i> Add task</button>
       </div>
     </div>`;
   }).join('')}</div>`;
+}
+
+// -- Drag & Drop handlers --
+function onDragStart(e, taskId){
+  dragTaskId=taskId;
+  e.dataTransfer.effectAllowed='move';
+  e.dataTransfer.setData('text/plain',taskId);
+  setTimeout(()=>e.target.style.opacity='0.4',0);
+}
+function onDragEnd(e){
+  e.target.style.opacity='1';
+  dragTaskId=null;
+  // remove all drop highlights
+  document.querySelectorAll('.kanban-col').forEach(c=>{
+    c.classList.remove('drag-over');
+    c.style.background='';
+  });
+}
+function onDragOver(e){
+  e.preventDefault();
+  e.dataTransfer.dropEffect='move';
+}
+function onDragEnter(e){
+  e.preventDefault();
+  const col=e.currentTarget;
+  col.style.background='var(--accent-light)';
+  col.style.borderColor='var(--accent)';
+}
+function onDragLeave(e){
+  // only clear if leaving the column itself, not its children
+  if(!e.currentTarget.contains(e.relatedTarget)){
+    e.currentTarget.style.background='';
+    e.currentTarget.style.borderColor='';
+  }
+}
+async function onDrop(e, newStatus){
+  e.preventDefault();
+  const col=e.currentTarget;
+  col.style.background='';
+  col.style.borderColor='';
+  const tid=e.dataTransfer.getData('text/plain')||dragTaskId;
+  if(!tid) return;
+  const task=adminTasks.find(x=>x.id===tid);
+  if(!task||task.status===newStatus) return;
+  await moveTaskTo(tid, newStatus);
+}
+
+async function moveTaskTo(taskId, newStatus){
+  const task=adminTasks.find(x=>x.id===taskId);
+  if(!task) return;
+  const oldStatus=task.status;
+  task.status=newStatus; // optimistic update
+  // re-render immediately for snappy feel
+  if(atView==='kanban') renderKanban(getFilteredTasks());
+  else renderTaskList(getFilteredTasks());
+  updateAtMetrics();
+  // persist to Supabase
+  const{error}=await sb.from('admin_tasks').update({status:newStatus}).eq('id',taskId);
+  if(error){
+    toast('Error updating task: '+error.message,'err');
+    task.status=oldStatus; // rollback
+    if(atView==='kanban') renderKanban(getFilteredTasks());
+    else renderTaskList(getFilteredTasks());
+  } else {
+    toast(`Moved to "${newStatus}"`, 'ok', 1800);
+  }
+}
+
+function getFilteredTasks(){
+  const fComp=document.getElementById('at-f-company')?.value||'';
+  const fDept=document.getElementById('at-f-dept')?.value||'';
+  const fPri=document.getElementById('at-f-priority')?.value||'';
+  const fSt=document.getElementById('at-f-status')?.value||'';
+  const fSearch=document.getElementById('at-search')?.value.toLowerCase()||'';
+  return adminTasks.filter(t=>{
+    const mc=!fComp||t.company_id===fComp;
+    const md=!fDept||t.department_id===fDept;
+    const mp=!fPri||t.priority===fPri;
+    const ms=!fSt||t.status===fSt;
+    const mn=!fSearch||t.title.toLowerCase().includes(fSearch)||(t.description||'').toLowerCase().includes(fSearch);
+    return mc&&md&&mp&&ms&&mn;
+  });
+}
+
+function updateAtMetrics(){
+  const filtered=getFilteredTasks();
+  const total=filtered.length;
+  const open=filtered.filter(t=>!['Done','Cancelled'].includes(t.status)).length;
+  const overdue=filtered.filter(t=>t.due_date&&t.due_date<new Date().toISOString().slice(0,10)&&!['Done','Cancelled'].includes(t.status)).length;
+  const critical=filtered.filter(t=>t.priority==='Critical'&&!['Done','Cancelled'].includes(t.status)).length;
+  document.getElementById('at-metrics').innerHTML=`
+    <div class="mcard"><div class="mcard-icon" style="background:#ededff;color:#4040cc"><i class="ti ti-checklist"></i></div><div class="mcard-label">Total tasks</div><div class="mcard-value">${total}</div><div class="mcard-sub">${filtered.filter(t=>t.status==='Done').length} done</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#e3eefb;color:#1565C0"><i class="ti ti-player-play"></i></div><div class="mcard-label">Open</div><div class="mcard-value">${open}</div><div class="mcard-sub">${filtered.filter(t=>t.status==='In Progress').length} in progress</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#fdf0f4;color:#d03060"><i class="ti ti-alert-triangle"></i></div><div class="mcard-label">Overdue</div><div class="mcard-value" style="color:${overdue>0?'var(--red)':'inherit'}">${overdue}</div><div class="mcard-sub">past due date</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#fff8e6;color:#c47f00"><i class="ti ti-flame"></i></div><div class="mcard-label">Critical</div><div class="mcard-value" style="color:${critical>0?'var(--amber)':'inherit'}">${critical}</div><div class="mcard-sub">needs attention</div></div>
+  `;
 }
 
 function renderTaskList(tasks){
