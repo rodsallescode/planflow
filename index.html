@@ -284,6 +284,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .at-inreview{background:#fff8e6;color:#c47f00;border-color:#e8c860}
 .at-done{background:#e8f5ee;color:#1a7a4a;border-color:#80c8a0}
 .at-cancelled{background:#fdf0f4;color:#d03060;border-color:#e8a0b8}
+.assignee-tag{display:inline-flex;align-items:center;gap:5px;background:var(--accent-light);border:1px solid #b8d0f0;color:var(--accent);border-radius:20px;padding:2px 8px 2px 10px;font-size:12px;font-weight:500}
+.assignee-tag button{background:transparent;border:none;cursor:pointer;color:var(--accent);font-size:13px;display:flex;align-items:center;padding:0;line-height:1;opacity:.7}
+.assignee-tag button:hover{opacity:1}
 .add-task-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text3);background:transparent;border:1px dashed var(--border2);border-radius:var(--radius);padding:7px 14px;cursor:pointer;font-family:var(--font);transition:all .15s;margin:6px 10px}
 .add-task-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-light)}
 .company-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
@@ -791,8 +794,13 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
     </div>
     <div class="form-row2" style="margin-top:12px">
       <div class="form-group" style="margin-bottom:0">
-        <label>Assignee</label>
-        <select id="tm-assignee"><option value="">-- Select --</option></select>
+        <label>Assignees</label>
+        <div id="tm-assignees-wrap" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:7px 10px;min-height:42px;transition:border-color .15s" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor=''">
+          <div id="tm-assignees-tags" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px"></div>
+          <select id="tm-assignee-add" onchange="addAssigneeTag(this)" style="background:transparent;border:none;outline:none;font-size:12px;color:var(--text3);font-family:var(--font);width:100%;cursor:pointer">
+            <option value="">+ Add person...</option>
+          </select>
+        </div>
       </div>
       <div class="form-group" style="margin-bottom:0">
         <label>Due date</label>
@@ -2310,8 +2318,13 @@ async function renderAdminTasks(){
 // drag state
 let dragTaskId=null;
 
+function getTaskAssignees(t){
+  const ids=t.assignee_ids&&t.assignee_ids.length?t.assignee_ids:(t.assignee_id?[t.assignee_id]:[]);
+  return ids.map(id=>people.find(p=>p.id===id)).filter(Boolean);
+}
+
 function taskCard(t){
-  const assignee=people.find(p=>p.id===t.assignee_id);
+  const assignees=getTaskAssignees(t);
   const dept=departments.find(d=>d.id===t.department_id);
   const today=new Date().toISOString().slice(0,10);
   const overdue=t.due_date&&t.due_date<today&&!['Done','Cancelled'].includes(t.status);
@@ -2342,7 +2355,7 @@ function taskCard(t){
       <span class="pri-badge ${PRI_CLS[t.priority]||'pri-medium'}">${t.priority}</span>
       ${dept?`<span class="at-dept-tag">${dept.name}</span>`:''}
       ${t.due_date?`<span class="at-due ${overdue?'overdue':''}"><i class="ti ti-calendar" style="font-size:11px"></i>${fmtDate(t.due_date)}</span>`:''}
-      ${assignee?`<span class="at-assignee"><i class="ti ti-user" style="font-size:11px"></i>${assignee.name.split(' ')[0]}</span>`:''}
+      ${assignees.length?`<span class="at-assignee"><i class="ti ti-users" style="font-size:11px"></i>${assignees.map(a=>a.name.split(' ')[0]).join(', ')}</span>`:''}
     </div>
   </div>`;
 }
@@ -2478,7 +2491,7 @@ function renderTaskList(tasks){
       <thead><tr><th>Title</th><th>Status</th><th>Priority</th><th>Company</th><th>Department</th><th>Assignee</th><th>Due date</th><th></th></tr></thead>
       <tbody>${sorted.map(t=>{
         const overdue=t.due_date&&t.due_date<today&&!['Done','Cancelled'].includes(t.status);
-        const assignee=people.find(p=>p.id===t.assignee_id);
+        const assignees=getTaskAssignees(t);
         const dept=departments.find(d=>d.id===t.department_id);
         const comp=companies.find(c=>c.id===t.company_id);
         return `<tr onclick="openTaskModal('${t.id}')" style="cursor:pointer">
@@ -2487,7 +2500,7 @@ function renderTaskList(tasks){
           <td><span class="pri-badge ${PRI_CLS[t.priority]||'pri-medium'}">${t.priority}</span></td>
           <td style="font-size:12px">${comp?comp.name:'--'}</td>
           <td style="font-size:12px">${dept?`<span class="at-dept-tag">${dept.name}</span>`:'--'}</td>
-          <td style="font-size:12px">${assignee?assignee.name:'--'}</td>
+          <td style="font-size:12px">${assignees.length?assignees.map(a=>`<span style="display:inline-block;background:var(--accent-light);color:var(--accent);border:1px solid #b8d0f0;border-radius:20px;padding:1px 8px;font-size:11px;margin:1px">${a.name.split(' ')[0]}</span>`).join(''):'--'}</td>
           <td style="font-size:12px;color:${overdue?'var(--red)':'var(--text3)'}">${t.due_date?fmtDate(t.due_date):'--'}</td>
           <td><button class="icon-action" onclick="event.stopPropagation();deleteTask('${t.id}')" title="Delete"><i class="ti ti-trash"></i></button></td>
         </tr>`;
@@ -2505,8 +2518,13 @@ async function openTaskModal(id=null, defaultStatus='To Do'){
   const cSel=document.getElementById('tm-company');
   cSel.innerHTML='<option value="">-- Select --</option>'+companies.map(c=>`<option value="${c.id}">${c.name}</option>`).join('');
 
-  const aSel=document.getElementById('tm-assignee');
-  aSel.innerHTML='<option value="">-- Select --</option>'+people.map(p=>`<option value="${p.id}">${p.name} (${companyName(p.company_id)})</option>`).join('');
+  // populate assignee dropdown
+  const aSel=document.getElementById('tm-assignee-add');
+  aSel.innerHTML='<option value="">+ Add person...</option>'+people.map(p=>`<option value="${p.id}">${p.name} (${companyName(p.company_id)})</option>`).join('');
+
+  // clear tags
+  document.getElementById('tm-assignees-tags').innerHTML='';
+  window._selectedAssignees=[];
 
   if(id){
     const t=adminTasks.find(x=>x.id===id);
@@ -2517,7 +2535,9 @@ async function openTaskModal(id=null, defaultStatus='To Do'){
       document.getElementById('tm-status').value=t.status;
       document.getElementById('tm-priority').value=t.priority;
       cSel.value=t.company_id||'';
-      aSel.value=t.assignee_id||'';
+      // load assignees
+      const ids=t.assignee_ids&&t.assignee_ids.length?t.assignee_ids:(t.assignee_id?[t.assignee_id]:[]);
+      ids.forEach(aid=>addAssigneeById(aid));
       await loadTaskDepts(t.department_id);
     }
   } else {
@@ -2542,12 +2562,36 @@ async function loadTaskDepts(selectedId=null){
   });
 }
 
+function addAssigneeById(id){
+  if(!id||window._selectedAssignees.includes(id)) return;
+  const p=people.find(x=>x.id===id);
+  if(!p) return;
+  window._selectedAssignees.push(id);
+  const wrap=document.getElementById('tm-assignees-tags');
+  const tag=document.createElement('span');
+  tag.className='assignee-tag';
+  tag.dataset.id=id;
+  tag.innerHTML=`${p.name.split(' ')[0]} <button onclick="removeAssigneeTag('${id}')"><i class="ti ti-x" style="font-size:11px"></i></button>`;
+  wrap.appendChild(tag);
+}
+function addAssigneeTag(sel){
+  if(!sel.value) return;
+  addAssigneeById(sel.value);
+  sel.value=''; // reset dropdown
+}
+function removeAssigneeTag(id){
+  window._selectedAssignees=(window._selectedAssignees||[]).filter(x=>x!==id);
+  const tag=document.querySelector(`.assignee-tag[data-id="${id}"]`);
+  if(tag) tag.remove();
+}
+
 function closeTaskModal(){document.getElementById('task-modal-overlay').style.display='none';}
 
 async function saveTask(){
   const id=document.getElementById('tm-id').value;
   const title=document.getElementById('tm-title').value.trim();
   if(!title){toast('Please enter a task title.','err');return;}
+  const assigneeIds=window._selectedAssignees||[];
   const payload={
     title,
     description:document.getElementById('tm-desc').value.trim(),
@@ -2555,7 +2599,8 @@ async function saveTask(){
     priority:document.getElementById('tm-priority').value,
     company_id:document.getElementById('tm-company').value||null,
     department_id:document.getElementById('tm-dept').value||null,
-    assignee_id:document.getElementById('tm-assignee').value||null,
+    assignee_ids:assigneeIds,
+    assignee_id:assigneeIds[0]||null, // backwards compat
     due_date:document.getElementById('tm-due').value||null
   };
   const btn=document.getElementById('task-save');
