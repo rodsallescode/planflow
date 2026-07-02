@@ -289,6 +289,21 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .assignee-tag button:hover{opacity:1}
 .add-task-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text3);background:transparent;border:1px dashed var(--border2);border-radius:var(--radius);padding:7px 14px;cursor:pointer;font-family:var(--font);transition:all .15s;margin:6px 10px}
 .add-task-btn:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-light)}
+
+/* Tabs */
+.tab-btn{padding:8px 18px;font-size:13px;font-weight:500;border:none;background:transparent;color:var(--text3);cursor:pointer;font-family:var(--font);border-bottom:2px solid transparent;margin-bottom:-1px;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* Project Gantt */
+.proj-gantt{padding:16px 18px;border-top:1px solid var(--border);background:var(--surface2)}
+.proj-gantt-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.pgantt-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.pgantt-lbl{width:160px;font-size:12px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex-shrink:0}
+.pgantt-track{flex:1;position:relative;height:18px;background:var(--surface3);border-radius:4px;overflow:hidden}
+.pgantt-bar{position:absolute;height:100%;border-radius:4px;display:flex;align-items:center;padding:0 6px;font-size:10px;font-weight:500;color:#fff;overflow:hidden;white-space:nowrap;min-width:4px}
+.pgantt-today{position:absolute;top:0;bottom:0;width:2px;background:var(--red);z-index:2;opacity:.7}
+.pgantt-pct{width:32px;font-size:11px;color:var(--text3);text-align:right;flex-shrink:0}
 .company-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px 20px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,.04)}
 .company-header{display:flex;align-items:center;gap:14px;margin-bottom:14px}
 .company-logo{width:44px;height:44px;border-radius:10px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--accent);flex-shrink:0}
@@ -526,33 +541,54 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
               <div style="font-size:15px;font-weight:600;margin-bottom:2px">Admin Tasks</div>
               <div style="font-size:13px;color:var(--text3)">Operational & administrative actions across both companies.</div>
             </div>
-            <button class="btn primary" onclick="openTaskModal()"><i class="ti ti-plus"></i> New task</button>
-          </div>
-
-          <!-- Toolbar -->
-          <div class="at-toolbar">
-            <div class="at-view-toggle">
-              <button class="at-view-btn active" id="at-btn-kanban" onclick="setAtView('kanban')"><i class="ti ti-layout-board" style="font-size:14px"></i> Kanban</button>
-              <button class="at-view-btn" id="at-btn-list" onclick="setAtView('list')"><i class="ti ti-list" style="font-size:14px"></i> List</button>
+            <div style="display:flex;gap:8px">
+              <button class="btn" onclick="exportTasksExcel()"><i class="ti ti-table-export"></i> Export Excel</button>
+              <button class="btn primary" onclick="openTaskModal()"><i class="ti ti-plus"></i> New task</button>
             </div>
-            <select class="filter-sel" id="at-f-company" onchange="renderAdminTasks()"><option value="">All companies</option></select>
-            <select class="filter-sel" id="at-f-dept" onchange="renderAdminTasks()"><option value="">All departments</option></select>
-            <select class="filter-sel" id="at-f-priority" onchange="renderAdminTasks()">
-              <option value="">All priorities</option>
-              <option>Critical</option><option>High</option><option>Medium</option><option>Low</option>
-            </select>
-            <select class="filter-sel" id="at-f-status" onchange="renderAdminTasks()">
-              <option value="">All statuses</option>
-              <option>To Do</option><option>In Progress</option><option>In Review</option><option>Done</option><option>Cancelled</option>
-            </select>
-            <input type="text" class="filter-sel" id="at-search" placeholder="Search tasks..." oninput="renderAdminTasks()" style="min-width:180px">
           </div>
 
-          <!-- Metrics -->
-          <div class="metrics" id="at-metrics" style="margin-bottom:18px"></div>
+          <!-- View tabs -->
+          <div style="display:flex;gap:0;margin-bottom:16px;border-bottom:1px solid var(--border)">
+            <button class="tab-btn active" id="at-tab-board" onclick="setAtMainView('board',this)"><i class="ti ti-layout-board" style="font-size:14px"></i> Board</button>
+            <button class="tab-btn" id="at-tab-dash" onclick="setAtMainView('dash',this)"><i class="ti ti-chart-bar" style="font-size:14px"></i> Dashboard</button>
+          </div>
 
-          <!-- Content -->
-          <div id="at-content"></div>
+          <!-- Board section -->
+          <div id="at-board-section">
+            <!-- Toolbar -->
+            <div class="at-toolbar">
+              <div class="at-view-toggle">
+                <button class="at-view-btn active" id="at-btn-kanban" onclick="setAtView('kanban')"><i class="ti ti-layout-board" style="font-size:14px"></i> Kanban</button>
+                <button class="at-view-btn" id="at-btn-list" onclick="setAtView('list')"><i class="ti ti-list" style="font-size:14px"></i> List</button>
+              </div>
+              <select class="filter-sel" id="at-f-company" onchange="renderAdminTasks()"><option value="">All companies</option></select>
+              <select class="filter-sel" id="at-f-dept" onchange="renderAdminTasks()"><option value="">All departments</option></select>
+              <select class="filter-sel" id="at-f-priority" onchange="renderAdminTasks()">
+                <option value="">All priorities</option>
+                <option>Critical</option><option>High</option><option>Medium</option><option>Low</option>
+              </select>
+              <select class="filter-sel" id="at-f-status" onchange="renderAdminTasks()">
+                <option value="">All statuses</option>
+                <option>To Do</option><option>In Progress</option><option>In Review</option><option>Done</option><option>Cancelled</option>
+              </select>
+              <input type="text" class="filter-sel" id="at-search" placeholder="Search tasks..." oninput="renderAdminTasks()" style="min-width:180px">
+            </div>
+            <!-- Metrics -->
+            <div class="metrics" id="at-metrics" style="margin-bottom:18px"></div>
+            <!-- Content -->
+            <div id="at-content"></div>
+          </div>
+
+          <!-- Dashboard section -->
+          <div id="at-dash-section" style="display:none">
+            <div class="metrics" id="atd-metrics" style="margin-bottom:18px"></div>
+            <div class="dash-grid">
+              <div class="dcard"><div class="dcard-title"><i class="ti ti-chart-bar"></i> Tasks by status</div><div id="atd-status"></div></div>
+              <div class="dcard"><div class="dcard-title"><i class="ti ti-flame"></i> Tasks by priority</div><div id="atd-priority"></div></div>
+              <div class="dcard full"><div class="dcard-title"><i class="ti ti-building"></i> Tasks by company & department</div><div id="atd-company"></div></div>
+              <div class="dcard full"><div class="dcard-title"><i class="ti ti-user"></i> Tasks by assignee</div><div id="atd-assignee"></div></div>
+            </div>
+          </div>
         </div>
 
         <!-- COMPANIES -->
@@ -904,7 +940,7 @@ const PCOLS=['#1565C0','#0da47a','#c47f00','#d03060','#7b5ea7','#0097a7'];
 const ROLES={admin:'Administrator',manager:'Project Manager',member:'Member'};
 
 let sb=null, currentUser=null, projects=[], members=[], projectAccess={};
-let openCards={}, openCats={};
+let openCards={}, openCats={}, openGantts={};
 let cachedConfig={url:'',key:''};
 
 // -- Config via Edge Function --
@@ -973,6 +1009,7 @@ function inits(n){return(n||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toU
 function sc(s){return SCLS[s]||'sns';}
 function pcol(i){return PCOLS[i%PCOLS.length];}
 function memberName(id){return members.find(m=>m.id===id)?.name||id||'--';}
+function personName(id){return people.find(p=>p.id===id)?.name||members.find(m=>m.id===id)?.name||id||'--';}
 function isAdmin(){return currentUser?.role==='admin';}
 function isManager(){return currentUser?.role==='manager';}
 function canEdit(projId){
@@ -1232,7 +1269,7 @@ function renderProjects(){
   `;
   document.getElementById('nb').textContent=total;
   const sel=document.getElementById('f-ow');const cur=sel.value;
-  sel.innerHTML='<option value="">All assignees</option>'+members.map(m=>`<option value="${m.id}" ${m.id===cur?'selected':''}>${m.name}</option>`).join('');
+  sel.innerHTML='<option value="">All assignees</option>'+people.map(m=>`<option value="${m.id}" ${m.id===cur?'selected':''}>${m.name}</option>`).join('');
   const ro=document.getElementById('ro-notice');
   ro.innerHTML=currentUser.role==='member'?`<div class="readonly-notice"><i class="ti ti-eye"></i> View-only mode - you do not have permission to edit.</div>`:'';
   const search=document.getElementById('gsearch').value.toLowerCase();
@@ -1240,7 +1277,7 @@ function renderProjects(){
   const fCt=document.getElementById('f-cat').value;
   const fOw=document.getElementById('f-ow').value;
   const filtered=projects.filter(p=>{
-    const ms=p.name.toLowerCase().includes(search)||memberName(p.owner_id).toLowerCase().includes(search);
+    const ms=p.name.toLowerCase().includes(search)||personName(p.owner_id).toLowerCase().includes(search);
     const mst=!fSt||allTasks(p).some(t=>t.status===fSt);
     const mct=!fCt||p.phases.some(ph=>ph.category===CATS.find(c=>c.label===fCt)?.key);
     const mow=!fOw||p.owner_id===fOw||p.phases.some(ph=>ph.responsible===fOw);
@@ -1262,11 +1299,11 @@ function renderProjects(){
     const editable=canEdit(p.id);
     return `<div class="pcard">
       <div class="pcard-head" onclick="toggleCard('${p.id}')">
-        <div class="pav" style="background:${col}18;color:${col}">${inits(memberName(p.owner_id))}</div>
+        <div class="pav" style="background:${col}18;color:${col}">${inits(personName(p.owner_id))}</div>
         <div class="pinfo">
           <div class="pname">${p.name}${!editable?'<span style="font-size:10px;background:#fff8e6;color:#c47f00;border:1px solid #e8c860;padding:1px 7px;border-radius:20px;font-weight:500;margin-left:6px">Read only</span>':''}</div>
           <div class="pmeta">
-            <span><i class="ti ti-user"></i>${memberName(p.owner_id)}</span>
+            <span><i class="ti ti-user"></i>${personName(p.owner_id)}</span>
             <span><i class="ti ti-clock"></i>${running}d running</span>
             <span style="color:${left<0?'var(--red)':''}"><i class="ti ti-calendar-due"></i>${left>=0?left+'d remaining':Math.abs(left)+'d overdue'}</span>
             <span style="color:${tots.real>tots.est&&tots.est>0?'var(--red)':''}"><i class="ti ti-cash"></i>${fmt(tots.real)} / ${fmt(tots.est)}</span>
@@ -1284,6 +1321,9 @@ function renderProjects(){
           ${editable?`
             <button onclick="event.stopPropagation();openEditModal('${p.id}')" class="icon-action" title="Edit project"><i class="ti ti-pencil"></i></button>
             <button onclick="event.stopPropagation();delProject('${p.id}')" class="icon-action" title="Delete project"><i class="ti ti-trash"></i></button>`:''}
+          <button onclick="event.stopPropagation();exportProjectExcel('${p.id}')" class="icon-action" title="Export Excel"><i class="ti ti-table-export"></i></button>
+          <button onclick="event.stopPropagation();printProjectReport('${p.id}')" class="icon-action" title="Export PDF"><i class="ti ti-file-type-pdf"></i></button>
+          <button onclick="event.stopPropagation();toggleGantt('${p.id}')" class="icon-action" title="Timeline" id="gantt-btn-${p.id}" style="color:${openGantts[p.id]?'var(--accent)':'var(--text3)'}"><i class="ti ti-timeline"></i></button>
           <i class="ti ti-chevron-down chev ${isOpen?'open':''}"></i>
         </div>
       </div>
@@ -1293,6 +1333,7 @@ function renderProjects(){
         <span class="date-sep">|</span><i class="ti ti-clock"></i><span><strong>${running}</strong> days running</span>
         <span class="date-sep">|</span><span style="color:${left<0?'var(--red)':'var(--text3)'}"><strong>${left>=0?left+'d remaining':Math.abs(left)+'d overdue'}</strong></span>
       </div>
+      ${openGantts[p.id]?renderProjectGantt(p):''}
       ${isOpen?renderCatsHTML(p, fOw):''}
     </div>`;
   }).join('');
@@ -1328,15 +1369,18 @@ function renderCatsHTML(p, filterOwner=''){
             const ro=!editable;const over=t.cost_realized>t.cost_estimated&&t.cost_estimated>0;
             const phasePct=t.cost_estimated?Math.min(120,Math.round(t.cost_realized/t.cost_estimated*100)):0;
             return `<tr>
-              <td><span class="ph-name">${t.name}</span></td>
+              <td>${ro
+                ? `<span class="ph-name">${t.name}</span>`
+                : `<input class="inplace" value="${t.name}" style="font-weight:500" onchange="upPhase('${t.id}','${p.id}','name',this.value)" placeholder="Phase name">`
+              }</td>
               <td>${ro?`<span class="ssel ${sc(t.status)}" style="cursor:default">${t.status}</span>`
                 :`<select class="ssel ${sc(t.status)}" onchange="upPhase('${t.id}','${p.id}','status',this.value)">
                   ${STATUSES.map(s=>`<option ${s===t.status?'selected':''}>${s}</option>`).join('')}</select>`}</td>
               <td>${ro
-                ? `<span style="font-size:12px;color:var(--text2)">${memberName(t.responsible)||'--'}</span>`
+                ? `<span style="font-size:12px;color:var(--text2)">${personName(t.responsible)||'--'}</span>`
                 : `<select class="inplace" style="font-size:12px;padding:3px 6px" onchange="upPhase('${t.id}','${p.id}','responsible',this.value)">
-                    <option value="">- Select -</option>
-                    ${members.map(m=>`<option value="${m.id}" ${m.id===t.responsible?'selected':''}>${m.name}</option>`).join('')}
+                    <option value="">-- Assignee --</option>
+                    ${people.map(m=>`<option value="${m.id}" ${m.id===t.responsible?'selected':''}>${m.name}</option>`).join('')}
                   </select>`
               }</td>
               <td><input type="date" class="inplace" value="${t.start_date||''}" ${ro?'readonly':''} style="font-size:11px;padding:3px 6px" onchange="upPhase('${t.id}','${p.id}','start_date',this.value)"></td>
@@ -1436,12 +1480,15 @@ async function deleteUser(userId, userName){
 }
 
 // -- Modal --
-function openModal(){
+async function openModal(){
   if(!isAdmin()&&!isManager()){toast('Permission denied.','err');return;}
+  await loadOrgData(); // ensure people are loaded
   ['m-name','m-start','m-end'].forEach(id=>document.getElementById(id).value='');
   const ownerSel=document.getElementById('m-owner');
+  // owner = platform users (admin/manager)
   ownerSel.innerHTML=members.filter(m=>['admin','manager'].includes(m.role)).map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
-  const memberOpts=members.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
+  // phase assignees = people directory
+  const peopleOpts=people.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
   document.getElementById('cat-forms').innerHTML=CATS.map(cat=>`
     <div class="cat-block-form">
       <div class="cat-block-head"><div class="cat-block-dot" style="background:${cat.color}"></div><div class="cat-block-label">${cat.label}</div></div>
@@ -1451,7 +1498,7 @@ function openModal(){
           <div class="trf">
             <input placeholder="Phase name..." class="cf-n" data-cat="${cat.key}">
             <select class="cf-s" data-cat="${cat.key}">${STATUSES.map(s=>`<option>${s}</option>`).join('')}</select>
-            <select class="cf-resp" data-cat="${cat.key}"><option value="">- Assignee -</option>${memberOpts}</select>
+            <select class="cf-resp" data-cat="${cat.key}"><option value="">-- Assignee --</option>${peopleOpts}</select>
             <input type="number" placeholder="0" class="cf-e" data-cat="${cat.key}" min="0">
             <input type="number" placeholder="0" class="cf-r" data-cat="${cat.key}" min="0">
             <input type="date" class="cf-sd" data-cat="${cat.key}">
@@ -1466,15 +1513,16 @@ function openModal(){
 }
 function addFormRow(k){
   const w=document.getElementById('cf-'+k);const r=document.createElement('div');r.className='trf';
-  const memberOpts=members.map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
-  r.innerHTML=`<input placeholder="Phase name..." class="cf-n" data-cat="${k}"><select class="cf-s" data-cat="${k}">${STATUSES.map(s=>`<option>${s}</option>`).join('')}</select><select class="cf-resp" data-cat="${k}"><option value="">- Assignee -</option>${memberOpts}</select><input type="number" placeholder="0" class="cf-e" data-cat="${k}" min="0"><input type="number" placeholder="0" class="cf-r" data-cat="${k}" min="0"><input type="date" class="cf-sd" data-cat="${k}"><input type="date" class="cf-ed" data-cat="${k}"><button class="rm-btn" onclick="this.parentElement.remove()"><i class="ti ti-x"></i></button>`;
+  const peopleOpts=people.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+  r.innerHTML=`<input placeholder="Phase name..." class="cf-n" data-cat="${k}"><select class="cf-s" data-cat="${k}">${STATUSES.map(s=>`<option>${s}</option>`).join('')}</select><select class="cf-resp" data-cat="${k}"><option value="">-- Assignee --</option>${peopleOpts}</select><input type="number" placeholder="0" class="cf-e" data-cat="${k}" min="0"><input type="number" placeholder="0" class="cf-r" data-cat="${k}" min="0"><input type="date" class="cf-sd" data-cat="${k}"><input type="date" class="cf-ed" data-cat="${k}"><button class="rm-btn" onclick="this.parentElement.remove()"><i class="ti ti-x"></i></button>`;
   w.appendChild(r);
 }
 function closeModal(){document.getElementById('modal-overlay').style.display='none';}
 function overlayClick(e){if(e.target===document.getElementById('modal-overlay')) closeModal();}
 
 // -- Edit project --
-function openEditModal(projId){
+async function openEditModal(projId){
+  await loadOrgData();
   const p=projects.find(x=>x.id===projId);
   if(!p) return;
   document.getElementById('edit-proj-id').value=projId;
@@ -1482,7 +1530,7 @@ function openEditModal(projId){
   document.getElementById('edit-start').value=p.start_date;
   document.getElementById('edit-end').value=p.end_date;
   const ownerSel=document.getElementById('edit-owner');
-  ownerSel.innerHTML=members.map(m=>`<option value="${m.id}" ${m.id===p.owner_id?'selected':''}>${m.name}</option>`).join('');
+  ownerSel.innerHTML=people.map(m=>`<option value="${m.id}" ${m.id===p.owner_id?'selected':''}>${m.name}</option>`).join('');
   document.getElementById('edit-modal-overlay').style.display='flex';
 }
 function closeEditModal(){document.getElementById('edit-modal-overlay').style.display='none';}
@@ -2627,6 +2675,271 @@ async function deleteTask(id){
   if(error){toast('Error: '+error.message,'err');return;}
   toast('Task deleted.','ok');
   await renderAdminTasks();
+}
+
+// -- Project Gantt --
+function toggleGantt(projId){
+  openGantts[projId]=!openGantts[projId];
+  renderProjects();
+}
+
+function renderProjectGantt(p){
+  const phases=allTasks(p).filter(t=>t.start_date&&t.end_date);
+  if(!phases.length) return `<div class="proj-gantt"><div class="proj-gantt-title"><i class="ti ti-timeline"></i> Timeline</div><div style="font-size:13px;color:var(--text3)">No phases with dates set.</div></div>`;
+  const allDates=phases.flatMap(t=>[new Date(t.start_date),new Date(t.end_date)]);
+  allDates.push(new Date(p.start_date),new Date(p.end_date));
+  const minD=new Date(Math.min(...allDates));
+  const maxD=new Date(Math.max(...allDates));
+  const span=Math.max(1,days(minD.toISOString().slice(0,10),maxD.toISOString().slice(0,10)));
+  const tPct=Math.max(0,Math.min(100,days(minD.toISOString().slice(0,10),today())/span*100));
+  const ST_COLORS={'Not Started':'#b8c8e0','In Progress':'#1565C0','On Hold':'#c47f00','Completed':'#1a7a4a','Cancelled':'#d03060'};
+  const rows=phases.map(t=>{
+    const s=Math.max(0,days(minD.toISOString().slice(0,10),t.start_date)/span*100);
+    const w=Math.min(100-s,days(t.start_date,t.end_date)/span*100);
+    const pct=t.cost_estimated?Math.round(t.cost_realized/t.cost_estimated*100):0;
+    return `<div class="pgantt-row">
+      <div class="pgantt-lbl" title="${t.name}">${t.name}</div>
+      <div class="pgantt-track">
+        <div class="pgantt-today" style="left:${tPct.toFixed(1)}%"></div>
+        <div class="pgantt-bar" style="left:${s.toFixed(1)}%;width:${Math.max(0.5,w).toFixed(1)}%;background:${ST_COLORS[t.status]||'#1565C0'}">${t.name}</div>
+      </div>
+      <div class="pgantt-pct">${pct}%</div>
+    </div>`;
+  }).join('');
+  return `<div class="proj-gantt">
+    <div class="proj-gantt-title"><i class="ti ti-timeline"></i> Timeline — Gantt
+      <span style="margin-left:auto;font-size:11px;color:var(--text3);font-weight:400">${fmtDate(minD.toISOString().slice(0,10))} - ${fmtDate(maxD.toISOString().slice(0,10))}</span>
+    </div>
+    ${rows}
+    <div style="display:flex;justify-content:flex-end;margin-top:8px;font-size:11px;color:var(--text3)">
+      <span style="color:var(--red);margin-right:4px">|</span> Today
+    </div>
+  </div>`;
+}
+
+// -- Export Excel (SheetJS) --
+async function loadSheetJS(){
+  if(window.XLSX) return;
+  await new Promise((res,rej)=>{
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+    s.onload=res;s.onerror=rej;
+    document.head.appendChild(s);
+  });
+}
+
+async function exportProjectExcel(projId){
+  const p=projects.find(x=>x.id===projId);
+  if(!p){toast('Project not found.','err');return;}
+  toast('Preparing Excel...','ok',2000);
+  await loadSheetJS();
+  const wb=window.XLSX.utils.book_new();
+  // Sheet 1: Project summary
+  const summary=[
+    ['PlanFlow - Project Report'],
+    [],
+    ['Project',p.name],
+    ['Owner',personName(p.owner_id)],
+    ['Start Date',fmtDate(p.start_date)],
+    ['Due Date',fmtDate(p.end_date)],
+    ['Progress',projPct(p)+'%'],
+    ['Estimated Cost',fmt(projTots(p).est)],
+    ['Actual Cost',fmt(projTots(p).real)],
+    [],
+    ['PHASES'],
+    ['Category','Phase','Status','Assignee','Start','End','Est. Cost','Actual Cost','% Budget Used','Comment']
+  ];
+  CATS.forEach(cat=>{
+    const phases=p.phases.filter(ph=>ph.category===cat.key);
+    phases.forEach(ph=>{
+      summary.push([
+        cat.label,ph.name,ph.status,
+        personName(ph.responsible),
+        fmtDate(ph.start_date),fmtDate(ph.end_date),
+        ph.cost_estimated,ph.cost_realized,
+        ph.cost_estimated?Math.round(ph.cost_realized/ph.cost_estimated*100)+'%':'--',
+        ph.comment||''
+      ]);
+    });
+  });
+  const ws=window.XLSX.utils.aoa_to_sheet(summary);
+  ws['!cols']=[{wch:22},{wch:28},{wch:14},{wch:20},{wch:12},{wch:12},{wch:14},{wch:14},{wch:14},{wch:40}];
+  window.XLSX.utils.book_append_sheet(wb,ws,'Project Report');
+  // Sheet 2: Budget items if any
+  const bItems=budgetItems.filter(b=>b.project_id===projId);
+  if(bItems.length){
+    const bRows=[['Product','Code','Supplier','Phase','Qty','Unit Price','Total']];
+    bItems.forEach(b=>bRows.push([b.name,b.code||'',b.supplier?.name||'--',b.phase?.name||'--',b.quantity,b.unit_price,b.total_price]));
+    const ws2=window.XLSX.utils.aoa_to_sheet(bRows);
+    ws2['!cols']=[{wch:24},{wch:12},{wch:20},{wch:24},{wch:8},{wch:14},{wch:14}];
+    window.XLSX.utils.book_append_sheet(wb,ws2,'Budget Items');
+  }
+  window.XLSX.writeFile(wb,`${p.name.replace(/[^a-zA-Z0-9]/g,'_')}_Report.xlsx`);
+  toast('Excel exported!','ok');
+}
+
+async function exportTasksExcel(){
+  toast('Preparing Excel...','ok',2000);
+  await loadSheetJS();
+  const wb=window.XLSX.utils.book_new();
+  const rows=[['Title','Status','Priority','Company','Department','Assignees','Due Date','Description']];
+  adminTasks.forEach(t=>{
+    const comp=companies.find(c=>c.id===t.company_id);
+    const dept=departments.find(d=>d.id===t.department_id);
+    const assignees=getTaskAssignees(t).map(a=>a.name).join(', ');
+    rows.push([t.title,t.status,t.priority,comp?.name||'--',dept?.name||'--',assignees,t.due_date?fmtDate(t.due_date):'--',t.description||'']);
+  });
+  const ws=window.XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols']=[{wch:32},{wch:14},{wch:12},{wch:18},{wch:22},{wch:28},{wch:12},{wch:40}];
+  window.XLSX.utils.book_append_sheet(wb,ws,'Admin Tasks');
+  window.XLSX.writeFile(wb,'Admin_Tasks.xlsx');
+  toast('Excel exported!','ok');
+}
+
+// -- Print PDF (browser print) --
+function printProjectReport(projId){
+  const p=projects.find(x=>x.id===projId);
+  if(!p) return;
+  const tots=projTots(p);
+  const pct=projPct(p);
+  const ST_COLORS={'Not Started':'#1565C0','In Progress':'#0da47a','On Hold':'#c47f00','Completed':'#1a7a4a','Cancelled':'#d03060'};
+  let rows='';
+  CATS.forEach(cat=>{
+    const phases=p.phases.filter(ph=>ph.category===cat.key);
+    if(!phases.length) return;
+    rows+=`<tr><td colspan="7" style="background:#e3eefb;color:#1565C0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:7px 12px">${cat.label}</td></tr>`;
+    phases.forEach(ph=>{
+      const over=ph.cost_realized>ph.cost_estimated&&ph.cost_estimated>0;
+      rows+=`<tr>
+        <td style="padding:8px 12px;font-weight:500">${ph.name}</td>
+        <td style="padding:8px 12px"><span style="background:${ST_COLORS[ph.status]||'#999'}20;color:${ST_COLORS[ph.status]||'#999'};border:1px solid ${ST_COLORS[ph.status]||'#999'}50;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600">${ph.status}</span></td>
+        <td style="padding:8px 12px;font-size:12px">${personName(ph.responsible)||'--'}</td>
+        <td style="padding:8px 12px;font-size:12px">${fmtDate(ph.start_date)} - ${fmtDate(ph.end_date)}</td>
+        <td style="padding:8px 12px;font-size:12px;text-align:right">${fmt(ph.cost_estimated)}</td>
+        <td style="padding:8px 12px;font-size:12px;text-align:right;color:${over?'#d03060':'inherit'}">${fmt(ph.cost_realized)}</td>
+        <td style="padding:8px 12px;font-size:12px;color:#666">${ph.comment||''}</td>
+      </tr>`;
+    });
+  });
+  const w=window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html><head><title>${p.name} - Report</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',Arial,sans-serif;color:#1a1d23;font-size:13px;padding:32px}
+    h1{font-size:22px;font-weight:700;letter-spacing:-.4px;margin-bottom:4px}
+    .subtitle{color:#888;font-size:13px;margin-bottom:24px}
+    .meta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+    .meta-card{background:#f4f7fb;border:1px solid #d8e2ef;border-radius:8px;padding:12px 14px}
+    .meta-label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#8096b0;margin-bottom:4px}
+    .meta-value{font-size:18px;font-weight:700;color:#1a1d23}
+    table{width:100%;border-collapse:collapse;margin-bottom:24px}
+    thead th{background:#1565C0;color:#fff;padding:9px 12px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+    tbody tr:nth-child(even){background:#f8fafd}
+    tbody td{border-bottom:1px solid #e8eef6}
+    .footer{margin-top:32px;padding-top:16px;border-top:1px solid #e8eef6;font-size:11px;color:#999;display:flex;justify-content:space-between}
+    @media print{body{padding:16px}.no-print{display:none}}
+  </style></head><body>
+  <button onclick="window.print()" class="no-print" style="float:right;background:#1565C0;color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:16px"><span>Print / Save PDF</span></button>
+  <h1>${p.name}</h1>
+  <div class="subtitle">Project Report &nbsp;·&nbsp; Generated ${new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</div>
+  <div class="meta-grid">
+    <div class="meta-card"><div class="meta-label">Owner</div><div class="meta-value" style="font-size:14px">${personName(p.owner_id)}</div></div>
+    <div class="meta-card"><div class="meta-label">Timeline</div><div class="meta-value" style="font-size:13px">${fmtDate(p.start_date)} - ${fmtDate(p.end_date)}</div></div>
+    <div class="meta-card"><div class="meta-label">Progress</div><div class="meta-value" style="color:#1565C0">${pct}%</div></div>
+    <div class="meta-card"><div class="meta-label">Budget Used</div><div class="meta-value" style="font-size:14px;color:${tots.real>tots.est?'#d03060':'#1a7a4a'}">${fmt(tots.real)} <span style="font-size:11px;font-weight:400;color:#888">/ ${fmt(tots.est)}</span></div></div>
+  </div>
+  <table>
+    <thead><tr><th>Phase</th><th>Status</th><th>Assignee</th><th>Dates</th><th style="text-align:right">Estimated</th><th style="text-align:right">Actual</th><th>Notes</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>
+  <div class="footer"><span>PlanFlow - Project Management</span><span>${p.name}</span></div>
+  </body></html>`);
+  w.document.close();
+}
+
+// -- Admin Tasks Dashboard --
+let atMainView='board';
+function setAtMainView(v,btn){
+  atMainView=v;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('at-board-section').style.display=v==='board'?'':'none';
+  document.getElementById('at-dash-section').style.display=v==='dash'?'':'none';
+  if(v==='dash') renderAtDashboard();
+}
+
+function renderAtDashboard(){
+  const total=adminTasks.length;
+  const open=adminTasks.filter(t=>!['Done','Cancelled'].includes(t.status)).length;
+  const done=adminTasks.filter(t=>t.status==='Done').length;
+  const overdue=adminTasks.filter(t=>t.due_date&&t.due_date<today()&&!['Done','Cancelled'].includes(t.status)).length;
+  document.getElementById('atd-metrics').innerHTML=`
+    <div class="mcard"><div class="mcard-icon" style="background:#ededff;color:#4040cc"><i class="ti ti-checklist"></i></div><div class="mcard-label">Total</div><div class="mcard-value">${total}</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#e3eefb;color:#1565C0"><i class="ti ti-player-play"></i></div><div class="mcard-label">Open</div><div class="mcard-value">${open}</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#e8f5ee;color:#1a7a4a"><i class="ti ti-circle-check"></i></div><div class="mcard-label">Done</div><div class="mcard-value">${done}</div></div>
+    <div class="mcard"><div class="mcard-icon" style="background:#fdf0f4;color:#d03060"><i class="ti ti-alert-triangle"></i></div><div class="mcard-label">Overdue</div><div class="mcard-value" style="color:${overdue>0?'var(--red)':'inherit'}">${overdue}</div></div>
+  `;
+  // Status breakdown
+  const sColors={'To Do':'#1565C0','In Progress':'#0da47a','In Review':'#c47f00','Done':'#1a7a4a','Cancelled':'#d03060'};
+  document.getElementById('atd-status').innerHTML=AT_STATUSES.map(st=>{
+    const cnt=adminTasks.filter(t=>t.status===st).length;
+    const pct=total?Math.round(cnt/total*100):0;
+    return `<div class="prog-row">
+      <div class="prog-lbl" style="width:120px">${st}</div>
+      <div class="prog-bg"><div class="prog-fill" style="width:${pct}%;background:${sColors[st]}"></div></div>
+      <div class="prog-pct">${cnt}</div>
+    </div>`;
+  }).join('');
+  // Priority breakdown
+  const pColors={'Critical':'#d03060','High':'#c47f00','Medium':'#1565C0','Low':'#1a7a4a'};
+  document.getElementById('atd-priority').innerHTML=['Critical','High','Medium','Low'].map(pri=>{
+    const cnt=adminTasks.filter(t=>t.priority===pri&&!['Done','Cancelled'].includes(t.status)).length;
+    const pct=open?Math.round(cnt/open*100):0;
+    return `<div class="prog-row">
+      <div class="prog-lbl" style="width:80px">${pri}</div>
+      <div class="prog-bg"><div class="prog-fill" style="width:${pct}%;background:${pColors[pri]}"></div></div>
+      <div class="prog-pct">${cnt}</div>
+    </div>`;
+  }).join('');
+  // By company & dept
+  document.getElementById('atd-company').innerHTML=companies.map((c,ci)=>{
+    const cTasks=adminTasks.filter(t=>t.company_id===c.id);
+    if(!cTasks.length) return '';
+    const depts=departments.filter(d=>d.company_id===c.id);
+    return `<div style="margin-bottom:16px">
+      <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:7px">
+        <i class="ti ti-building" style="font-size:14px"></i>${c.name} <span style="font-size:12px;color:var(--text3);font-weight:400">${cTasks.length} tasks</span>
+      </div>
+      ${depts.map(d=>{
+        const dTasks=cTasks.filter(t=>t.department_id===d.id);
+        if(!dTasks.length) return '';
+        const dOpen=dTasks.filter(t=>!['Done','Cancelled'].includes(t.status)).length;
+        return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:5px;padding-left:16px">
+          <div style="font-size:12px;width:160px;color:var(--text2)">${d.name}</div>
+          <div class="prog-bg" style="flex:1"><div class="prog-fill" style="width:${dTasks.length?Math.round((dTasks.length-dOpen)/dTasks.length*100):0}%;background:#1565C0"></div></div>
+          <div style="font-size:12px;color:var(--text3);min-width:60px;text-align:right">${dTasks.length-dOpen}/${dTasks.length} done</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }).join('')||'<p style="font-size:13px;color:var(--text3)">No tasks assigned to companies yet.</p>';
+  // By assignee
+  const assigneeMap={};
+  adminTasks.forEach(t=>{
+    getTaskAssignees(t).forEach(a=>{
+      if(!assigneeMap[a.id]) assigneeMap[a.id]={name:a.name,total:0,open:0,done:0};
+      assigneeMap[a.id].total++;
+      if(['Done','Cancelled'].includes(t.status)) assigneeMap[a.id].done++;
+      else assigneeMap[a.id].open++;
+    });
+  });
+  const assigneeList=Object.values(assigneeMap).sort((a,b)=>b.total-a.total);
+  document.getElementById('atd-assignee').innerHTML=assigneeList.length?assigneeList.map((a,i)=>`
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+      <div style="width:28px;height:28px;border-radius:50%;background:${pcol(i)}18;color:${pcol(i)};border:1px solid ${pcol(i)}40;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">${inits(a.name)}</div>
+      <div style="font-size:13px;width:140px;font-weight:500">${a.name}</div>
+      <div class="prog-bg"><div class="prog-fill" style="width:${a.total?Math.round(a.done/a.total*100):0}%;background:${pcol(i)}"></div></div>
+      <div style="font-size:12px;color:var(--text3);min-width:80px;text-align:right">${a.done}/${a.total} done</div>
+    </div>`).join(''):'<p style="font-size:13px;color:var(--text3)">No assignees yet.</p>';
 }
 
 // -- Boot --
